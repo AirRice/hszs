@@ -78,6 +78,27 @@ function SWEP:PrimaryAttack()
 	self:SetPeckEndTime(CurTime() + 1)
 
 	self.Owner:SetSpeed(1)
+	
+	local owner = self.Owner
+	
+	local start = owner:EyePos()
+	local dir = owner:GetAimVector():GetNormal()
+	
+	
+	timer.Create("CrowAttack" .. owner:UniqueID(), self.Primary.Delay, 1, function()
+		local trace = util.TraceLine({
+			start = start,
+			endpos = start + dir * 8,
+			filter = {self, owner},
+			mask = MASK_SOLID
+		})
+		
+		if IsValid(trace.Entity) then
+			if trace.Entity:IsNailed() then
+				trace.Entity:TakeDamage(self.Primary.Damage, owner)
+			end
+		end
+	end)
 end
 
 function SWEP:SecondaryAttack()

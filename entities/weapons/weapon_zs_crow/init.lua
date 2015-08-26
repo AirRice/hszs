@@ -84,8 +84,7 @@ function SWEP:PrimaryAttack()
 	local start = owner:EyePos()
 	local dir = owner:GetAimVector():GetNormal()
 	
-	
-	timer.Create("CrowAttack" .. owner:UniqueID(), self.Primary.Delay, 1, function()
+	timer.Create("CrowAttack" .. owner:UniqueID(), self.MeleeDelay, 1, function()
 		local trace = util.TraceLine({
 			start = start,
 			endpos = start + dir * 8,
@@ -95,7 +94,7 @@ function SWEP:PrimaryAttack()
 		
 		if IsValid(trace.Entity) then
 			if trace.Entity:IsNailed() then
-				trace.Entity:TakeDamage(self.Primary.Damage, owner)
+				trace.Entity:TakeDamage(math.random(self.Primary.MinDamage, self.Primary.MaxDamage), owner, self)
 			end
 		end
 	end)

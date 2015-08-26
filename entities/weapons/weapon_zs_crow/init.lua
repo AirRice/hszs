@@ -87,10 +87,12 @@ function SWEP:PrimaryAttack()
 	timer.Create("CrowAttack" .. owner:UniqueID(), self.MeleeDelay, 1, function()
 		local trace = util.TraceLine({
 			start = start,
-			endpos = start + dir * 8,
+			endpos = start + dir * 12,
 			filter = {self, owner},
 			mask = MASK_SOLID
 		})
+		
+		PrintTable(trace)
 		
 		if IsValid(trace.Entity) then
 			if trace.Entity:IsNailed() then

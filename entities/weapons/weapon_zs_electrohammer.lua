@@ -48,7 +48,7 @@ function SWEP:Think()
 			self.Primary.Delay = self.Primary.Delay * 0.75
 			self.Primary.SwingTime = self.SwingTime * 0.75
 		elseif !carbonHammer then
-			self.Primary.Delay = self.Primary.Dealy / 0.75
+			self.Primary.Delay = self.Primary.Delay / 0.75
 			self.Primary.SwingTime = self.SwingTime / 0.75
 		end
 	end

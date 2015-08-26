@@ -92,8 +92,6 @@ function SWEP:PrimaryAttack()
 			mask = MASK_SOLID
 		})
 		
-		PrintTable(trace)
-		
 		if IsValid(trace.Entity) then
 			if trace.Entity:IsNailed() then
 				trace.Entity:TakeDamage(math.random(self.Primary.MinDamage, self.Primary.MaxDamage), owner, self)

@@ -2830,7 +2830,7 @@ function GM:PlayerHurt(victim, attacker, healthremaining, damage)
 			local myteam = attacker:Team()
 			local otherteam = victim:Team()
 			if myteam ~= otherteam then
-				damage = math.min(damage, victim.m_PreHurtHealth)
+				damage = math.min(damage, (victim.m_PreHurtHealth or healthremaining))
 				victim.m_PreHurtHealth = healthremaining
 
 				attacker.DamageDealt[myteam] = attacker.DamageDealt[myteam] + damage

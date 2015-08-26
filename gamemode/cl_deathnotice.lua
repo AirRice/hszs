@@ -1,7 +1,7 @@
 if not killicon.GetFont then
-	killicon.OldAddFont = killicon.AddFont
-	killicon.OldAddAlias = killicon.AddAlias
-	killicon.OldAdd = killicon.Add
+	killicon.OldAddFont = killicon.OldAddFont or killicon.AddFont
+	killicon.OldAddAlias = killicon.OldAddAlias or killicon.AddAlias
+	killicon.OldAdd = killicon.OldAdd or killicon.Add
 
 	local storedfonts = {}
 	local storedicons = {}

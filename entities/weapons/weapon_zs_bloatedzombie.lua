@@ -1,5 +1,9 @@
 AddCSLuaFile()
 
+util.PrecacheSound("weapons/bugbait/bugbait_squeeze1.wav")
+util.PrecacheSound("weapons/bugbait/bugbait_squeeze2.wav")
+util.PrecacheSound("weapons/bugbait/bugbait_squeeze3.wav")
+
 if CLIENT then
 	SWEP.PrintName = "부푼 좀비"
 end
@@ -10,6 +14,9 @@ SWEP.MeleeDamage = 30
 SWEP.MeleeForceScale = 1.25
 
 SWEP.Primary.Delay = 1.5
+SWEP.Secondary.Delay = 12
+SWEP.ShootPower = 990
+SWEP.ShootDelay = 1
 
 function SWEP:Reload()
 	self.BaseClass.SecondaryAttack(self)
@@ -25,6 +32,30 @@ end
 
 function SWEP:PlayAttackSound()
 	self.Owner:EmitSound("npc/ichthyosaur/attack_growl"..math.random(3)..".wav", 70, math.Rand(145, 155))
+end
+
+function SWEP:SecondaryAttack()
+	-- if !self:CanSecondaryAttack() then return end
+	local owner = self.Owner
+	if !IsValid(owner) or !owner:IsPlayer() then
+		return
+	end
+	self:EmitSound("weapons/bugbait/bugbait_squeeze" .. tostring(math.random(1, 3)) .. ".wav")
+	if SERVER then 
+		owner:SetWalkSpeed(owner:GetWalkSpeed() * 0.75)
+		owner:SetDuckSpeed(owner:GetDuckSpeed() * 0.75)
+		timer.Create("siegeball" .. owner:UniqueID(), self.ShootDelay, 1, function()
+			owner:ResetSpeed()
+			local ent = ents.Create("projectile_siegeball")
+			ent:SetPos(owner:GetShootPos())
+			ent:SetOwner(owner)
+			ent:Spawn()
+			
+			local phys = ent:GetPhysicsObject()
+			phys:SetVelocityInstantaneous(owner:GetAimVector() * self.ShootPower)
+		end)
+	end
+	self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
 end
 
 if not CLIENT then return end

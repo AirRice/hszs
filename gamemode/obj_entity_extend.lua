@@ -327,7 +327,7 @@ if CLIENT then
 	end
 end
 
-local OldSequenceDuration = meta.SequenceDuration
+local OldSequenceDuration = meta.OldSequenceDuration or meta.SequenceDuration
 function meta:SequenceDuration(seqid)
 	return OldSequenceDuration(self, seqid) or 0
 end

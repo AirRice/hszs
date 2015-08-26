@@ -198,6 +198,7 @@ GM:AddStartingItem("bfstrong", "강인함", "근접 공격에 의한 화면 흔�
 GM:AddStartingItem("bfsupplier", "보급병", "보급상자의 재사용 대기시간이 25% 감소한다.", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffSupplier = true end, nil)
 GM:AddStartingItem("bfthornarmor", "가시갑옷", "좀비에게 피격시 공격한 좀비에게 150%의 데미지를 돌려준다.\n돌려준 데미지로는 포인트를 얻을 수 없다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffThornArmor = true end, nil)
 GM:AddStartingItem("bfbalsense", "균형감각", "뒤로 걷거나 옆으로 걸어도 이동속도가 느려지지 않는다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffBalSense = true pl:SendLua("LocalPlayer().buffBalSense = true") end, nil)
+GM:AddStartingItem("bfpitcher", "국민투수", "돌맹이를 포함한 물체를 던지는 힘이 100% 상승합니다.\n또한, 돌덩이의 데미지가 40% 증가합니다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffPitcher = true end, nil)
 
 GM:AddStartingItem("dbfweak", "약골", "최대 체력이 30 낮아진다.", ITEMCAT_RETURNS, -15, nil, function(pl) pl:SetMaxHealth(math.max(1, pl:GetMaxHealth() - 30)) pl:SetHealth(pl:GetMaxHealth()) pl.IsWeak = true end, "models/gibs/HGIBS.mdl")
 GM:AddStartingItem("dbfslow", "느림보", "속도가 약간 낮아진다.", ITEMCAT_RETURNS, -5, nil, function(pl) pl.HumanSpeedAdder = (pl.HumanSpeedAdder or 1) - 20 pl:ResetSpeed() pl.IsSlow = true end, "models/gibs/HGIBS.mdl")

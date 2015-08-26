@@ -744,7 +744,7 @@ end
 
 if not FixedSoundDuration then
 FixedSoundDuration = true
-local OldSoundDuration = SoundDuration
+local OldSoundDuration = OldSoundDuration or SoundDuration
 function SoundDuration(snd)
 	if snd then
 		local ft = string.sub(snd, -4)

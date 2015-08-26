@@ -279,7 +279,7 @@ function meta:GetZombieClass()
 	return self.Class or GAMEMODE.DefaultZombieClass
 end
 
-local ZombieClasses = GM.ZombieClasses
+local ZombieClasses = (GAMEMODE and GAMEMODE.ZombieClasses or GM.ZombieClasses)
 function meta:GetZombieClassTable()
 	return ZombieClasses[self:GetZombieClass()]
 end
@@ -490,7 +490,7 @@ function meta:TemporaryNoCollide(force)
 	self:SetCollisionGroup(COLLISION_GROUP_PLAYER)
 end
 
-meta.OldSetHealth = FindMetaTable("Entity").SetHealth
+meta.OldSetHealth = meta.OldSetHealth or FindMetaTable("Entity").SetHealth
 function meta:SetHealth(health)
 	self:OldSetHealth(health)
 	if self:Team() == TEAM_HUMAN and 1 <= health then

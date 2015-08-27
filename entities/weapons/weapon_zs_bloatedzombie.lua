@@ -46,6 +46,7 @@ function SWEP:SecondaryAttack()
 		owner:SetWalkSpeed(owner:GetWalkSpeed() * 0.75)
 		owner:SetDuckSpeed(owner:GetDuckSpeed() * 0.75)
 		local ent = ents.Create("projectile_siegeball")
+		ent:SetPos(owner:GetShootPos() + owner:GetAimVector() * 10)
 		ent.ShootPower = self.ShootPower
 		ent.Radius = self.Radius
 		ent.ShootTime = CurTime() + self.ShootDelay

@@ -21,7 +21,7 @@ function ENT:Initialize()
 	self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
 	self:SetTrigger(true)
 	self.DieTime = CurTime() + (self.LifeTime or 10)
-	self.ShootTime = CurTime() + 1
+	self.ShootTime = self.ShootTime or CurTime() + 1
 end
 
 function ENT:ShouldNotCollide(ent)
@@ -62,6 +62,11 @@ end
 function ENT:Shot()
 	local owner = self:GetOwner()
 	
+	if !IsValid(owner) or !owner:IsPlayer() then
+		self:Explode()
+		return
+	end
+	
 	local phys = self:GetPhysicsObject()
 	
 	if !IsValid(phys) then
@@ -69,7 +74,7 @@ function ENT:Shot()
 		return
 	end
 	phys:Wake()
-	phys:SetVelocity(owner:GetAimVector() * self.ShootPower)
+	phys:SetVelocity(owner:GetVelocity() + owner:GetAimVector() * self.ShootPower)
 	phys:AddAngleVelocity(VectorRand() * 1000)
 	
 	owner:ResetSpeed()
@@ -86,6 +91,7 @@ function ENT:Explode()
 		if IsValid(v) and v:IsPlayer() and v:Team() == TEAM_HUMAN then
 			table.insert(humans, v)
 		elseif v == owner then
+			v:SetGroundEntity(NULL)
 			v:SetLocalVelocity((v:GetPos() - self:GetPos()):GetNormal() * 800)
 		end
 	end

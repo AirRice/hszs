@@ -4,6 +4,10 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 ENT.LifeTime = 10
+ENT.Radius = 450
+ENT.ShootPower = 990
+ENT.ShootTime = 0
+ENT.Shoot = false
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Entity", 0, "Owner")
@@ -17,17 +21,25 @@ function ENT:Initialize()
 	self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
 	self:SetTrigger(true)
 	self.DieTime = CurTime() + (self.LifeTime or 10)
+	self.ShootTime = CurTime() + 1
+end
+
+function ENT:ShouldNotCollide(ent)
+	return ent:GetClass() == self:GetClass()
 end
 
 function ENT:PhysicsCollide(data, phys)
 	local ent = data.HitEntity
 	
-	if ent:GetClass() ~= self:GetClass() then
+	if ent:GetClass() ~= self:GetClass() and (ent:IsWorld() and self.Shoot) and ent ~= self:GetOwner() then
 		self:Explode()
 	end
 end
 
 function ENT:Think()
+	if self.DieTime <= CurTime() then
+		self:Explode()
+	end
 	local owner = self:GetOwner()
 	
 	if !IsValid(owner) or !owner:IsPlayer() or (owner:Team() == TEAM_HUMAN) then
@@ -37,14 +49,44 @@ function ENT:Think()
 	if self:WaterLevel() >= 1 then
 		self:Explode()
 	end
+	
+	if !self.Shoot then
+		self:SetPos(owner:GetShootPos() + owner:GetAimVector() * 10)
+	end
+	
+	if self.ShootTime <= CurTime() and !self.Shoot then
+		self:Shot()
+	end
+end
+
+function ENT:Shot()
+	local owner = self:GetOwner()
+	
+	local phys = self:GetPhysicsObject()
+	
+	if !IsValid(phys) then
+		self:Explode()
+		return
+	end
+	phys:Wake()
+	phys:SetVelocity(owner:GetAimVector() * self.ShootPower)
+	phys:AddAngleVelocity(VectorRand() * 1000)
+	
+	owner:ResetSpeed()
+	
+	self.Shoot = true
 end
 
 function ENT:Explode()
+	local owner = self:GetOwner()
+
 	local humans = {}
 	
-	for _, v in pairs(player.GetAll()) do
-		if v:Team() == TEAM_HUMAN then
+	for _, v in pairs(ents.FindInSphere(self:LocalToWorld(self:OBBCenter()), self.Radius)) do
+		if IsValid(v) and v:IsPlayer() and v:Team() == TEAM_HUMAN then
 			table.insert(humans, v)
+		elseif v == owner then
+			v:SetLocalVelocity((v:GetPos() - self:GetPos()):GetNormal() * 800)
 		end
 	end
 	

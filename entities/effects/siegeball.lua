@@ -15,13 +15,13 @@ function EFFECT:Init(data)
 
 	local emitter = ParticleEmitter(pos)
 	emitter:SetNearClip(28, 32)
-	for i=1, math.random(80, 120) do
+	for i=1, 15 do
 		local particle = emitter:Add(Material("sprites/light_glow02_add.vmt"), pos)
-		particle:SetVelocity(VectorRand():GetNormalized() * math.Rand(64, 256))
+		particle:SetVelocity(VectorRand():GetNormalized() * math.Rand(8, 64))
 		particle:SetDieTime(math.Rand(2.5, 4.0))
 		particle:SetStartAlpha(255)
 		particle:SetEndAlpha(50)
-		particle:SetStartSize(math.Rand(50, 128))
+		particle:SetStartSize(math.Rand(32, 64))
 		particle:SetEndSize(0)
 		particle:SetColor(0, 255, 0)
 		particle:SetRoll(math.Rand(0, 360))

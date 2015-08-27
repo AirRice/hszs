@@ -2349,12 +2349,12 @@ function GM:EntityTakeDamage(ent, dmginfo)
 			end
 			
 			if attacker:Team() == TEAM_ZOMBIE then
-				if ent.buffThornArmor then
+				if ent.buffThornArmor and ent:Team() == TEAM_HUMAN then
 					attacker:TakeDamage(dmginfo:GetDamage() * 1.2, attacker, nil)
 				end
 				
 				local bodyarmor = ent.bodyarmor
-				if bodyarmor and bodyarmor > 0 then
+				if bodyarmor and bodyarmor > 0 and ent:Team() == TEAM_HUMAN then
 					local tosub = math.min(dmginfo:GetDamage() * 0.8, bodyarmor)
 					dmginfo:SetDamage(dmginfo:GetDamage() - tosub)
 					bodyarmor = math.max(0, bodyarmor - tosub)

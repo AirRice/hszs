@@ -17,6 +17,7 @@ SWEP.Primary.Delay = 1.5
 SWEP.Secondary.Delay = 12
 SWEP.ShootPower = 990
 SWEP.ShootDelay = 1
+SWEP.Radius = 225
 
 function SWEP:Reload()
 	self.BaseClass.SecondaryAttack(self)
@@ -44,16 +45,12 @@ function SWEP:SecondaryAttack()
 	if SERVER then 
 		owner:SetWalkSpeed(owner:GetWalkSpeed() * 0.75)
 		owner:SetDuckSpeed(owner:GetDuckSpeed() * 0.75)
-		timer.Create("siegeball" .. owner:UniqueID(), self.ShootDelay, 1, function()
-			owner:ResetSpeed()
-			local ent = ents.Create("projectile_siegeball")
-			ent:SetPos(owner:GetShootPos())
-			ent:SetOwner(owner)
-			ent:Spawn()
-			
-			local phys = ent:GetPhysicsObject()
-			phys:SetVelocityInstantaneous(owner:GetAimVector() * self.ShootPower)
-		end)
+		local ent = ents.Create("projectile_siegeball")
+		ent.ShootPower = self.ShootPower
+		ent.Radius = self.Radius
+		ent.ShootTime = CurTime() + self.ShootDelay
+		ent:SetOwner(owner)
+		ent:Spawn()
 	end
 	self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
 end

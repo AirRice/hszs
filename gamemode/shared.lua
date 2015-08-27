@@ -417,7 +417,11 @@ function GM:OnPlayerHitGround(pl, inwater, hitfloater, speed)
 		end
 
 		if SERVER then
-			if damage >= 30 * (pl.buffBeliefJump and 1.25 or 1)  and damage < pl:Health() then
+			local mul = 1
+			if pl:Team() == TEAM_HUMAN and pl.buffBeliefJump then
+				mul = 1.25
+			end
+			if damage >= 30 * mul and damage < pl:Health() then
 				pl:KnockDown(damage * 0.05)
 			end
 			pl:TakeSpecialDamage(damage, DMG_FALL, game.GetWorld(), game.GetWorld(), pl:GetPos())

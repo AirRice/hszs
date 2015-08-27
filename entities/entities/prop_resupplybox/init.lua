@@ -136,7 +136,7 @@ function ENT:Use(activator, caller)
 		end
 	end
 
-	NextUse[myuid] = CurTime() + 30 * (activator.buffSupplier and 0.75 or 1)
+	NextUse[myuid] = CurTime() + 30 * (activator.buffSupplier and 0.75 or 1) * (activator:GetPremium() and 0.95 or 1)
 
 	net.Start("zs_nextresupplyuse")
 		net.WriteFloat(NextUse[myuid])

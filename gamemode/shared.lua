@@ -113,6 +113,7 @@ function GM:AddCustomAmmo()
 	game.AddAmmoType({name = "dummy"})
 	
 	game.AddAmmoType({name = "m249"})
+	game.AddAmmoType({name = "357_premium"})
 end
 
 function GM:CanRemoveOthersNail(pl, nailowner, ent)

@@ -9,6 +9,20 @@ SWEP.Base = "weapon_zs_zombie"
 SWEP.MeleeDamage = 49
 SWEP.SlowDownScale = 2
 
+function SWEP:Think()
+	self.BaseClass.Think(self)
+	if self.Owner:GetPremium() then
+		self.Primary.OriginalDelay = self.Primary.OriginalDelay or self.Primary.Delay
+		local mul = 0.85
+		self.Primary.Delay = self.Primary.OriginalDelay * mul
+		self.OriginalMeleeDelay = self.OriginalMeleeDelay or self.MeleeDelay * mul
+		self.MeleeDelay = self.OriginalMeleeDelay * mul
+	else
+		self.Primary.Delay = self.BaseClass.Primary.Delay
+		self.MeleeDelay = self.BaseClass.MeleeDelay
+	end
+end
+
 function SWEP:Reload()
 	self:SecondaryAttack()
 end

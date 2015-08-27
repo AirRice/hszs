@@ -30,7 +30,7 @@ function ENT:Think()
 			local eyepos = owner:EyePos()
 			if eyepos:Distance(ent:NearestPoint(eyepos)) <= 400 then
 				local phys = ent:GetPhysicsObject()
-				if phys:IsValid() and phys:IsMoveable() and phys:GetMass() <= 300 then
+				if phys:IsValid() and phys:IsMoveable() and phys:GetMass() <= 300 + (owner:GetPremium() and 150 or 0) then
 					local ct = CurTime()
 
 					local frametime = ct - (self.LastThink or ct)

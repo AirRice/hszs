@@ -33,10 +33,10 @@ function SWEP:PrimaryAttack()
 
 				local filt = team.GetPlayers(TEAM_UNDEAD)
 				table.insert(filt, obj)
-				local vel = (self.Owner:TraceLine(10240, MASK_SOLID, filt).HitPos - obj:LocalToWorld(obj:OBBCenter())):GetNormalized() * 1000
+				local vel = (self.Owner:TraceLine(10240, MASK_SOLID, filt).HitPos - obj:LocalToWorld(obj:OBBCenter())):GetNormalized() * (1000 + (self.Owner:GetPremium() and 250 or 0))
 
 				local phys = obj:GetPhysicsObject()
-				if phys:IsValid() and phys:IsMoveable() and phys:GetMass() <= 300 then
+				if phys:IsValid() and phys:IsMoveable() and phys:GetMass() <= 300 + (self.Owner:GetPremium() and 150 or 0) then
 					phys:Wake()
 					phys:SetVelocity(vel)
 					obj:SetPhysicsAttacker(self.Owner)

@@ -23,6 +23,19 @@ function SWEP:Reload()
 	self.BaseClass.SecondaryAttack(self)
 end
 
+function SWEP:Think()
+	self.BaseClass.Think(self)
+	
+	self.Secondary.OriginalDelay = self.Secondary.OriginalDelay or self.Secondary.Delay
+	self.OriginalShootDelay = self.OriginalShootDelay or self.ShootDelay
+	
+	if self.Owner:GetPremium() then
+		local mul = 0.8
+		self.Secondary.Delay = self.Secondary.OriginalDelay * mul
+		-- self.ShootDelay = self.OriginalShootDelay * mul
+	end
+end
+
 function SWEP:PlayAlertSound()
 	self:PlayAttackSound()
 end

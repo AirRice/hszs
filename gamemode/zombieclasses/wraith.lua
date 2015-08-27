@@ -91,7 +91,7 @@ function CLASS:GetAlpha(pl)
 		return math.Clamp(pl:GetVelocity():Length() - pl:NearestPoint(eyepos):Distance(eyepos) * 0.5, 35, 180) / 255
 	else
 		local eyepos = EyePos()
-		return math.Clamp(pl:GetVelocity():Length() - pl:NearestPoint(eyepos):Distance(eyepos) * 0.5, 0, 180) / 255
+		return math.Clamp(pl:GetVelocity():Length() - pl:NearestPoint(eyepos):Distance(eyepos) * 0.5, 0, 180 + (pl:GetPremium() and 75 or 0)) / 255
 	end
 end
 

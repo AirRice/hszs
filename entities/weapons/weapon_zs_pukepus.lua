@@ -24,7 +24,7 @@ function SWEP:PrimaryAttack()
 	if CurTime() < self:GetNextPrimaryFire() then return end
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
-	self.PukeLeft = 40
+	self.PukeLeft = 40 + (self.Owner:GetPremium() and 10 or 0)
 
 	self.Owner:EmitSound("npc/barnacle/barnacle_die2.wav")
 	self.Owner:EmitSound("npc/barnacle/barnacle_digesting1.wav")
@@ -55,8 +55,9 @@ function SWEP:Think()
 			local phys = ent:GetPhysicsObject()
 			if phys:IsValid() then
 				local ang = pl:EyeAngles()
-				ang:RotateAroundAxis(ang:Forward(), math.Rand(-30, 30))
-				ang:RotateAroundAxis(ang:Up(), math.Rand(-30, 30))
+				local mul = (pl:GetPremium() and 0.6 or 1)
+				ang:RotateAroundAxis(ang:Forward(), math.Rand(-30 * mul, 30 * mul))
+				ang:RotateAroundAxis(ang:Up(), math.Rand(-30 * mul, 30 * mul))
 				phys:SetVelocityInstantaneous(ang:Forward() * math.Rand(475, 750))
 			end
 		end

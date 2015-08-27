@@ -59,20 +59,22 @@ function SWEP:CheckThrow()
 		owner:EmitSound("weapons/slam/throw.wav", 70, math.random(78, 82))
 
 		if SERVER then
-			local ent = ents.Create("prop_thrownbaby")
-			if ent:IsValid() then
-				ent:SetPos(owner:GetShootPos())
-				ent:SetAngles(AngleRand())
-				ent:SetOwner(owner)
-				ent:Spawn()
+			for i = 1, 1 + (owner:GetPremium() and 1 or 0) do
+				local ent = ents.Create("prop_thrownbaby")
+				if ent:IsValid() then
+					ent:SetPos(owner:GetShootPos())
+					ent:SetAngles(AngleRand())
+					ent:SetOwner(owner)
+					ent:Spawn()
 
-				local phys = ent:GetPhysicsObject()
-				if phys:IsValid() then
-					phys:Wake()
-					phys:SetVelocityInstantaneous(owner:GetAimVector() * 500)
-					phys:AddAngleVelocity(VectorRand() * math.Rand(200, 300))
+					local phys = ent:GetPhysicsObject()
+					if phys:IsValid() then
+						phys:Wake()
+						phys:SetVelocityInstantaneous(owner:GetAimVector() * 500)
+						phys:AddAngleVelocity(VectorRand() * math.Rand(200, 300))
 
-					ent:SetPhysicsAttacker(owner)
+						ent:SetPhysicsAttacker(owner)
+					end
 				end
 			end
 		end

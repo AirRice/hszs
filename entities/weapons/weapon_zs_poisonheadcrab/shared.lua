@@ -38,6 +38,12 @@ function SWEP:Think()
 	local curtime = CurTime()
 	local owner = self.Owner
 
+	if owner:GetPremium() then
+		self.PounceDamageTicks = 12
+	else
+		self.PounceDamageTicks = 10
+	end
+	
 	if self:IsGoingToSpit() and self:GetNextSpit() <= curtime then
 		self:SetNextSpit(0)
 		self:SetNextPrimaryFire(curtime + 2)
@@ -139,7 +145,7 @@ function SWEP:PrimaryAttack()
 	local owner = self.Owner
 	if self:IsLeaping() or self:IsGoingToSpit() or self:IsGoingToLeap() or CurTime() < self:GetNextPrimaryFire() or not owner:IsOnGround() then return end
 
-	self:SetNextLeap(CurTime() + 1.25)
+	self:SetNextLeap(CurTime() + 1.25 * (owner:GetPremium() and 0.5 or 1))
 
 	self.m_ViewAngles = owner:EyeAngles()
 

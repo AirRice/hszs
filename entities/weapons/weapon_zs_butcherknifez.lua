@@ -12,6 +12,13 @@ function SWEP:OnMeleeHit(hitent, hitflesh, tr)
 	end
 end
 
+SWEP.MeleeCount = 0
+
 function SWEP:PostOnMeleeHit(hitent, hitflesh, tr)
 	self.MeleeDamage = 24
+	if self.MeleeCount == 3 and self.Owner:GetPremium() then
+		self.MeleeDamage = 30
+		self.MeleeCount = 0
+	end
+	self.MeleeCount = self.MeleeCount + 1
 end

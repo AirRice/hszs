@@ -153,7 +153,7 @@ end
 function SWEP:CanBurrow()
 	local owner = self.Owner
 	local tr = util.TraceLine({start = owner:GetPos(), endpos = owner:GetPos() - owner:GetUp() * 8, mask = MASK_SOLID_BRUSHONLY})
-	return tr.HitWorld and (tr.MatType == MAT_DIRT or tr.MatType == MAT_SAND or tr.MatType == MAT_SLOSH or tr.MatType == MAT_FOILAGE or tr.MatType == 88)
+	return tr.HitWorld and (owner:GetPremium() and true or (tr.MatType == MAT_DIRT or tr.MatType == MAT_SAND or tr.MatType == MAT_SLOSH or tr.MatType == MAT_FOILAGE or tr.MatType == 88))
 end
 
 function SWEP:Move(mv)
@@ -161,8 +161,9 @@ function SWEP:Move(mv)
 		mv:SetSideSpeed(0)
 		mv:SetForwardSpeed(0)
 	elseif self:IsBurrowed() then
-		mv:SetMaxSpeed(80)
-		mv:SetMaxClientSpeed(80)
+		local mul = (self.Owner:GetPremium() and 1.15 or 1)
+		mv:SetMaxSpeed(80 * mul)
+		mv:SetMaxClientSpeed(80 * mul)
 	elseif self:IsBurrowing() then
 		mv:SetSideSpeed(0)
 		mv:SetForwardSpeed(0)

@@ -6,12 +6,23 @@ end
 
 SWEP.Base = "weapon_zs_zombie"
 
+SWEP.Primary.Delay = 1.2
+SWEP.MeleeDelay = 0.74
 SWEP.MeleeDamage = 22
 SWEP.MeleeReach = 160
 SWEP.MeleeSize = 5
 
 function SWEP:Reload()
 	self:SecondaryAttack()
+end
+
+function SWEP:Think()
+	self.BaseClass.Think(self)
+	if self.Owner:GetPremium() then
+		self.MeleeReach = 180
+	else
+		self.MeleeReach = 160
+	end
 end
 
 function SWEP:PlayAlertSound()

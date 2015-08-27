@@ -153,7 +153,7 @@ if SERVER then
 			effectdata:SetNormal(dir:Forward())
 		util.Effect("fatexplosion", effectdata, true)
 
-		for i=1, 6 do
+		for i=1, 6 + (pl:GetPremium() and 6 or 0) do
 			local ang = Angle()
 			ang:Set(dir)
 			ang:RotateAroundAxis(ang:Up(), math.Rand(-30, 30))

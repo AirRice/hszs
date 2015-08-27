@@ -942,7 +942,7 @@ function GM:Think()
 					pl:PreventSkyCade()
 				end
 
-				if self:GetWave() >= 1 and time >= pl.BonusDamageCheck + 60 then
+				if self:GetWave() >= 1 and time >= pl.BonusDamageCheck + 60 * (pl:GetPremium() and 0.75 or 1) then
 					pl.BonusDamageCheck = time
 					pl:AddPoints(2)
 					pl:PrintTranslatedMessage(HUD_PRINTCONSOLE, "minute_points_added", 2)
@@ -2000,7 +2000,7 @@ concommand.Add("zs_pointsshopbuy", function(sender, command, arguments)
 	local points = sender:GetPoints()
 	local cost = itemtab.Worth
 	if not GAMEMODE:GetWaveActive() then
-		cost = cost * GAMEMODE.ArsenalCrateMultiplier
+		cost = cost * GAMEMODE.ArsenalCrateMultiplier * (sender:GetPremium() and 0.9 or 1)
 	end
 
 	if GAMEMODE:IsClassicMode() and itemtab.NoClassicMode then

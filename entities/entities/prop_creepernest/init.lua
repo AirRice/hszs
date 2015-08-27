@@ -31,6 +31,7 @@ function ENT:Initialize()
 end
 
 function ENT:BuildUp()
+	local owner = self.Owner
 	if CurTime() ~= self.LastBuildTime then
 		self.LastBuildTime = CurTime()
 		self.BuildsThisTick = 0
@@ -39,7 +40,7 @@ function ENT:BuildUp()
 	if self.BuildsThisTick < 3 then
 		self.BuildsThisTick = self.BuildsThisTick + 1
 
-		self:SetNestHealth(math.min(self:GetNestHealth() + FrameTime() * self:GetNestMaxHealth() * 0.025 * 2, self:GetNestMaxHealth()))
+		self:SetNestHealth(math.min(self:GetNestHealth() + FrameTime() * self:GetNestMaxHealth() * 0.025 * (owner:GetPremium() and 3.5 or 1), self:GetNestMaxHealth()))
 	end
 end
 

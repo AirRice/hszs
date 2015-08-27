@@ -16,7 +16,7 @@ SWEP.SlowDownImmunityTime = 2]]
 function SWEP:ApplyMeleeDamage(ent, trace, damage)
 	ent:PoisonDamage(damage, self.Owner, self, trace.HitPos)
 	if SERVER and ent:IsPlayer() then
-		ent:GiveStatus("ghoultouch", 10)
+		ent:GiveStatus("ghoultouch", 10 + (self.Owner:GetPremium() and 3 or 0))
 	end
 end
 
@@ -41,7 +41,7 @@ local function DoFleshThrow(pl, wep)
 			local startpos = pl:GetShootPos()
 			local aimang = pl:EyeAngles()
 
-			for i=1, 4 do
+			for i=1, 4 + (pl:GetPremium() and 3) do
 				local ang = Angle(aimang.p, aimang.y, aimang.r)
 				ang:RotateAroundAxis(ang:Up(), math.Rand(-8, 8))
 				ang:RotateAroundAxis(ang:Right(), math.Rand(-8, 8))

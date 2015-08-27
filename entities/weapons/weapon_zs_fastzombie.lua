@@ -36,6 +36,12 @@ function SWEP:Think()
 
 	local curtime = CurTime()
 	local owner = self.Owner
+	
+	if owner:GetPremium() then
+		self.Secondary.Automatic = true
+	else
+		self.Secondary.Automatic = false
+	end
 
 	if self.NextAllowJump and self.NextAllowJump <= curtime then
 		self.NextAllowJump = nil
@@ -107,7 +113,7 @@ function SWEP:Think()
 					local ent = trace.Entity
 					if ent and ent:IsValid() then
 						hit = true
-						self:MeleeHit(ent, trace, damage, ent:IsPlayer() and 1 or 10)
+						self:MeleeHit(ent, trace, damage, ent:IsPlayer() and 5 * (owner:GetPremium() and 20 or 1) or 10)
 					end
 				end
 			end
@@ -228,13 +234,13 @@ function SWEP:StartPounce()
 		ang.pitch = math.min(-20, ang.pitch)
 
 		owner:SetGroundEntity(NULL)
-		owner:SetVelocity((1 - 0.5 * (owner:GetLegDamage() / GAMEMODE.MaxLegDamage)) * self.PounceVelocity * ang:Forward())
+		owner:SetVelocity((1 - 0.5 * (owner:GetLegDamage() / GAMEMODE.MaxLegDamage)) * self.PounceVelocity * (owner:GetPremium() and 1.2 or 0) * ang:Forward())
 		owner:SetAnimation(PLAYER_JUMP)
 	else
 		self:SetNextSecondaryFire(CurTime())
 		self.m_ViewAngles = nil
 		self.NextAllowJump = CurTime()
-		self.NextAllowPounce = CurTime() + self.PounceDelay
+		self.NextAllowPounce = CurTime() + self.PounceDelay * (owner:GetPremium() and 0.9 or 1)
 		self:SetNextPrimaryFire(CurTime() + 0.1)
 		self.Owner:ResetJumpPower()
 	end
@@ -247,7 +253,7 @@ function SWEP:StopPounce()
 	self:SetNextSecondaryFire(CurTime())
 	self.m_ViewAngles = nil
 	self.NextAllowJump = CurTime() + 0.25
-	self.NextAllowPounce = CurTime() + self.PounceDelay
+	self.NextAllowPounce = CurTime() + self.PounceDelay * (self.Owner:GetPremium() and 0.9 or 1)
 	self:SetNextPrimaryFire(CurTime() + 0.1)
 	self.Owner:ResetJumpPower()
 end

@@ -39,7 +39,7 @@ function ENT:Think()
 			self.NextHeal = fCurTime + 0.25
 
 			if owner:Health() < owner:GetMaxHealth() then
-				owner:SetHealth(owner:Health() + 1)
+				owner:SetHealth(owner:Health() + 1 + (owner:GetPremium() and 1 or 0))
 			end
 		end
 	end

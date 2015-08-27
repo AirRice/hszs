@@ -16,7 +16,7 @@ hook.Add("Think", "PointsShopThink", function()
 			pan.m_LastNearArsenalCrate = newstate
 
 			if newstate then
-				pan.m_DiscountLabel:SetText("쉬는 시간엔 가격이" .. GAMEMODE.ArsenalCrateDiscountPercentage .."% 할인됩니다!")
+				pan.m_DiscountLabel:SetText("쉬는 시간엔 가격이" .. GAMEMODE.ArsenalCrateDiscountPercentage + (MySelf:GetPremium() and 10 or 0) .."% 할인됩니다!")
 				pan.m_DiscountLabel:SetTextColor(COLOR_GREEN)
 			else
 				pan.m_DiscountLabel:SetText("모든 세일이 끝났습니다!")
@@ -79,7 +79,7 @@ end
 local function ItemPanelThink(self)
 	local itemtab = FindItem(self.ID)
 	if itemtab then
-		local newstate = MySelf:GetPoints() >= math.ceil(itemtab.Worth * (GAMEMODE.m_PointsShop.m_LastNearArsenalCrate and GAMEMODE.ArsenalCrateMultiplier or 1)) and not (itemtab.NoClassicMode and GAMEMODE:IsClassicMode())
+		local newstate = MySelf:GetPoints() >= math.ceil(itemtab.Worth * (GAMEMODE.m_PointsShop.m_LastNearArsenalCrate and GAMEMODE.ArsenalCrateMultiplier or 1) * (MySelf:GetPremium() and 0.9 or 1)) and not (itemtab.NoClassicMode and GAMEMODE:IsClassicMode())
 		if newstate ~= self.m_LastAbleToBuy then
 			self.m_LastAbleToBuy = newstate
 			if newstate then
@@ -239,7 +239,7 @@ function GM:OpenPointsShop()
 					namelab:SetPos(42, itempan:GetTall() * 0.5 - namelab:GetTall() * 0.5)
 					itempan.m_NameLabel = namelab
 
-					local pricelab = EasyLabel(itempan, tostring(tab.Worth).." Points", "ZSHUDFontTiny")
+					local pricelab = EasyLabel(itempan, tostring(math.ceil(tab.Worth * (!GAMEMODE:GetWaveActive() and 0.8 or 1) * (MySelf:GetPremium() and 0.9 or 1))).." Points", "ZSHUDFontTiny")
 					pricelab:SetPos(itempan:GetWide() - 20 - pricelab:GetWide(), 4)
 					itempan.m_PriceLabel = pricelab
 

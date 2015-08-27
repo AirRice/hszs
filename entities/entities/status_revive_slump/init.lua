@@ -32,6 +32,9 @@ function ENT:Think()
 		end
 
 		self.HealCarryOver = self.HealCarryOver + FrameTime() * 10
+		if owner:GetPremium() then
+			self.HealCarryOver = self.HealCarryOver * 2
+		end
 		if self.HealCarryOver >= 1 then
 			local toheal = math.floor(self.HealCarryOver)
 			owner:SetHealth(math.min(owner:GetMaxHealth(), owner:Health() + toheal))

@@ -234,7 +234,7 @@ function SWEP:StartPounce()
 		ang.pitch = math.min(-20, ang.pitch)
 
 		owner:SetGroundEntity(NULL)
-		owner:SetVelocity((1 - 0.5 * (owner:GetLegDamage() / GAMEMODE.MaxLegDamage)) * self.PounceVelocity * (owner:GetPremium() and 1.2 or 0) * ang:Forward())
+		owner:SetVelocity((1 - 0.5 * (owner:GetLegDamage() / GAMEMODE.MaxLegDamage)) * self.PounceVelocity * (owner:GetPremium() and 1.2 or 1) * ang:Forward())
 		owner:SetAnimation(PLAYER_JUMP)
 	else
 		self:SetNextSecondaryFire(CurTime())

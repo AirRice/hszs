@@ -1004,7 +1004,7 @@ function GM:CalculateNextBoss()
 	local newboss = zombies[1]
 	local newbossclass = ""
 	
-	if newboss and newboss:IsValid() then newbossclass = GAMEMODE.ZombieClasses[newboss:GetBossZombieIndex()].Name end
+	if newboss and newboss:IsValid() then newbossclass = GAMEMODE.ZombieClasses[newboss:GetBossZombieIndex()].TranslationName end
 	net.Start("zs_nextboss")
 	net.WriteEntity(newboss)
 	net.WriteString(newbossclass)

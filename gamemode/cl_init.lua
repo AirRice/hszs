@@ -785,9 +785,9 @@ function GM:ZombieHUD()
 		local bossname = GAMEMODE.NextBossZombieClass
 		if pl and pl:IsValid() then
 			if pl == MySelf then 
-				draw_SimpleTextBlur(translate.Format("you_will_be_x_soon", "'"..bossname.."'"), "ZSHUDFont", x, y+th, COLOR_RED, TEXT_ALIGN_CENTER)
+				draw_SimpleTextBlur(translate.Format("you_will_be_x_soon", "'"..translate.Get(bossname).."'"), "ZSHUDFont", x, y+th, COLOR_RED, TEXT_ALIGN_CENTER)
 			else 
-				draw_SimpleTextBlur(translate.Format("x_will_be_y_soon", pl:Name(), "'"..bossname.."'"), "ZSHUDFont", x, y+th, COLOR_GRAY, TEXT_ALIGN_CENTER)
+				draw_SimpleTextBlur(translate.Format("x_will_be_y_soon", pl:Name(), "'"..translate.Get(bossname).."'"), "ZSHUDFont", x, y+th, COLOR_GRAY, TEXT_ALIGN_CENTER)
 			end
 		end
 		if MySelf:GetZombieClassTable().NeverAlive then

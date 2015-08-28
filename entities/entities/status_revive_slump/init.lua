@@ -31,10 +31,7 @@ function ENT:Think()
 			self.GodDisableTime = nil
 		end
 
-		self.HealCarryOver = self.HealCarryOver + FrameTime() * 10
-		if owner:GetPremium() then
-			self.HealCarryOver = self.HealCarryOver * 2
-		end
+		self.HealCarryOver = self.HealCarryOver + FrameTime() * 10 * (owner:GetPremium() and 2 or 1)
 		if self.HealCarryOver >= 1 then
 			local toheal = math.floor(self.HealCarryOver)
 			owner:SetHealth(math.min(owner:GetMaxHealth(), owner:Health() + toheal))

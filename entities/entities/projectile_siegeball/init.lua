@@ -4,10 +4,11 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 ENT.LifeTime = 10
-ENT.Radius = 450
+ENT.Radius = 225
 ENT.ShootPower = 990
 ENT.ShootTime = 0
 ENT.Shoot = false
+ENT.PushVel = 450
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Entity", 0, "Owner")
@@ -92,7 +93,7 @@ function ENT:Explode()
 			table.insert(humans, v)
 		elseif v == owner then
 			v:SetGroundEntity(NULL)
-			v:SetLocalVelocity((v:GetPos() - self:GetPos()):GetNormal() * 800)
+			v:SetVelocity(((v:GetPos() - self:GetPos()):GetNormal() + Vector(0, 0, 0.05)) * self.PushVel)
 		end
 	end
 	
@@ -118,8 +119,8 @@ function ENT:Explode()
 	
 	for _, v in pairs(validlist) do
 		v:SetGroundEntity(NULL)
-		v:SetLocalVelocity(((v:LocalToWorld(v:OBBCenter()) - self:LocalToWorld(self:OBBCenter())):GetNormal() * Vector(1, 1, 0) + Vector(0, 0, 0.35)) * 225)
-		local dmg = math.ceil(8 * (1 - (v:GetPos():Distance(self:GetPos()) / 225)))
+		v:SetLocalVelocity(((v:LocalToWorld(v:OBBCenter()) - self:LocalToWorld(self:OBBCenter())):GetNormal() + Vector(0, 0, 0.1)) * self.PushVel)
+		local dmg = math.ceil(8 * (1 - (v:GetPos():Distance(self:GetPos()) / self.Radius)))
 		v:TakeDamage(dmg, owner, self)
 	end
 	

@@ -45,6 +45,9 @@ SWEP.IronSightsAng = Vector(0, 0, 1)
 
 function SWEP:Think()
 	self.BaseClass.Think(self)
+	if !self.Owner:GetPremium() then
+		self:Remove()
+	end
 	self.Owner:SetAmmo(9999, "357_premium")
 end
 

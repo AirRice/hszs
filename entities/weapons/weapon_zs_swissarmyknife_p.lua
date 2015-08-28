@@ -17,7 +17,7 @@ SWEP.WorldModel = "models/weapons/w_knife_t.mdl"
 SWEP.UseHands = true
 
 SWEP.MeleeDamage = 6
-SWEP.MeleeRange = 64
+SWEP.MeleeRange = 68
 SWEP.MeleeSize = 0.875
 
 SWEP.WalkSpeed = SPEED_FASTEST
@@ -25,3 +25,11 @@ SWEP.WalkSpeed = SPEED_FASTEST
 SWEP.ArmorThrough = 8
 
 SWEP.Primary.Delay = 0.33
+
+function SWEP:Think()
+	self.BaseClass.Think(self)
+	
+	if !self.Owner:GetPremium() then
+		self:Remove()
+	end
+end

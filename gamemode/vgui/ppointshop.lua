@@ -3,7 +3,7 @@ local function pointslabelThink(self)
 	if self.m_LastPoints ~= points then
 		self.m_LastPoints = points
 
-		self:SetText("사용할 포인트: "..points)
+		self:SetText("사용 가능 포인트: "..points)
 		self:SizeToContents()
 	end
 end
@@ -79,7 +79,7 @@ end
 local function ItemPanelThink(self)
 	local itemtab = FindItem(self.ID)
 	if itemtab then
-		local newstate = MySelf:GetPoints() >= math.ceil(itemtab.Worth * (GAMEMODE.m_PointsShop.m_LastNearArsenalCrate and GAMEMODE.ArsenalCrateMultiplier or 1) * (MySelf:GetPremium() and 0.9 or 1)) and not (itemtab.NoClassicMode and GAMEMODE:IsClassicMode())
+		local newstate = MySelf:GetPoints() >= math.ceil(itemtab.Worth * (GAMEMODE.m_PointsShop.m_LastNearArsenalCrate and GAMEMODE.ArsenalCrateMultiplier or 1)) and not (itemtab.NoClassicMode and GAMEMODE:IsClassicMode())
 		if newstate ~= self.m_LastAbleToBuy then
 			self.m_LastAbleToBuy = newstate
 			if newstate then
@@ -239,8 +239,11 @@ function GM:OpenPointsShop()
 					namelab:SetPos(42, itempan:GetTall() * 0.5 - namelab:GetTall() * 0.5)
 					itempan.m_NameLabel = namelab
 
-					local pricelab = EasyLabel(itempan, tostring(math.ceil(tab.Worth * (!GAMEMODE:GetWaveActive() and 0.8 or 1) * (MySelf:GetPremium() and 0.9 or 1))).." Points", "ZSHUDFontTiny")
+					local pricelab = EasyLabel(itempan, tostring(math.ceil(tab.Worth * (!GAMEMODE:GetWaveActive() and 0.8 - (MySelf:GetPremium() and 0.1 or 0) or 1))).." 포인트", "ZSHUDFontTiny")
 					pricelab:SetPos(itempan:GetWide() - 20 - pricelab:GetWide(), 4)
+					pricelab.Think = function(self)
+						self:SetText(tostring(math.ceil(tab.Worth * (!GAMEMODE:GetWaveActive() and 0.8 - (MySelf:GetPremium() and 0.1 or 0) or 1))).." 포인트")
+					end
 					itempan.m_PriceLabel = pricelab
 
 					local button = vgui.Create("DImageButton", itempan)

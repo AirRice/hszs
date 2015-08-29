@@ -2600,6 +2600,7 @@ function GM:OnPlayerChangedTeam(pl, oldteam, newteam)
 		pl:SetPoints(0)
 		pl.DamagedBy = {}
 		pl:SetBarricadeGhosting(false)
+		self:setBodyArmor(pl, 0)
 		self.CheckedOut[pl:UniqueID()] = true
 	elseif newteam == TEAM_HUMAN then
 		self.PreviouslyDied[pl:UniqueID()] = nil

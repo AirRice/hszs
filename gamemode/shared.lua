@@ -113,6 +113,8 @@ function GM:AddCustomAmmo()
 	game.AddAmmoType({name = "dummy"})
 	
 	game.AddAmmoType({name = "m249"})
+	game.AddAmmoType({name = "rpg"})
+	
 	game.AddAmmoType({name = "357_premium"})
 	
 	game.AddAmmoType({name = "defenceprojectile"})

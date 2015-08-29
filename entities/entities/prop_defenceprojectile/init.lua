@@ -122,9 +122,7 @@ function ENT:ProcessProjectiles()
 	local start = self:LocalToWorld(self:OBBCenter())
 	for i, v in pairs(projectiles) do
 		if IsValid(v) then
-			if IsValid(v:GetParent()) then
-				v:SetParent(NULL)
-			end
+			v:SetParent(NULL)
 			
 			local pos = v:GetPos()
 			local dist = start:Distance(pos)
@@ -155,11 +153,13 @@ function ENT:Think()
 	self:ProcessProjectiles()
 	if self.Destroyed then
 		for _, v in pairs(self.Projectiles) do
-			local phys = v:GetPhysicsObject()
-			
-			if IsValid(phys) then
-				v:SetGravity(1)
-				phys:EnableGravity(true)
+			if IsValid(v) then
+				local phys = v:GetPhysicsObject()
+				
+				if IsValid(phys) then
+					v:SetGravity(1)
+					phys:EnableGravity(true)
+				end
 			end
 		end
 		self:Remove()

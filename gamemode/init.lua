@@ -898,9 +898,9 @@ function GM:Think()
 		end
 		
 		if pl.buffRevolution and pl:Team() == TEAM_HUMAN then			
-			if pl.revolutionTime + 3 <= time then
+			if pl.revolutionTime + 0.5 <= time then
 				if pl:GetVelocity():Length() >= (pl:Crouching() and pl:GetCrouchedWalkSpeed() * 0.9 or pl:GetWalkSpeed() * 0.9) then
-					pl.revolutionSpd = math.min(320, pl.revolutionSpd + 8)
+					pl.revolutionSpd = math.min(320, pl.revolutionSpd + 1.3)
 					pl.revolutionTime = time
 					local speed = pl:ResetSpeed(true)
 					pl:SetHumanSpeed(speed)
@@ -2000,7 +2000,7 @@ concommand.Add("zs_pointsshopbuy", function(sender, command, arguments)
 	local points = sender:GetPoints()
 	local cost = itemtab.Worth
 	if not GAMEMODE:GetWaveActive() then
-		cost = cost * GAMEMODE.ArsenalCrateMultiplier * (sender:GetPremium() and 0.9 or 1)
+		cost = cost * (GAMEMODE.ArsenalCrateMultiplier - (sender:GetPremium() and 0.1 or 0))
 	end
 
 	if GAMEMODE:IsClassicMode() and itemtab.NoClassicMode then

@@ -95,7 +95,6 @@ GM.AmmoCache["spotlamp"] = 1
 GM.AmmoCache["manhack"] = 1
 GM.AmmoCache["pulse"] = 30
 GM.AmmoCache["m249"] = 150
-GM.AmmoCache["rpg"] = 1
 
 -- These ammo types are available at ammunition boxes.
 -- The amount is the ammo to give them.
@@ -110,20 +109,12 @@ GM.AmmoResupply["xbowbolt"] = GM.AmmoCache["xbowbolt"]
 GM.AmmoResupply["buckshot"] = GM.AmmoCache["buckshot"]
 GM.AmmoResupply["battery"] = 20
 GM.AmmoResupply["pulse"] = GM.AmmoCache["pulse"]
-GM.AmmoResupply["m249"] = GM.AmmoCache["m249"] / 2
+GM.AmmoResupply["m249"] = GM.AmmoCache["m249"]
 
 
 -----------
 -- Worth --
 -----------
-
-local isobjective
-local mapname = game.GetMap()
-if string.find(mapname, "_obj") or string.find(mapname, "_objective") then
-	isobjective = true
-else
-	isobjective = false
-end
 
 GM:AddStartingItem("pshtr", "'Peashooter' 권총", nil, ITEMCAT_GUNS, 40, "weapon_zs_peashooter")
 GM:AddStartingItem("btlax", "'Battleaxe' 권총", nil, ITEMCAT_GUNS, 40, "weapon_zs_battleaxe")
@@ -201,9 +192,7 @@ GM:AddStartingItem("bfmedic", "의무병", "의료킷의 재사용 대기시간�
 GM:AddStartingItem("bfbattleengineer", "전투공병", "좀비를 처치할 경우 다음 3회의 수리 효율이 20% 증가한다. (중첩 안 됨)", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffBattleEngineer = true pl.battleEngineerCount = 0 end, nil)
 GM:AddStartingItem("bfberserk", "광전사", "체력이 20% 이하일 때 근접 무기의 공격력이 50% 증가한다.", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffBerserk = true end, nil)
 GM:AddStartingItem("bfbeliefjump", "신뢰의 도약", "낙하 데미지를 25% 덜 받는다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffBeliefJump = true end, nil)
-if !isobjective then
-	GM:AddStartingItem("bfrevolution", "진화론", "버니합이 불가능해지는 대신 최대 속도의 90% 이상으로 달릴 경우 3초마다 이동속도 8이 증가한다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.buffRevolution = true pl.revolutionSpd = 0 pl.revolutionTime = 0 pl:SendLua("LocalPlayer().buffRevolution = true") end, nil)
-end
+GM:AddStartingItem("bfrevolution", "진화론", "버니합이 불가능해지는 대신 최대 속도의 90% 이상으로 달릴 경우 3초마다 이동속도 8이 증가한다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.buffRevolution = true pl.revolutionSpd = 0 pl.revolutionTime = 0 pl:SendLua("LocalPlayer().buffRevolution = true") end, nil)
 GM:AddStartingItem("bfblueprint", "설계도", "설치형 구조물의 회수 시간이 70% 단축된다.", ITEMCAT_TRAITS, 5, nil, function(pl) pl.buffBlueprint = true end, nil)
 GM:AddStartingItem("bfstrong", "강인함", "근접 공격에 의한 화면 흔들림이 90% 감소하고 넉다운에 80% 저항이 생긴다.", ITEMCAT_TRAITS, 5, nil, function(pl) pl.buffStrong = true pl:SendLua("LocalPlayer().buffStrong = true") end, nil)
 GM:AddStartingItem("bfsupplier", "보급병", "보급상자의 재사용 대기시간이 25% 감소한다.", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffSupplier = true end, nil)
@@ -252,7 +241,6 @@ GM:AddPointShopItem("boomstick", "붐스틱", nil, ITEMCAT_GUNS, 200, "weapon_zs
 GM:AddPointShopItem("slugrifle", "'Tiny' 슬러그 라이플", nil, ITEMCAT_GUNS, 200, "weapon_zs_slugrifle")
 GM:AddPointShopItem("pulserifle", "'Adonis' 펄스 라이플", nil, ITEMCAT_GUNS, 225, "weapon_zs_pulserifle")
 GM:AddPointShopItem("m249", "'Chainsaw' M249", nil, ITEMCAT_GUNS, 225, "weapon_zs_m249")
-GM:AddPointShopItem("rpg", "'알라봉' RPG-7", nil, ITEMCAT_GUNS, 225, "weapon_zs_rpg")
 
 GM:AddPointShopItem("pistolammo", "권총 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["pistol"] or 12, "pistol", true) end, "models/Items/BoxSRounds.mdl")
 GM:AddPointShopItem("shotgunammo", "샷건 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["buckshot"] or 8, "buckshot", true) end, "models/Items/BoxBuckshot.mdl")
@@ -261,8 +249,7 @@ GM:AddPointShopItem("assaultrifleammo", "돌격 소총 탄약 박스", nil, ITEM
 GM:AddPointShopItem("rifleammo", "소총 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["357"] or 6, "357", true) end, "models/Items/BoxSniperRounds.mdl")
 GM:AddPointShopItem("crossbowammo", "크로스보우 볼트", nil, ITEMCAT_AMMO, 3, nil, function(pl) pl:GiveAmmo(1, "XBowBolt", true) end, "models/Items/CrossbowRounds.mdl")
 GM:AddPointShopItem("pulseammo", "펄스 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["pulse"] or 30, "pulse", true) end, "models/Items/combine_rifle_ammo01.mdl")
-GM:AddPointShopItem("m249ammo", "M249 탄약 박스", nil, ITEMCAT_AMMO, 14, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["m249"] or 150, "m249", true) end, nil)
-GM:AddPointShopItem("rpgammo", "RPG-7 탄약", nil, ITEMCAT_AMMO, 16, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["rpg"] or 1, "rpg", true) end, nil)
+GM:AddPointShopItem("m249ammo", "M249 탄약 박스", nil, ITEMCAT_AMMO, 12, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["m249"] or 150, "m249", true) end, nil)
 
 GM:AddPointShopItem("axe", "도끼", nil, ITEMCAT_MELEE, 20, "weapon_zs_axe")
 GM:AddPointShopItem("crowbar", "빠루", nil, ITEMCAT_MELEE, 20, "weapon_zs_crowbar")
@@ -275,6 +262,7 @@ GM:AddPointShopItem("crphmr", "목수의 망치", nil, ITEMCAT_TOOLS, 50, "weapo
 GM:AddPointShopItem("wrench", "메카닉 렌치", nil, ITEMCAT_TOOLS, 25, "weapon_zs_wrench").NoClassicMode = true
 GM:AddPointShopItem("arsenalcrate", "상점 상자", nil, ITEMCAT_TOOLS, 50, "weapon_zs_arsenalcrate")
 GM:AddPointShopItem("resupplybox", "보급 상자", nil, ITEMCAT_TOOLS, 200, "weapon_zs_resupplybox")
+GM:AddPointShopItem("medkit", "의료킷", nil, ITEMCAT_TOOLS, 160, "weapon_zs_medicalkit")
 GM:AddPointShopItem("medkit", "의료킷", nil, ITEMCAT_TOOLS, 160, "weapon_zs_medicalkit")
 GM:AddPointShopItem("defenceprojectile", "트위스터", "주변의 중력장을 왜곡해 발사체를 끌어당긴다.", ITEMCAT_TOOLS, 35, "weapon_zs_defenceprojectile")
 local item = GM:AddPointShopItem("infturret", "적외선 타겟팅 터렛", nil, ITEMCAT_TOOLS, 50, nil, function(pl)

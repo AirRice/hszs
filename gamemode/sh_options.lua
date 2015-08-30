@@ -252,8 +252,8 @@ GM:AddPointShopItem("sweeper", "'Sweeper' 샷건", nil, ITEMCAT_GUNS, 200, "weap
 GM:AddPointShopItem("boomstick", "붐스틱", nil, ITEMCAT_GUNS, 200, "weapon_zs_boomstick")
 GM:AddPointShopItem("slugrifle", "'Tiny' 슬러그 라이플", nil, ITEMCAT_GUNS, 200, "weapon_zs_slugrifle")
 GM:AddPointShopItem("pulserifle", "'Adonis' 펄스 라이플", nil, ITEMCAT_GUNS, 225, "weapon_zs_pulserifle")
-GM:AddPointShopItem("m249", "'Chainsaw' M249", nil, ITEMCAT_GUNS, 225, "weapon_zs_m249")
-GM:AddPointShopItem("rpg", "'알라봉' RPG-7", nil, ITEMCAT_GUNS, 225, "weapon_zs_rpg")
+GM:AddPointShopItem("m249", "'Chainsaw' M249", nil, ITEMCAT_GUNS, 255, "weapon_zs_m249")
+GM:AddPointShopItem("rpg", "'알라봉' RPG-7", nil, ITEMCAT_GUNS, 240, "weapon_zs_rpg")
 
 GM:AddPointShopItem("pistolammo", "권총 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["pistol"] or 12, "pistol", true) end, "models/Items/BoxSRounds.mdl")
 GM:AddPointShopItem("shotgunammo", "샷건 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["buckshot"] or 8, "buckshot", true) end, "models/Items/BoxBuckshot.mdl")

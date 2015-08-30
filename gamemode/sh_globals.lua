@@ -140,6 +140,8 @@ GM.AmmoNames["spotlamp"] = "Spot Lamps"
 GM.AmmoNames["stone"] = "Stones"
 GM.AmmoNames["pulse"] = "Pulse Shots"
 GM.AmmoNames["m249"] = "M249"
+GM.AmmoNames["rpg"] = "Rocket"
+GM.AmmoNames["laser"] = "Laser Battery"
 
 GM.AmmoTranslations = {}
 GM.AmmoTranslations["weapon_physcannon"] = "pistol"

@@ -25,14 +25,14 @@ end
 function SWEP:SpawnGhost()
 	local owner = self.Owner
 	if owner and owner:IsValid() then
-		owner:GiveStatus("ghost_defenceprojectile")
+		owner:GiveStatus("ghost_laserturret")
 	end
 end
 
 function SWEP:RemoveGhost()
 	local owner = self.Owner
 	if owner and owner:IsValid() then
-		owner:RemoveStatus("ghost_defenceprojectile", false, true)
+		owner:RemoveStatus("ghost_laserturret", false, true)
 	end
 end
 
@@ -41,8 +41,7 @@ function SWEP:PrimaryAttack()
 
 	local owner = self.Owner
 
-	local status = owner.status_ghost_defenceprojectile
-	
+	local status = owner.status_ghost_laserturret
 	if not (status and status:IsValid()) then return end
 	status:RecalculateValidity()
 	if not status:GetValidPlacement() then return end
@@ -52,14 +51,21 @@ function SWEP:PrimaryAttack()
 
 	self:SetNextPrimaryAttack(CurTime() + self.Primary.Delay)
 
-	local ent = ents.Create("prop_defenceprojectile")
+	local channel = GAMEMODE:GetFreeChannel("prop_laserturret")
+	if channel == -1 then
+		owner:SendLua("surface.PlaySound(\"buttons/button8.wav\")")
+		owner:CenterNotify(COLOR_RED, translate.ClientGet(owner, "no_free_channel"))
+		return
+	end
+
+	local ent = ents.Create("prop_laserturret")
 	if ent:IsValid() then
 		ent:SetPos(pos)
 		ent:SetAngles(ang)
 		ent:Spawn()
-		ent:SetOwner(owner)
 
 		ent:SetObjectOwner(owner)
+		ent:SetChannel(channel)
 
 		ent:EmitSound("npc/dog/dog_servo12.wav")
 
@@ -72,8 +78,12 @@ function SWEP:PrimaryAttack()
 			ent:SetObjectHealth(stored[1])
 		end
 
-		if not owner:HasWeapon("weapon_zs_defenceprojectile") then
-			owner:Give("weapon_zs_defenceprojectile")
+		local ammo = math.min(owner:GetAmmoCount("laser"), 250)
+		ent:SetAmmo(ammo)
+		owner:RemoveAmmo(ammo, "laser")
+
+		if not owner:HasWeapon("weapon_zs_laserturretcontrol") then
+			owner:Give("weapon_zs_laserturretcontrol")
 		end
 
 		if self:GetPrimaryAmmoCount() <= 0 then

@@ -116,7 +116,7 @@ if SERVER then
 			local pos = pl:LocalToWorld(pl:OBBCenter())
 
 			pl:Gib(dmginfo)
-			timer.Simple(0, function() ChemBomb(pl, pos) end)
+			-- timer.Simple(0, function() ChemBomb(pl, pos) end)
 
 			return true
 		end

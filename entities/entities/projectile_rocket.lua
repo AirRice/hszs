@@ -12,6 +12,7 @@ ENT.DieTime = 0
 ENT.LifeTime = 8
 ENT.OwnerDamageMul = 0.03
 ENT.PropDamageMul = 0.3
+ENT.DieTime = 0
 
 util.PrecacheSound("weapons/rpg/rocketfire1.wav")
 util.PrecacheSound("weapons/rpg/rocket1.wav")
@@ -54,7 +55,7 @@ if SERVER then
 		
 		local phys = self:GetPhysicsObject()
 		if phys:IsValid() then
-			phys:SetMass(4)
+			phys:SetMass(32)
 			phys:SetBuoyancyRatio(0.01)
 			phys:EnableDrag(false)
 			phys:EnableGravity(false)
@@ -69,7 +70,7 @@ if SERVER then
 
 	function ENT:PhysicsCollide(data, collider)
 		local ent = data.HitEntity
-		if ent:GetClass() ~= self:GetClass() and data.Speed >= self.ExplodeVel then
+		if ent:GetClass() ~= self:GetClass() and data.Speed >= self.ExplodeVel and data.Entity ~= self:GetOwner() then
 			self:Explode()
 		end
 	end
@@ -77,7 +78,7 @@ if SERVER then
 	function ENT:StartTouch(ent)
 		if IsValid(ent) then
 			if ent:IsPlayer() then
-				if ent:Team() == TEAM_ZOMBIE then
+				if ent:Team() ~= self:GetOwner():Team() then
 					self:Explode()
 				end
 			end
@@ -120,63 +121,70 @@ if SERVER then
 		local props = {}
 		
 		local dmginfo = DamageInfo()
-		dmginfo:SetAttacker(self:GetOwner())
-		dmginfo:SetInflictor(self:GetInflictor())
-		dmginfo:SetDamage(self.Damage)
-		
-		local ownerdmg = false
 		
 		local owner = self:GetOwner()
-		
-		for _, v in pairs(allent) do
-			if IsValid(v) then
-				if v:IsPlayer() and v:Team() == TEAM_ZOMBIE then
-					table.insert(zombies, v)
-				elseif !v:IsPlayer() then
-					table.insert(props, v)
-				end
-				
-				if v == owner then
-					ownerdmg = true
-				end
+		if IsValid(owner) then
+			dmginfo:SetAttacker(self:GetOwner())		
+			local infl = self:GetInflictor()
+			if IsValid(infl) then
+				dmginfo:SetInflictor(infl)
 			end
-		end
-		
-		local td = {}
-		td.start = self:GetPos()
-		td.filter = {self}
-		td.mask = MASK_SHOT
-		
-		for _, v in pairs(zombies) do
-			td.endpos = v:LocalToWorld(v:OBBCenter())
-			local trace = util.TraceLine(td)
+			dmginfo:SetDamage(self.Damage)
 			
-			if trace.Hit and trace.Entity == v then
-				local mul = 1 - (self:GetPos():Distance(v:NearestPoint(v:GetPos())) / self.Radius)
-				
-				dmginfo:ScaleDamage(mul)
-				v:TakeDamageInfo(dmginfo)
-				dmginfo:ScaleDamage(1 / mul)
-				table.insert(td.filter, v)
-			end
-		end
-		
-		for _, v in pairs(props) do
-			td.endpos = v:GetPos()
-			local trace = util.TraceLine(td)
+			local ownerdmg = false
 			
-			if trace.Hit and trace.Entity == v then
-				dmginfo:ScaleDamage(0.7)
-				v:TakeDamageInfo(dmginfo)
-				dmginfo:ScaleDamage(1 / 0.7)
-				table.insert(td.filter, v)
+			local owner = self:GetOwner()
+			
+			for _, v in pairs(allent) do
+				if IsValid(v) then
+					if v:IsPlayer() and v:Team() ~= owner:Team() then
+						table.insert(zombies, v)
+					elseif !v:IsPlayer() then
+						table.insert(props, v)
+					end
+					
+					if v == owner then
+						ownerdmg = true
+					end
+				end
 			end
-		end
-		
-		if ownerdmg then
-			dmginfo:ScaleDamage(self.OwnerDamageMul)
-			if IsValid(owner) then
-				owner:TakeDamageInfo(dmginfo)
+			
+			local td = {}
+			td.start = self:GetPos()
+			td.filter = {self}
+			td.mask = MASK_SHOT
+			
+			for _, v in pairs(zombies) do
+				td.endpos = v:LocalToWorld(v:OBBCenter())
+				local trace = util.TraceLine(td)
+				
+				if trace.Hit and trace.Entity == v then
+					local mul = 1 - (self:GetPos():Distance(v:NearestPoint(v:GetPos())) / self.Radius)
+					
+					dmginfo:ScaleDamage(mul)
+					v:TakeDamageInfo(dmginfo)
+					dmginfo:ScaleDamage(1 / mul)
+					table.insert(td.filter, v)
+				end
+			end
+			
+			for _, v in pairs(props) do
+				td.endpos = v:GetPos()
+				local trace = util.TraceLine(td)
+				
+				if trace.Hit and trace.Entity == v then
+					dmginfo:ScaleDamage(0.7)
+					v:TakeDamageInfo(dmginfo)
+					dmginfo:ScaleDamage(1 / 0.7)
+					table.insert(td.filter, v)
+				end
+			end
+			
+			if ownerdmg then
+				dmginfo:ScaleDamage(self.OwnerDamageMul)
+				if IsValid(owner) then
+					owner:TakeDamageInfo(dmginfo)
+				end
 			end
 		end
 		
@@ -184,7 +192,6 @@ if SERVER then
 			ed:SetMagnitude(100)
 			ed:SetOrigin(self:GetPos())
 		util.Effect("Explosion", ed)
-		self:StopSound("weapons/rpg/rocket1.wav")
 		self.FlySound:Stop()
 		self:Remove()
 	end

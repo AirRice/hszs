@@ -4,6 +4,7 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 ENT.Radius = 225
+ENT.InterceptRadius = ENT.Radius * 0.3
 ENT.Gravity = 1500
 ENT.MinGravity = ENT.Gravity / 5
 
@@ -60,33 +61,34 @@ end
 
 function ENT:DefenceProjectiles()
 	local center = self:LocalToWorld(self:OBBCenter())
-	local allent = ents.FindInSphere(center, self.Radius)
+	
+	-- local allent = ents.FindInSphere(center, self.Radius)
+	local allproj = ents.FindByClass("projectile_*")
 	
 	local td = {}
 	td.start = center
 	td.filter = {self}
 	
-	local sz = 7
-	td.mins = Vector(-sz, -sz, -sz)
-	td.maxs = Vector(sz, sz, sz)
+	-- local sz = 7
+	-- td.mins = Vector(-sz, -sz, -sz)
+	-- td.maxs = Vector(sz, sz, sz)
 	table.Add(td.filter, player.GetAll())
 	table.Add(td.filter, game.GetWorld())
 	td.mask = MASK_SHOT
 	
-	for _, v in pairs(allent) do
-		if string.find(v:GetClass(), "^projectile_") then
-			local projpos = v:GetPos()
-			
+	for _, v in pairs(allproj) do
+		local projpos = v:GetPos()
+		if projpos:Distance(self:GetPos()) <= self.Radius then
 			td.endpos = projpos
 			
-			local trace = util.TraceHull(td)
+			local trace = util.TraceLine(td)
 			
-			if trace.Hit and trace.HitPos == td.endpos then
+			if trace.HitPos == td.endpos then
 				trace.Hit = true
 				trace.Entity = v
 			end
 			
-			if trace.Entity == v then
+			if trace.Entity == v and !v.defproj then
 				if !table.HasValue(self.Projectiles, v) then
 					table.Add(self.Projectiles, {v})	
 					self:SetObjectHealth(self:GetObjectHealth() - self:GetMaxObjectHealth() * 0.003)
@@ -94,6 +96,7 @@ function ENT:DefenceProjectiles()
 				if !table.HasValue(td.filter, v) then
 					table.Add(td.filter, {v})
 				end
+				-- v.defproj = true
 				local e = EffectData()
 					e:SetOrigin(self:GetPos())
 					e:SetScale(v:GetPos():Distance(self:GetPos()))
@@ -127,18 +130,31 @@ function ENT:ProcessProjectiles()
 			local pos = v:GetPos()
 			local dist = start:Distance(pos)
 			local phys = v:GetPhysicsObject()
+			local angvec = (self:GetPos() - v:GetPos()):GetNormal()
+			
 			if dist <= self.Radius then
 				local mul = 1 - (dist / self.Radius)
 				
+				if v.Explode and self:GetOwner().pointGravity then
+					v.Explode = function(self) end
+				end
+				
 				if IsValid(phys) then
+					timer.Create("defproj_" .. tostring(v:EntIndex()), (v.LifeTime and v.LifeTime or 10), 1, function()
+						v.Explode = function(self) 
+							self:Remove()
+						end
+					end)
 					v:SetGravity(0)
 					phys:EnableMotion(true)
+					v.OriginalGravity = phys:IsGravityEnabled()
 					phys:EnableGravity(false)
 					phys:AddVelocity((start - pos):GetNormal() * (math.max(self.Gravity * mul, self.MinGravity)))
+					phys:AddAngleVelocity(angvec * math.max(self.Gravity * mul, self.MinGravity))
 				end
 			else
 				if IsValid(phys) then
-					phys:EnableGravity(true)
+					phys:EnableGravity(v.OriginalGravity or true)
 				end
 				table.remove(self.Projectiles, i)
 			end

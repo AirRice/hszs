@@ -1689,6 +1689,7 @@ function GM:PlayerInitialSpawnRound(pl)
 	pl.metalDetector = nil
 	pl.hunterCharge = nil
 	pl.hunterAddClip = nil
+	pl.pointGravity = nil
 
 	local uniqueid = pl:UniqueID()
 

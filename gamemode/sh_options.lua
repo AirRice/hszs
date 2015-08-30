@@ -96,6 +96,7 @@ GM.AmmoCache["manhack"] = 1
 GM.AmmoCache["pulse"] = 30
 GM.AmmoCache["m249"] = 150
 GM.AmmoCache["rpg"] = 1
+GM.AmmoCache["laser"] = 25
 
 -- These ammo types are available at ammunition boxes.
 -- The amount is the ammo to give them.
@@ -263,6 +264,7 @@ GM:AddPointShopItem("crossbowammo", "크로스보우 볼트", nil, ITEMCAT_AMMO,
 GM:AddPointShopItem("pulseammo", "펄스 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["pulse"] or 30, "pulse", true) end, "models/Items/combine_rifle_ammo01.mdl")
 GM:AddPointShopItem("m249ammo", "M249 탄약 박스", nil, ITEMCAT_AMMO, 14, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["m249"] or 150, "m249", true) end, nil)
 GM:AddPointShopItem("rpgammo", "RPG-7 탄약", nil, ITEMCAT_AMMO, 16, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["rpg"] or 1, "rpg", true) end, nil)
+-- GM:AddPointShopItem("laserammo", "25 레이져 배터리", nil, ITEMCAT_AMMO, 8, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["laser"] or 25, "laser", true) end, nil)
 
 GM:AddPointShopItem("axe", "도끼", nil, ITEMCAT_MELEE, 20, "weapon_zs_axe")
 GM:AddPointShopItem("crowbar", "빠루", nil, ITEMCAT_MELEE, 20, "weapon_zs_crowbar")
@@ -282,6 +284,11 @@ local item = GM:AddPointShopItem("infturret", "적외선 타겟팅 터렛", nil,
 	pl:GiveAmmo(1, "thumper")
 	pl:GiveAmmo(250, "smg1")
 end)
+-- local item = GM:AddPointShopItem("laserturret", "레이져 터렛", nil, ITEMCAT_TOOLS, 80, nil, function(pl)
+	-- pl:GiveEmptyWeapon("weapon_zs_laserturret")
+	-- pl:GiveAmmo(1, "laserturret")
+	-- pl:GiveAmmo(250, "laser")
+-- end)
 item.NoClassicMode = true
 GM:AddPointShopItem("manhack", "맨핵", nil, ITEMCAT_TOOLS, 45, "weapon_zs_manhack")
 GM:AddPointShopItem("barricadekit", "'Aegis' 바리케이드 킷", nil, ITEMCAT_TOOLS, 125, "weapon_zs_barricadekit")
@@ -311,6 +318,7 @@ GM:AddPointShopItem("carbonhammer", "신소재: 카본 망치", "망치의 재�
 GM:AddPointShopItem("steeldetector", "고철 탐지기", "망치로 바리케이드를 수리할 경우 5% 확률로 3에서 5포인트를 얻는다.", ITEMCAT_REMODEL, 20, nil, function(pl) pl.metalDetector = true end, "models/weapons/w_hammer.mdl")
 GM:AddPointShopItem("huntercharge", "연사 트리거: Hunter", "Hunter 소총을 들고 달리기 키(기본값: SHIFT)를 누르면 차지 기능을 사용할 수 있게 된다.", ITEMCAT_REMODEL, 30, nil, function(pl) pl.hunterCharge = true end, "models/weapons/w_hammer.mdl")
 GM:AddPointShopItem("hunteraddclip", "확장 탄창: Hunter", "Hunter 소총의 기본 탄창 수가 2가 된다.", ITEMCAT_REMODEL, 25, nil, function(pl) pl.hunterAddClip = true end, "models/weapons/w_hammer.mdl")
+GM:AddPointShopItem("pointgravity", "포인트-그래비티", "트위스터의 중력장에 폭발 물질이 들어온다면\n그 부분의 중력을 극대화시켜 소멸시킨다.", ITEMCAT_REMODEL, 45, nil, function(pl) pl.pointGravity = true end, "models/weapons/w_hammer.mdl")
 
 
 -- These are the honorable mentions that come at the end of the round.

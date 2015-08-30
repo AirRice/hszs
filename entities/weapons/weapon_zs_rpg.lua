@@ -57,7 +57,7 @@ function SWEP:PrimaryAttack()
 		local ent = ents.Create("projectile_rocket")
 		ent:SetPos(owner:GetShootPos() + owner:GetAimVector() * 10)
 		ent:SetAngles((owner:GetAimVector()):Angle())
-		ent.OriginalAngles = owner:EyeAngles()
+		ent.OriginalAngles = owner:GetAimVector():Angle()
 		ent:SetOwner(owner)
 		ent:SetInflictor(self)
 		ent.Damage = self.Primary.Damage

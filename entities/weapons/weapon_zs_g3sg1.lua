@@ -26,7 +26,7 @@ SWEP.UseHands = true
 
 SWEP.ReloadSound = Sound("Weapon_G3SG1.ClipOut")
 SWEP.Primary.Sound = Sound( "Weapon_G3SG1.Single" )
-SWEP.Primary.Damage = 19
+SWEP.Primary.Damage = 48
 SWEP.Primary.NumShots = 2
 SWEP.Primary.Delay = 0.3
 SWEP.Primary.Recoil = 10

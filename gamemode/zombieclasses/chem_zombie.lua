@@ -81,7 +81,23 @@ if SERVER then
 			DUMMY_CHEMZOMBIE:Spawn()
 		end
 	end)
-
+	
+	local function ChemDamage(inflictor, attacker, epicenter, radius, damage, noreduce)
+		local filter = inflictor
+		for _, ent in pairs(ents.FindInSphere(epicenter, radius)) do
+			if ent and ent:IsValid() then
+				local nearest = ent:NearestPoint(epicenter)
+				if TrueVisibleFilters(epicenter, nearest, inflictor, ent) then
+					if ent:IsNailed() then
+						damage = damage * 1 / 3
+					else
+						ent:PoisonDamage(((radius - nearest:Distance(epicenter)) / radius) * damage, attacker, inflictor, nil, noreduce)
+					end
+				end
+			end
+		end
+	end
+	
 	local function ChemBomb(pl, pos)
 		local effectdata = EffectData()
 			effectdata:SetOrigin(pos)
@@ -90,7 +106,7 @@ if SERVER then
 		if DUMMY_CHEMZOMBIE:IsValid() then
 			DUMMY_CHEMZOMBIE:SetPos(pos)
 		end
-		util.PoisonBlastDamage(DUMMY_CHEMZOMBIE, pl, pos, 128, 85, true)
+		ChemDamage(DUMMY_CHEMZOMBIE, pl, pos, 128, 85, true)
 
 		pl:CheckRedeem()
 	end

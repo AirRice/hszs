@@ -393,7 +393,24 @@ function GM:AddNetworkStrings()
 	util.AddNetworkString("zs_pls_kill_pl")
 	util.AddNetworkString("zs_pl_kill_self")
 	util.AddNetworkString("zs_death")
+	
+	util.AddNetworkString("MutePlayer")
 end
+
+net.Receive("MutePlayer", function(len, pl)
+	pl.muted = pl.muted or {}
+	local target = net.ReadEntity()
+	local mute = net.ReadBool()
+	if mute then
+		table.insert(pl.muted, target)
+	else
+		for i, v in pairs(pl.muted) do
+			if !IsValid(v) or v == target then
+				table.remove(i)
+			end
+		end
+	end
+end)
 
 function GM:IsClassicMode()
 	return self.ClassicMode

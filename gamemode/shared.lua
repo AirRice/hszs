@@ -449,7 +449,7 @@ end
 
 local TEAM_SPECTATOR = TEAM_SPECTATOR
 function GM:PlayerCanHearPlayersVoice(listener, talker)
-	return true
+	return !table.HasValue((listener.muted or {}), talker)
 	--[[if self:GetEndRound() then return true, false end
 
 	if listener:Team() == talker:Team() then

@@ -44,7 +44,7 @@ local function ChemDamage(inflictor, attacker, epicenter, radius, damage, noredu
 			local nearest = ent:NearestPoint(epicenter)
 			if TrueVisibleFilters(epicenter, nearest, inflictor, ent) then
 				if ent:IsNailed() then
-					damage = damage * 1 / 3
+					damage = damage * 3 / 5
 				else
 					ent:PoisonDamage(((radius - nearest:Distance(epicenter)) / radius) * damage, attacker, inflictor, nil, noreduce)
 				end
@@ -61,7 +61,7 @@ local function ChemBomb(pl, pos)
 	if DUMMY_CHEMZOMBIE:IsValid() then
 		DUMMY_CHEMZOMBIE:SetPos(pos)
 	end
-	ChemDamage(DUMMY_CHEMZOMBIE, pl, pos, 128, 85, true)
+	ChemDamage(DUMMY_CHEMZOMBIE, pl, pos, 128, 25, true)
 
 	pl:CheckRedeem()
 end

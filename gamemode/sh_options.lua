@@ -96,7 +96,6 @@ GM.AmmoCache["manhack"] = 1
 GM.AmmoCache["pulse"] = 30
 GM.AmmoCache["m249"] = 150
 GM.AmmoCache["rpg"] = 1
-GM.AmmoCache["laser"] = 25
 
 -- These ammo types are available at ammunition boxes.
 -- The amount is the ammo to give them.
@@ -264,7 +263,6 @@ GM:AddPointShopItem("crossbowammo", "크로스보우 볼트", nil, ITEMCAT_AMMO,
 GM:AddPointShopItem("pulseammo", "펄스 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["pulse"] or 30, "pulse", true) end, "models/Items/combine_rifle_ammo01.mdl")
 GM:AddPointShopItem("m249ammo", "M249 탄약 박스", nil, ITEMCAT_AMMO, 14, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["m249"] or 150, "m249", true) end, nil)
 GM:AddPointShopItem("rpgammo", "RPG-7 탄약", nil, ITEMCAT_AMMO, 16, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["rpg"] or 1, "rpg", true) end, nil)
--- GM:AddPointShopItem("laserammo", "25 레이져 배터리", nil, ITEMCAT_AMMO, 8, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["laser"] or 25, "laser", true) end, nil)
 
 GM:AddPointShopItem("axe", "도끼", nil, ITEMCAT_MELEE, 20, "weapon_zs_axe")
 GM:AddPointShopItem("crowbar", "빠루", nil, ITEMCAT_MELEE, 20, "weapon_zs_crowbar")
@@ -284,11 +282,6 @@ local item = GM:AddPointShopItem("infturret", "적외선 타겟팅 터렛", nil,
 	pl:GiveAmmo(1, "thumper")
 	pl:GiveAmmo(250, "smg1")
 end)
--- local item = GM:AddPointShopItem("laserturret", "레이져 터렛", nil, ITEMCAT_TOOLS, 80, nil, function(pl)
-	-- pl:GiveEmptyWeapon("weapon_zs_laserturret")
-	-- pl:GiveAmmo(1, "laserturret")
-	-- pl:GiveAmmo(250, "laser")
--- end)
 item.NoClassicMode = true
 GM:AddPointShopItem("manhack", "맨핵", nil, ITEMCAT_TOOLS, 45, "weapon_zs_manhack")
 GM:AddPointShopItem("barricadekit", "'Aegis' 바리케이드 킷", nil, ITEMCAT_TOOLS, 125, "weapon_zs_barricadekit")

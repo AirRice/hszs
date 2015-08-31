@@ -114,8 +114,6 @@ function GM:AddCustomAmmo()
 	
 	game.AddAmmoType({name = "m249"})
 	game.AddAmmoType({name = "rpg"})
-	game.AddAmmoType({name = "laserturret"})
-	game.AddAmmoType({name = "laser"})
 	
 	game.AddAmmoType({name = "357_premium"})
 	

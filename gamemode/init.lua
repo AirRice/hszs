@@ -401,7 +401,7 @@ net.Receive("MutePlayer", function(len, pl)
 	pl.muted = pl.muted or {}
 	local target = net.ReadEntity()
 	local mute = net.ReadBool()
-	if mute and !table.HasValue(target) then
+	if mute and !table.HasValue(pl.muted, target) then
 		table.insert(pl.muted, target)
 	else
 		for i, v in pairs(pl.muted) do

@@ -120,7 +120,7 @@ function ENT:Explode()
 	for _, v in pairs(validlist) do
 		v:SetGroundEntity(NULL)
 		v:SetLocalVelocity(((v:LocalToWorld(v:OBBCenter()) - self:LocalToWorld(self:OBBCenter())):GetNormal() + Vector(0, 0, 0.1)) * self.PushVel)
-		local dmg = math.ceil(8 * (1 - (v:GetPos():Distance(self:GetPos()) / self.Radius)))
+		local dmg = math.ceil(4 * math.min((1.5 - (v:GetPos():Distance(self:GetPos()) / self.Radius)), 1))
 		v:TakeDamage(dmg, owner, self)
 	end
 	

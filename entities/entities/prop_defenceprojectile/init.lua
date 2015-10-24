@@ -90,6 +90,10 @@ function ENT:DefenceProjectiles()
 			
 			if trace.Entity == v and !v.defproj then
 				if !table.HasValue(self.Projectiles, v) then
+					local class = v:GetClass()
+					if self:GetOwner().twisterOS and !(string.find(class, "bonemesh") or string.find(class, "poison") or string.find(class, "siegeball")) then
+						continue
+					end
 					table.Add(self.Projectiles, {v})	
 					self:SetObjectHealth(self:GetObjectHealth() - self:GetMaxObjectHealth() * 0.003)
 				end
@@ -136,7 +140,14 @@ function ENT:ProcessProjectiles()
 				local mul = 1 - (dist / self.Radius)
 				
 				if v.Explode and self:GetOwner().pointGravity then
-					v.Explode = function(self) end
+					if self:GetOwner().twisterOS then
+						local class = v:GetClass()
+						if string.find(class, "poison") or string.find(class, "bonemesh") or string.find(class, "siegeball") then
+							v.Explode = function(self) end
+						end
+					else
+						v.Explode = function(self) end
+					end
 				end
 				
 				if IsValid(phys) then

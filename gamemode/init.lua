@@ -2862,7 +2862,8 @@ function GM:PlayerHurt(victim, attacker, healthremaining, damage)
 					victim.DamagedBy[attacker] = (victim.DamagedBy[attacker] or 0) + damage
 					if (not victim.m_LastWaveStartSpawn or CurTime() >= victim.m_LastWaveStartSpawn + 3)
 						and (healthremaining <= 0 or not victim.m_LastGasHeal or CurTime() >= victim.m_LastGasHeal + 2) then
-						attacker.m_PointQueue = attacker.m_PointQueue + damage / victim:GetMaxHealth() * (victim:GetZombieClassTable().Points or 0)
+						attacker.m_PointQueue = attacker.m_PointQueue + damage / victim:GetMaxHealth() * (victim:GetZombieClassTable().Points or 0) * math.Clamp(table.Count(team.GetPlayers(TEAM_ZOMBIE)) / table.Count(team.GetPlayers(TEAM_HUMAN)), 0.3, 2)
+						PrintMessage(3, damage / victim:GetMaxHealth() * (victim:GetZombieClassTable().Points or 0) * math.Clamp(table.Count(team.GetPlayers(TEAM_ZOMBIE)) / table.Count(team.GetPlayers(TEAM_HUMAN)), 0.3, 2))
 					end
 					attacker.m_LastDamageDealtPosition = victim:GetPos()
 					attacker.m_LastDamageDealt = CurTime()

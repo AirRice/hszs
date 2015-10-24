@@ -45,6 +45,7 @@ local function ChemDamage(inflictor, attacker, epicenter, radius, damage, noredu
 			if TrueVisibleFilters(epicenter, nearest, inflictor, ent) then
 				if ent:IsNailed() then
 					damage = damage * 3 / 5
+					ent:TakeDamage(damage, attacker, self)
 				else
 					ent:PoisonDamage(((radius - nearest:Distance(epicenter)) / radius) * damage, attacker, inflictor, nil, noreduce)
 				end

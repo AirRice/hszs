@@ -28,6 +28,8 @@ SWEP.Primary.Damage = 28
 SWEP.Primary.NumShots = 6
 SWEP.Primary.Delay = 1
 
+SWEP.Primary.KnockbackScale = 0.3
+
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "buckshot"
@@ -117,6 +119,7 @@ end
 function SWEP:SecondaryAttack()
 end
 
+local tempknockback
 local function GenericBulletCallback(attacker, tr, dmginfo)
 	local ent = tr.Entity
 	if ent:IsValid() then
@@ -150,7 +153,23 @@ local function GenericBulletCallback(attacker, tr, dmginfo)
 	end
 end
 
+function SWEP:StartBulletKnockback()
+	tempknockback = {}
+end
+
+function SWEP:EndBulletKnockback()
+	tempknockback = nil
+end
+
+function SWEP:DoBulletKnockback(scale)
+	for ent, prevvel in pairs(tempknockback) do
+		local curvel = ent:GetVelocity()
+		ent:SetVelocity(curvel * -1 + (curvel - prevvel) * scale + prevvel)
+	end
+end
+
 SWEP.BulletCallback = GenericBulletCallback
+
 function SWEP:ShootBullets(dmg, numbul, cone)
 	local owner = self.Owner
 	--owner:MuzzleFlash()
@@ -160,8 +179,8 @@ function SWEP:ShootBullets(dmg, numbul, cone)
 	self:StartBulletKnockback()
 	
 	self:DoRecoil()
-	owner:FireBullets({Num = numbul, Src = owner:GetShootPos(), Dir = owner:GetAimVector(), Spread = Vector(cone, cone, 0), Tracer = 1, TracerName = self.TracerName, Force = dmg * 0.1, Damage = dmg, Callback = self.BulletCallback})
-	self:DoBulletKnockback(self.Primary.KnockbackScale * 0.05)
+	owner:FireBullets({Num = numbul, Src = owner:GetShootPos(), Dir = owner:GetAimVector(), Spread = Vector(cone, cone, 0), Tracer = 1, TracerName = self.TracerName, Force = dmg * 0.001, Damage = dmg, Callback = self.BulletCallback})
+	self:DoBulletKnockback(self.Primary.KnockbackScale)
 	self:EndBulletKnockback()
 	
 	self.LastFired = CurTime()

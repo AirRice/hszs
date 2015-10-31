@@ -100,7 +100,7 @@ function SWEP:GetDamage(numplayers, basedamage)
 	basedamage = basedamage or self.MeleeDamage
 
 	if numplayers then
-		return basedamage * math.Clamp(1.2 - numplayers * 0.2, 0.5, 1)
+		return basedamage --* math.Clamp(1.2 - numplayers * 0.2, 0.5, 1)
 	end
 
 	return basedamage

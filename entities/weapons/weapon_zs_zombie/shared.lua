@@ -117,6 +117,8 @@ function SWEP:Swung()
 
 	local damage = self:GetDamage(self:GetTracesNumPlayers(traces))
 
+	local hitlist = {}
+	
 	for _, trace in ipairs(traces) do
 		if not trace.Hit then continue end
 
@@ -126,8 +128,9 @@ function SWEP:Swung()
 			self:MeleeHitWorld(trace)
 		else
 			local ent = trace.Entity
-			if ent and ent:IsValid() then
+			if ent and ent:IsValid() and !table.HasValue(hitlist, ent) then
 				self:MeleeHit(ent, trace, damage)
+				table.insert(hitlist, 1, ent)
 			end
 		end
 	end

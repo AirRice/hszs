@@ -406,7 +406,7 @@ net.Receive("MutePlayer", function(len, pl)
 	else
 		for i, v in pairs(pl.muted) do
 			if !IsValid(v) or v == target then
-				table.RemoveByValue(v)
+				table.RemoveByValue(pl.muted, v)
 			end
 		end
 	end

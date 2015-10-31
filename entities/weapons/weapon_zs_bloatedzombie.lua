@@ -17,7 +17,10 @@ SWEP.Primary.Delay = 1.5
 SWEP.Secondary.Delay = 12
 SWEP.ShootPower = 990
 SWEP.ShootDelay = 1
-SWEP.Radius = 225
+SWEP.Radius = 195 // Def. 225
+SWEP.PushVel = 275 // Def. 450
+SWEP.MaxDmg = 3 // Def. 4
+
 
 function SWEP:Reload()
 	self.BaseClass.SecondaryAttack(self)
@@ -50,6 +53,10 @@ end
 
 function SWEP:SecondaryAttack()
 	-- if !self:CanSecondaryAttack() then return end
+	if self:GetNextSecondaryFire() > CurTime() then
+		return
+	end
+	
 	local owner = self.Owner
 	if !IsValid(owner) or !owner:IsPlayer() then
 		return
@@ -63,6 +70,8 @@ function SWEP:SecondaryAttack()
 		ent.ShootPower = self.ShootPower
 		ent.Radius = self.Radius
 		ent.ShootTime = CurTime() + self.ShootDelay
+		ent.PushVel = self.PushVel
+		ent.MaxDmg = self.MaxDmg
 		ent:SetOwner(owner)
 		ent:Spawn()
 	end

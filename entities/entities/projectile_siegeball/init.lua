@@ -9,6 +9,7 @@ ENT.ShootPower = 990
 ENT.ShootTime = 0
 ENT.Shoot = false
 ENT.PushVel = 450
+ENT.MaxDmg = 4
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Entity", 0, "Owner")
@@ -120,7 +121,7 @@ function ENT:Explode()
 	for _, v in pairs(validlist) do
 		v:SetGroundEntity(NULL)
 		v:SetLocalVelocity(((v:LocalToWorld(v:OBBCenter()) - self:LocalToWorld(self:OBBCenter())):GetNormal() + Vector(0, 0, 0.1)) * self.PushVel)
-		local dmg = math.ceil(4 * math.min((1.5 - (v:GetPos():Distance(self:GetPos()) / self.Radius)), 1))
+		local dmg = math.ceil(self.MaxDmg * math.min((1.5 - (v:GetPos():Distance(self:GetPos()) / self.Radius)), 1))
 		v:TakeDamage(dmg, owner, self)
 	end
 	

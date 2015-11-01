@@ -300,14 +300,7 @@ if SERVER then
 		net.Send(pl)
 	end
 end
-GM:AddPointShopItem("bodyarmor", "방탄복", "좀비 공격 100을 흡수하는 방탄복. 좀비 공격 피해량의 80%를 흡수하며 그만큼 소모된다.\n방탄복은 중첩 구매되지 않는다. (100으로 채워짐)", ITEMCAT_TOOLS, 40, nil, function(pl)
-	if pl.buffVampire then
-		pl:AddPoints(40)
-		return
-	end
-	
-	GAMEMODE:setBodyArmor(pl, 100)
-end, nil)
+GM:AddPointShopItem("bodyarmor", "방탄복", "좀비 공격 100을 흡수하는 방탄복. 좀비 공격 피해량의 80%를 흡수하며 그만큼 소모된다.\n방탄복은 중첩 구매되지 않는다. (100으로 채워짐)", ITEMCAT_TOOLS, 40, nil, function(pl) GAMEMODE:setBodyArmor(pl, 100) end, nil)
 if CLIENT then
 	net.Receive("shop_bodyarmor", function(len)
 		LocalPlayer().bodyarmor = net.ReadFloat()

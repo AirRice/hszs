@@ -2062,7 +2062,12 @@ concommand.Add("zs_pointsshopbuy", function(sender, command, arguments)
 	end
 
 	if itemtab.Callback then
-		itemtab.Callback(sender)
+		local callback = itemtab.Callback
+		if itemtab.Signature == "ps_bodyarmor" and sender.buffVampire then
+			cost = 0
+			callback = function() end
+		end
+		callback(sender)
 	elseif itemtab.SWEP then
 		if sender:HasWeapon(itemtab.SWEP) then
 			local stored = weapons.GetStored(itemtab.SWEP)
@@ -2098,7 +2103,7 @@ concommand.Add("zs_pointsshopbuy", function(sender, command, arguments)
 	else
 		return
 	end
-
+	
 	sender:TakePoints(cost)
 	sender:PrintTranslatedMessage(HUD_PRINTTALK, "purchased_x_for_y_points", itemtab.Name, cost)
 	sender:SendLua("surface.PlaySound(\"ambient/levels/labs/coinslot1.wav\")")

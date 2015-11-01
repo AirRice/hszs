@@ -966,8 +966,21 @@ function GM:Think()
 				end
 
 				if pl.BuffRegenerative and time >= pl.NextRegenerate and pl:Health() < pl:GetMaxHealth() / 2 then
-					pl.NextRegenerate = time + 3
+					pl.NextRegenerate = time + 1
 					pl:SetHealth(pl:Health() + 1)
+				end
+				
+				if pl.buffZerg and time >= pl.NextZerg then
+					pl.NextZerg = time + 5
+					pl.ZergHealed = pl.ZergHealed + 1.5
+					
+					if pl.ZergHealed > 2 then
+						pl.ZergHealed = pl.ZergHealed - 2
+						pl:SetHealth(math.min(pl:Health() + 2, pl:GetMaxHealth()))
+					elseif pl.ZergHealed > 1 then
+						pl.ZergHealed = pl.ZergHealed - 1
+						pl:SetHealth(math.min(pl:Health() + 1, pl:GetMaxHealth()))
+					end
 				end
 
 				if dopoison then
@@ -1673,6 +1686,12 @@ function GM:PlayerInitialSpawnRound(pl)
 	pl.HumanHealMultiplier = nil
 	pl.BuffResistant = nil
 	pl.BuffRegenerative = nil
+	pl.buffZerg = nil
+	pl.buffVampire = nil
+	pl.buffPunch = nil
+	pl.VampireDamaged = 0
+	pl.ZergHealed = 0
+	pl.NextZerg = 0
 	pl.BuffMuscular = nil
 	pl.IsWeak = nil
 	pl:SetPalsy(false, nosend)
@@ -2363,6 +2382,16 @@ function GM:EntityTakeDamage(ent, dmginfo)
 				if attacker.buffBerserk and attacker:Health() <= (attacker:GetMaxHealth() * 0.2) then
 					if inflictor and inflictor.MeleeDamage then
 						dmginfo:ScaleDamage(1.5)
+					end
+				end
+				
+				if attacker.buffVampire then
+					attacker.VampireDamaged = attacker.VampireDamaged + dmginfo:GetDamage()
+					if attacker.VampireDamaged > 75 then
+						while attacker.VampireDamaged >= 75 do
+							attacker.VampireDamaged = attacker.VampireDamaged - 75
+							attacker:SetHealth(math.min(attacker:Health() + 1, attacker:GetMaxHealth()))
+						end
 					end
 				end
 			end

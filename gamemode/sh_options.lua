@@ -195,7 +195,8 @@ item.NoZombieEscape = true
 GM:AddStartingItem("bfhandy", "뛰어난 손재주", "수리시 25%가 추가로 수리된다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.HumanRepairMultiplier = (pl.HumanRepairMultiplier or 1) + 0.25 end, "models/props_c17/tools_wrench01a.mdl")
 GM:AddStartingItem("bfsurgeon", "동의보감", "의료 키트의 치유량이 30%, 메딕 건의 치유량이 33% 상승한다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.HumanHealMultiplier = (pl.HumanHealMultiplier or 1) + 0.3 end, "models/healthvial.mdl")
 GM:AddStartingItem("bfresist", "독 내성", "독 데미지를 절반만 받는다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.BuffResistant = true end, "models/healthvial.mdl")
-GM:AddStartingItem("bfregen", "리제네레이터", "체력이 최대 체력의 절반 이하로 내려갈 경우 3초에 1의 체력이 회복된다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.BuffRegenerative = true end, "models/healthvial.mdl")
+GM:AddStartingItem("bfregen", "리제네레이터", "체력이 최대 체력의 절반 이하로 내려갈 경우 1초에 1의 체력이 회복된다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.BuffRegenerative = true end, "models/healthvial.mdl")
+GM:AddStartingItem("bfzerg", "저그출신", "5초당 1.5의 체력이 회복된다.", ITEMCAT_TRAITS, 35, nil, function(pl) pl.buffZerg = true end, "models/healthvial.mdl")
 GM:AddStartingItem("bfmusc", "근육질", "근접 무기로 20%의 추가 데미지를 가하고 더 무거운 물건을 들 수 있게 된다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.BuffMuscular = true pl:DoMuscularBones() end, "models/props_wasteland/kitchen_shelf001a.mdl")
 GM:AddStartingItem("bfmedic", "의무병", "의료킷의 재사용 대기시간이 25% 감소한다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.buffMedic = true end, nil)
 GM:AddStartingItem("bfbattleengineer", "전투공병", "좀비를 처치할 경우 다음 3회의 수리 효율이 20% 증가한다. (중첩 안 됨)", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffBattleEngineer = true pl.battleEngineerCount = 0 end, nil)
@@ -210,6 +211,8 @@ GM:AddStartingItem("bfsupplier", "보급병", "보급상자의 재사용 대기�
 GM:AddStartingItem("bfthornarmor", "가시갑옷", "좀비에게 피격시 공격한 좀비에게 150%의 데미지를 돌려준다.\n돌려준 데미지로는 포인트를 얻을 수 없다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffThornArmor = true end, nil)
 GM:AddStartingItem("bfbalsense", "균형감각", "뒤로 걷거나 옆으로 걸어도 이동속도가 느려지지 않는다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffBalSense = true pl:SendLua("LocalPlayer().buffBalSense = true") end, nil)
 GM:AddStartingItem("bfpitcher", "국민투수", "돌맹이를 포함한 물체를 던지는 힘이 100% 상승합니다.\n또한, 돌덩이의 데미지가 40% 증가합니다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffPitcher = true end, nil)
+GM:AddStartingItem("bfbloodsucking", "뱀파이어", "좀비에게 가한 누적 데미지 75당 1의 체력을 회복합니다.\n메디킷으로 치료될 수 없습니다.\n메딕 건으로 치료될 수 없습니다.\n방탄복을 착용할 수 없습니다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffVampire = true end, nil)
+GM:AddStartingItem("bfpunch", "골목대장", "주먹의 데미지가 3배 증가합니다.\n운이 좋게 치명타를 꽂으면 보스 좀비는 1초, 그 외 3초동안 기절합니다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffPunch = true end, nil)
 
 GM:AddStartingItem("dbfweak", "약골", "최대 체력이 30 낮아진다.", ITEMCAT_RETURNS, -15, nil, function(pl) pl:SetMaxHealth(math.max(1, pl:GetMaxHealth() - 30)) pl:SetHealth(pl:GetMaxHealth()) pl.IsWeak = true end, "models/gibs/HGIBS.mdl")
 GM:AddStartingItem("dbfslow", "느림보", "속도가 약간 낮아진다.", ITEMCAT_RETURNS, -5, nil, function(pl) pl.HumanSpeedAdder = (pl.HumanSpeedAdder or 1) - 20 pl:ResetSpeed() pl.IsSlow = true end, "models/gibs/HGIBS.mdl")
@@ -259,10 +262,10 @@ GM:AddPointShopItem("shotgunammo", "샷건 탄약 박스", nil, ITEMCAT_AMMO, 4,
 GM:AddPointShopItem("smgammo", "SMG 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["smg1"] or 30, "smg1", true) end, "models/Items/BoxMRounds.mdl")
 GM:AddPointShopItem("assaultrifleammo", "돌격 소총 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["ar2"] or 30, "ar2", true) end, "models/Items/357ammobox.mdl")
 GM:AddPointShopItem("rifleammo", "소총 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["357"] or 6, "357", true) end, "models/Items/BoxSniperRounds.mdl")
-GM:AddPointShopItem("crossbowammo", "크로스보우 볼트", nil, ITEMCAT_AMMO, 3, nil, function(pl) pl:GiveAmmo(1, "XBowBolt", true) end, "models/Items/CrossbowRounds.mdl")
+GM:AddPointShopItem("crossbowammo", "크로스보우 볼트", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(1, "XBowBolt", true) end, "models/Items/CrossbowRounds.mdl")
 GM:AddPointShopItem("pulseammo", "펄스 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["pulse"] or 30, "pulse", true) end, "models/Items/combine_rifle_ammo01.mdl")
 GM:AddPointShopItem("m249ammo", "M249 탄약 박스", nil, ITEMCAT_AMMO, 14, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["m249"] or 150, "m249", true) end, nil)
-GM:AddPointShopItem("rpgammo", "RPG-7 탄약", nil, ITEMCAT_AMMO, 16, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["rpg"] or 1, "rpg", true) end, nil)
+GM:AddPointShopItem("rpgammo", "RPG-7 탄약", nil, ITEMCAT_AMMO, 10, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["rpg"] or 1, "rpg", true) end, nil)
 
 GM:AddPointShopItem("axe", "도끼", nil, ITEMCAT_MELEE, 20, "weapon_zs_axe")
 GM:AddPointShopItem("crowbar", "빠루", nil, ITEMCAT_MELEE, 20, "weapon_zs_crowbar")
@@ -297,7 +300,14 @@ if SERVER then
 		net.Send(pl)
 	end
 end
-GM:AddPointShopItem("bodyarmor", "방탄복", "좀비 공격 100을 흡수하는 방탄복. 좀비 공격 피해량의 80%를 흡수하며 그만큼 소모된다.\n방탄복은 중첩 구매되지 않는다. (100으로 채워짐)", ITEMCAT_TOOLS, 40, nil, function(pl) GAMEMODE:setBodyArmor(pl, 100) end, nil)
+GM:AddPointShopItem("bodyarmor", "방탄복", "좀비 공격 100을 흡수하는 방탄복. 좀비 공격 피해량의 80%를 흡수하며 그만큼 소모된다.\n방탄복은 중첩 구매되지 않는다. (100으로 채워짐)", ITEMCAT_TOOLS, 40, nil, function(pl)
+	if pl.buffVampire then
+		pl:AddPoints(40)
+		return
+	end
+	
+	GAMEMODE:setBodyArmor(pl, 100)
+end, nil)
 if CLIENT then
 	net.Receive("shop_bodyarmor", function(len)
 		LocalPlayer().bodyarmor = net.ReadFloat()

@@ -438,6 +438,9 @@ function GM:OnPlayerHitGround(pl, inwater, hitfloater, speed)
 end
 
 function GM:PlayerCanBeHealed(pl)
+	if pl.buffVampire then
+		return false
+	end
 	return true
 end
 

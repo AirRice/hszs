@@ -5,6 +5,8 @@ include("shared.lua")
 
 ENT.NextDecay = 0
 ENT.BuildsThisTick = 0
+ENT.HealRadius = 175
+ENT.HealedList = {}
 
 function ENT:Initialize()
 	self:SetModel("models/props_wasteland/antlionhill.mdl")
@@ -56,6 +58,43 @@ function ENT:Think()
 			self:TakeDamage(5)
 		end
 	end
+	
+	if self:GetNestBuilt() then
+		for _, v in pairs(player.GetAll()) do
+			if v:Team() == TEAM_ZOMBIE and v:GetPos():Distance(self:GetPos()) <= self.HealRadius then
+				self:Heal(v)
+			end
+		end
+	end
+end
+
+function ENT:Heal(zombie)
+	local hlist = self.HealedList
+	local uid = zombie:UniqueID()
+	
+	local curtime = CurTime()
+	local boss = zombie:GetZombieClassTable().Boss
+	
+	if !hlist[uid] then
+		hlist[uid] = {
+			nextHeal = 0
+		}
+	end
+	
+	if hlist[uid].nextHeal <= curtime and zombie:Health() < zombie:GetMaxZombieHealth() then
+		local heal = math.min(zombie:Health() + (boss and 1 or 2), zombie:GetMaxZombieHealth())
+		zombie:SetHealth(heal)
+		hlist[uid].nextHeal = curtime + (boss and 0.5 or 0.2)
+		
+		local ed = EffectData()
+		
+			ed:SetOrigin(zombie:LocalToWorld(zombie:OBBCenter()))
+		
+		util.Effect("nestheal", ed)
+	end
+	
+	
+	self.HealedList = hlist
 end
 
 function ENT:OnTakeDamage(dmginfo)

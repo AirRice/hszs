@@ -130,7 +130,9 @@ if SERVER then
 	function CLASS:OnKilled(pl, attacker, inflictor, suicide, headshot, dmginfo, assister)
 		local pos = pl:LocalToWorld(pl:OBBCenter())
 		timer.Simple(0, function()
-			MakeButcherKnife(pos)
+			if IsValid(attacker) and attacker:IsPlayer() and attacker:Team() == TEAM_HUMAN then
+				attacker:Give("weapon_zs_butcherknife")
+			end
 		end)
 	end
 end

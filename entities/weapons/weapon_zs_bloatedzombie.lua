@@ -53,7 +53,7 @@ end
 
 function SWEP:SecondaryAttack()
 	-- if !self:CanSecondaryAttack() then return end
-	if self:GetNextSecondaryFire() > CurTime() then
+	if (self.NextSecondary or 0) > CurTime() then
 		return
 	end
 	
@@ -75,7 +75,7 @@ function SWEP:SecondaryAttack()
 		ent:SetOwner(owner)
 		ent:Spawn()
 	end
-	self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
+	self.NextSecondary = CurTime() + self.Secondary.Delay
 end
 
 if not CLIENT then return end

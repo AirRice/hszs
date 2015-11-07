@@ -69,5 +69,12 @@ end
 
 function SWEP:PrimaryAttack()
 	self.Owner:TakeDamage(self.Owner:Health() * 10, self.Owner, self)
-	ChemBomb(self.Owner, self.Owner:LocalToWorld(self.Owner:OBBCenter()))
+	self.Owner:SetSpeed(1)
+	self.Owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
+	self.Owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
+	self.Owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
+	self.Owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
+	timer.Simple(0.5, function()
+		ChemBomb(self.Owner, self.Owner:LocalToWorld(self.Owner:OBBCenter()))
+	end)
 end

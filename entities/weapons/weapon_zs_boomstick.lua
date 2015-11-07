@@ -26,7 +26,7 @@ SWEP.CSMuzzleFlashes = false
 SWEP.ReloadDelay = 0.4
 
 SWEP.Primary.Sound = Sound("weapons/shotgun/shotgun_dbl_fire.wav")
-SWEP.Primary.Recoil = 12.5
+SWEP.Primary.Recoil = 88
 SWEP.Primary.Damage = 36
 SWEP.Primary.NumShots = 6
 SWEP.Primary.Delay = 1.5
@@ -37,8 +37,8 @@ SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "buckshot"
 SWEP.Primary.DefaultClip = 28
 
-SWEP.ConeMax = 1.828
-SWEP.ConeMin = 0.646
+SWEP.ConeMax = 2.999
+SWEP.ConeMin = 1.646
 
 SWEP.WalkSpeed = SPEED_SLOWER
 
@@ -118,7 +118,7 @@ function SWEP:Think()
 	if self.LastFired + self.ConeResetDelay > CurTime() then
 		local multiplier = 1
 		multiplier = multiplier + (self.ConeMax * 100) * ((self.LastFired + self.ConeResetDelay - CurTime()) / self.ConeResetDelay)
-		self.ConeMul = math.min(multiplier, 10)
+		self.ConeMul = math.min(multiplier, 1)
 	end
 end
 

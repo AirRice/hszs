@@ -1719,6 +1719,7 @@ function GM:PlayerInitialSpawnRound(pl)
 	pl.buffBalSense = nil
 	pl:SendLua("LocalPlayer().buffBalSense = nil")
 	self:setBodyArmor(pl, 0)
+	pl.sweeperInc = nil
 	
 	pl.steelNail = nil
 	pl.carbonHammer = nil
@@ -2393,7 +2394,7 @@ function GM:EntityTakeDamage(ent, dmginfo)
 				if attacker.buffVampire then
 					attacker.VampireDamaged = attacker.VampireDamaged + dmginfo:GetDamage()
 					if attacker.VampireDamaged > 75 then
-						while attacker.VampireDamaged >= 75 do
+						while attacker.VampireDamaged >= 75 do	
 							attacker.VampireDamaged = attacker.VampireDamaged - 75
 							attacker:SetHealth(math.min(attacker:Health() + 1, attacker:GetMaxHealth()))
 						end
@@ -2412,6 +2413,24 @@ function GM:EntityTakeDamage(ent, dmginfo)
 					dmginfo:SetDamage(dmginfo:GetDamage() - tosub)
 					bodyarmor = math.max(0, bodyarmor - tosub)
 					GAMEMODE:setBodyArmor(ent, bodyarmor)
+				end
+			end
+			
+			if ent:Team() == TEAM_ZOMBIE then
+				local classtab = ent:GetZombieClassTable()
+				if classtab then
+					if classtab.Boss then
+						local name = classtab.Name
+						if name then
+							if name == "The Tickle Monster" or name == "Giga Gore Child" then
+								if dmginfo:GetDamage() >= 50 and bit.band(dmginfo:GetDamageType(), DMG_BULLET) == DMG_BULLET or dmginfo:GetDamageType() == 0 then
+									if inflictor:GetClass() ~= "weapon_zs_rpg" then
+										dmginfo:SetDamage(50)
+									end
+								end
+							end
+						end
+					end
 				end
 			end
 		end

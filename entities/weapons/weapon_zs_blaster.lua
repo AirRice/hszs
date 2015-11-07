@@ -26,15 +26,15 @@ SWEP.Primary.Sound = Sound("Weapon_Shotgun.Single")
 SWEP.Primary.Damage = 12
 SWEP.Primary.NumShots = 7
 SWEP.Primary.Delay = 0.8
-SWEP.Primary.Recoil = 14
+SWEP.Primary.Recoil = 36
 
 SWEP.Primary.ClipSize = 5
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "buckshot"
 GAMEMODE:SetupDefaultClip(SWEP.Primary)
 
-SWEP.ConeMax = 0.897
-SWEP.ConeMin = 0.797
+SWEP.ConeMax = 1.9
+SWEP.ConeMin = 1.297
 
 SWEP.WalkSpeed = SPEED_SLOWER
 
@@ -86,7 +86,7 @@ function SWEP:Think()
 	if self.LastFired + self.ConeResetDelay > CurTime() then
 		local multiplier = 1
 		multiplier = multiplier + (self.ConeMax * 100) * ((self.LastFired + self.ConeResetDelay - CurTime()) / self.ConeResetDelay)
-		self.ConeMul = math.min(multiplier, 10)
+		self.ConeMul = math.min(multiplier, 1)
 	end
 end
 

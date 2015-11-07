@@ -33,11 +33,11 @@ SWEP.Primary.KnockbackScale = 0.3
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "buckshot"
-SWEP.Primary.Recoil = 24.892
+SWEP.Primary.Recoil = 48.254
 GAMEMODE:SetupDefaultClip(SWEP.Primary)
 
-SWEP.ConeMax = 1.1996
-SWEP.ConeMin = 0.8484
+SWEP.ConeMax = 2.8584
+SWEP.ConeMin = 1.3521
 
 SWEP.WalkSpeed = SPEED_SLOWER
 
@@ -89,7 +89,7 @@ function SWEP:Think()
 	if self.LastFired + self.ConeResetDelay > CurTime() then
 		local multiplier = 1
 		multiplier = multiplier + (self.ConeMax * 100) * ((self.LastFired + self.ConeResetDelay - CurTime()) / self.ConeResetDelay)
-		self.ConeMul = math.min(multiplier, 5)
+		self.ConeMul = math.min(multiplier, 1)
 	end
 end
 
@@ -128,7 +128,7 @@ local function GenericBulletCallback(attacker, tr, dmginfo)
 				tempknockback[ent] = ent:GetVelocity()
 			end
 			
-			if ent:Team() == TEAM_ZOMBIE and SERVER then
+			if ent:Team() == TEAM_ZOMBIE and attacker.sweeperInc and SERVER then
 				local wep = attacker:GetWeapon("weapon_zs_sweepershotgun")
 				if IsValid(wep) then
 					ent:Ignite(wep.IgniteDuration, 100)

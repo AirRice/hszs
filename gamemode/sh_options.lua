@@ -316,6 +316,7 @@ GM:AddPointShopItem("huntercharge", "연사 트리거: Hunter", "Hunter 소총�
 GM:AddPointShopItem("hunteraddclip", "확장 탄창: Hunter", "Hunter 소총의 기본 탄창 수가 2가 된다.", ITEMCAT_REMODEL, 25, nil, function(pl) pl.hunterAddClip = true end, "models/weapons/w_hammer.mdl")
 GM:AddPointShopItem("pointgravity", "포인트-그래비티", "트위스터의 중력장에 폭발 물질이 들어온다면\n그 부분의 중력을 극대화시켜 소멸시킨다.", ITEMCAT_REMODEL, 45, nil, function(pl) pl.pointGravity = true end, "models/weapons/w_hammer.mdl")
 GM:AddPointShopItem("twisteros", "OS 탑재: 트위스터", "트위스터에 OS를 탑재해 피아 식별을 가능하게 한다.\n 이제 트위스터는 정확히 좀비의 발사체만 격추한다.", ITEMCAT_REMODEL, 20, nil, function(pl) pl.twisterOS = true end, "models/weapons/w_hammer.mdl")
+GM:AddPointShopItem("swepperinc", "발화 탄: Swepper", "스웨퍼의 탄환을 발화탄으로 업그레이드한다.", ITEMCAT_REMODEL, 20, nil, function(pl) pl.sweeperInc = true end, "models/weapons/w_hammer.mdl")
 
 
 -- These are the honorable mentions that come at the end of the round.

@@ -25,17 +25,44 @@ SWEP.Primary.Sound = Sound("Weapon_Galil.Single")
 SWEP.Primary.Damage = 23
 SWEP.Primary.NumShots = 4
 SWEP.Primary.Delay = 0.4
-SWEP.Primary.Recoil = 12.8
+SWEP.Primary.Recoil = 30.5
 
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "buckshot"
 GAMEMODE:SetupDefaultClip(SWEP.Primary)
 
-SWEP.ConeMax = 0.901
-SWEP.ConeMin = 0.892
+SWEP.ConeMax = 1.958
+SWEP.ConeMin = 1.121
 
 SWEP.WalkSpeed = SPEED_SLOWER
 
 function SWEP:SecondaryAttack()
+end
+
+function SWEP:Think()
+	if CLIENT then
+		if self:GetIronsights() and not self.Owner:KeyDown(IN_ATTACK2) then
+			self:SetIronsights(false)
+		end
+		if self.LastFired + self.ConeResetDelay > CurTime() then
+			local multiplier = 1
+			multiplier = multiplier + (self.ConeMax * 10) * ((self.LastFired + self.ConeResetDelay - CurTime()) / self.ConeResetDelay)
+			self.ConeMul = math.min(multiplier, 1)
+		end
+	else
+		if self.IdleAnimation and self.IdleAnimation <= CurTime() then
+			self.IdleAnimation = nil
+			self:SendWeaponAnim(ACT_VM_IDLE)
+		end
+		if self:GetIronsights() and not self.Owner:KeyDown(IN_ATTACK2) then
+			self:SetIronsights(false)
+		end
+		
+		if self.LastFired + self.ConeResetDelay > CurTime() then
+			local multiplier = 1
+			multiplier = multiplier + (self.ConeMax * 10) * ((self.LastFired + self.ConeResetDelay - CurTime()) / self.ConeResetDelay)
+			self.ConeMul = math.min(multiplier, 1)
+		end
+	end
 end

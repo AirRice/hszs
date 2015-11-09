@@ -40,7 +40,7 @@ end
 local function ChemDamage(inflictor, attacker, epicenter, radius, damage, noreduce)
 	local filter = inflictor
 	for _, ent in pairs(ents.FindInSphere(epicenter, radius)) do
-		if ent and ent:IsValid() then
+		if IsValid(ent) then
 			local nearest = ent:NearestPoint(epicenter)
 			if TrueVisibleFilters(epicenter, nearest, inflictor, ent) then
 				if ent:IsNailed() then
@@ -68,6 +68,7 @@ local function ChemBomb(pl, pos)
 end
 
 function SWEP:PrimaryAttack()
+	self:SetNextPrimaryFire(CurTime() + 10)
 	self.Owner:SetSpeed(1)
 	self.Owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
 	self.Owner:EmitSound("NPC_PoisonZombie.ThrowWarn")

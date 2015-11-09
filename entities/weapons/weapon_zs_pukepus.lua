@@ -56,9 +56,10 @@ function SWEP:Think()
 			if phys:IsValid() then
 				local ang = pl:EyeAngles()
 				local mul = (pl:GetPremium() and 0.6 or 1)
-				ang:RotateAroundAxis(ang:Forward(), math.Rand(-30 * mul, 30 * mul))
+				ang:RotateAroundAxis(ang:Forward(), math.Rand(-45 * mul, 45 * mul))
 				ang:RotateAroundAxis(ang:Up(), math.Rand(-30 * mul, 30 * mul))
 				phys:SetVelocityInstantaneous(ang:Forward() * math.Rand(475, 750) + self.Owner:GetVelocity())
+				phys:EnableGravity(false)
 			end
 		end
 	end

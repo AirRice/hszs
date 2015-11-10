@@ -4,6 +4,7 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 SWEP.NextAura = 0
+
 local Next = 0
 function SWEP:Think()
 	if self.IdleAnimation and self.IdleAnimation <= CurTime() then
@@ -39,8 +40,9 @@ end
 
 local function ChemDamage(inflictor, attacker, epicenter, radius, damage, noreduce)
 	local filter = inflictor
+	local self = filter
 	for _, ent in pairs(ents.FindInSphere(epicenter, radius)) do
-		if IsValid(ent) then
+		if ent and ent:IsValid() then
 			local nearest = ent:NearestPoint(epicenter)
 			if TrueVisibleFilters(epicenter, nearest, inflictor, ent) then
 				if ent:IsNailed() then
@@ -68,14 +70,18 @@ local function ChemBomb(pl, pos)
 end
 
 function SWEP:PrimaryAttack()
-	self:SetNextPrimaryFire(CurTime() + 10)
-	self.Owner:SetSpeed(1)
-	self.Owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
-	self.Owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
-	self.Owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
-	self.Owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
+	local owner = self.Owner
+	local self = self
+	owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
+	owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
+	owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
+	owner:EmitSound("NPC_PoisonZombie.ThrowWarn")
+	owner:SetSpeed(1)
 	timer.Simple(0.5, function()
-		self.Owner:TakeDamage(self.Owner:Health() * 12, self.Owner, self)
-		ChemBomb(self.Owner, self.Owner:LocalToWorld(self.Owner:OBBCenter()))
+		if (!IsValid(owner) or !owner:Alive()) then
+			return
+		end
+		owner:TakeDamage(owner:Health() * 12, owner, self)
+		ChemBomb(owner, owner:LocalToWorld(owner:OBBCenter()))
 	end)
 end

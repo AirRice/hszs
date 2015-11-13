@@ -5,7 +5,7 @@ if CLIENT then
 
 	SWEP.ViewModelFOV = 50
 
-	SWEP.Description = "Although weak compared to the other weapons, this baton\nhas the ability to slow zombies with an electric shock."
+	SWEP.Description = "다른 무기에 비해 조금 약한 감이 있지만,\n좀비의 이동 속도를 현저히 느리게 만든다."
 end
 
 SWEP.Base = "weapon_zs_basemelee"

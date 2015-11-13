@@ -38,7 +38,6 @@ SWEP.JunkModels = {
 	Model("models/props_c17/furnituredrawer003a.mdl"),
 	Model("models/props_c17/furnituredrawer001a_chunk01.mdl"),
 	Model("models/props_c17/furniturechair001a_chunk01.mdl"),
-	Model("models/props_c17/furnituredrawer001a_chunk02.mdl"),
 	Model("models/props_c17/furnituretable003a.mdl"),
 	Model("models/props_c17/furniturechair001a.mdl"),
 	Model("models/props_debris/wood_board06a.mdl")
@@ -136,7 +135,9 @@ function SWEP:Think()
 			while (elapsedtime >= 0) do
 			
 				table.remove(self.JunkModels, 1)
-				table.insert(self.JunkModels, Model("models/props_debris/wood_board06a.mdl"))
+				for i = 1, (self.Owner:GetPremium() and 5 or 1) do
+					table.insert(self.JunkModels, Model("models/props_debris/wood_board06a.mdl"))
+				end
 				
 				elapsedtime = elapsedtime - self:GetIncreaseBoardDelay()				
 			end

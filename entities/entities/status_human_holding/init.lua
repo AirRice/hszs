@@ -182,9 +182,11 @@ function ENT:Think()
 			objectpos = objectpos - obbcenter.y * object:GetRight()
 			objectpos = objectpos - obbcenter.x * object:GetForward()
 			self.ObjectPosition = objectpos
-			if not self.ObjectAngles then
+			-- if not self.ObjectAngles then
+			if not owner:KeyDown(IN_WALK) then
 				self.ObjectAngles = object:GetAngles()
 			end
+			-- end
 		end
 
 		if owner:KeyDown(IN_SPEED) then

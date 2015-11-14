@@ -219,6 +219,8 @@ function SWEP:SecondaryAttack()
 			nail:Spawn()
 			nail:SetDeployer(owner)
 
+			nail.thorncade = owner.thorncade
+			
 			cons:DeleteOnRemove(nail)
 
 			gamemode.Call("OnNailCreated", trent, ent, nail)

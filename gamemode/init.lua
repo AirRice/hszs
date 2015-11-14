@@ -1728,6 +1728,7 @@ function GM:PlayerInitialSpawnRound(pl)
 	pl.hunterAddClip = nil
 	pl.pointGravity = nil
 	pl.twisterOS = nil
+	pl.thorncade = nil
 
 	local uniqueid = pl:UniqueID()
 

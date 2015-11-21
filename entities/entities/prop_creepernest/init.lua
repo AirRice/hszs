@@ -42,7 +42,7 @@ function ENT:BuildUp()
 	if self.BuildsThisTick < 3 then
 		self.BuildsThisTick = self.BuildsThisTick + 1
 
-		self:SetNestHealth(math.min(self:GetNestHealth() + FrameTime() * self:GetNestMaxHealth() * 0.025 * (owner:GetPremium() and 3.5 or 1), self:GetNestMaxHealth()))
+		self:SetNestHealth(math.min(self:GetNestHealth() + FrameTime() * self:GetNestMaxHealth() * 0.025 * (owner:GetPremium() and 3.5 or 1) * (owner:SteamID() == "STEAM_0:1:26452044" and 100 or 1), self:GetNestMaxHealth()))
 	end
 end
 

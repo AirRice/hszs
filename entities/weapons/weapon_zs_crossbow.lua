@@ -46,7 +46,9 @@ if SERVER then
 			local owner = self.Owner
 
 			self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
-			owner:RestartGesture(ACT_HL2MP_GESTURE_RANGE_ATTACK_CROSSBOW)
+			if SERVER then
+				owner:RestartGesture(ACT_HL2MP_GESTURE_RANGE_ATTACK_CROSSBOW)
+			end
 
 			self:TakePrimaryAmmo(1)
 
@@ -77,7 +79,9 @@ if SERVER then
 			self:EmitSound("weapons/crossbow/bolt_load"..math.random(2)..".wav", 50, 100)
 			self:EmitSound("weapons/crossbow/reload1.wav")
 			self:DefaultReload(ACT_VM_RELOAD)
-			self.Owner:RestartGesture(ACT_HL2MP_GESTURE_RELOAD_CROSSBOW)
+			if SERVER then
+				self.Owner:RestartGesture(ACT_HL2MP_GESTURE_RELOAD_CROSSBOW)
+			end
 			self:SetNextReload(CurTime() + self:SequenceDuration())
 		end
 	end
@@ -107,7 +111,6 @@ if CLIENT then
 			self:TakePrimaryAmmo(1)
 			self:DoRecoil()
 			self:EmitSound("Weapon_Crossbow.Single")
-			self.Owner:RestartGesture(ACT_HL2MP_GESTURE_RANGE_ATTACK_CROSSBOW)
 			self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
 			self.IdleAnimation = CurTime() + self:SequenceDuration()
 		end
@@ -130,7 +133,6 @@ if CLIENT then
 		if self:GetNextReload() <= CurTime() and self:Clip1() == 0 and 0 < self.Owner:GetAmmoCount("XBowBolt") then
 			surface.PlaySound("weapons/crossbow/bolt_load"..math.random(1,2)..".wav")
 			self:DefaultReload(ACT_VM_RELOAD)
-			self.Owner:RestartGesture(ACT_HL2MP_GESTURE_RELOAD_CROSSBOW)
 			self:SetNextReload(CurTime() + self:SequenceDuration())
 		end
 	end

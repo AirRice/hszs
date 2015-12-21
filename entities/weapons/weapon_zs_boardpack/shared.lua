@@ -71,7 +71,9 @@ function SWEP:PrimaryAttack()
 	self:EmitSound("weapons/iceaxe/iceaxe_swing1.wav", 75, math.random(75, 80))
 
 	self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
-	self.Owner:RestartGesture(ACT_HL2MP_GESTURE_RANGE_ATTACK_MELEE)
+	if SERVER then
+		self.Owner:RestartGesture(ACT_HL2MP_GESTURE_RANGE_ATTACK_MELEE)
+	end
 	self.IdleAnimation = curtime + math.min(self.Primary.Delay, self:SequenceDuration())
 
 	if SERVER then

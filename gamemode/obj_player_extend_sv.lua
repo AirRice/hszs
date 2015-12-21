@@ -821,7 +821,9 @@ function meta:GiveWeaponByType(weapon, plyr, ammo)
 				plyr:GiveAmmo(desiredgive, ammotype)
 
 				self:PlayGiveAmmoSound()
-				self:RestartGesture(ACT_GMOD_GESTURE_ITEM_GIVE)
+				if SERVER then
+					self:RestartGesture(ACT_GMOD_GESTURE_ITEM_GIVE)
+				end
 			end
 		end
 	end

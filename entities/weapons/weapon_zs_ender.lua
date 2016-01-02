@@ -22,10 +22,10 @@ SWEP.WorldModel = "models/weapons/w_rif_galil.mdl"
 SWEP.UseHands = true
 
 SWEP.Primary.Sound = Sound("Weapon_Galil.Single")
-SWEP.Primary.Damage = 23
+SWEP.Primary.Damage = 21
 SWEP.Primary.NumShots = 4
 SWEP.Primary.Delay = 0.4
-SWEP.Primary.Recoil = 30.5
+SWEP.Primary.Recoil = 50
 
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.Automatic = true

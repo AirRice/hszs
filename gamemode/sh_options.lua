@@ -94,7 +94,7 @@ GM.AmmoCache["helicoptergun"] = 1 --Resupply boxes.
 GM.AmmoCache["spotlamp"] = 1
 GM.AmmoCache["manhack"] = 1
 GM.AmmoCache["pulse"] = 30
-GM.AmmoCache["m249"] = 150
+GM.AmmoCache["m249"] = 170
 GM.AmmoCache["rpg"] = 1
 
 -- These ammo types are available at ammunition boxes.

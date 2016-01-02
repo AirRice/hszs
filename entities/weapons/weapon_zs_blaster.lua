@@ -23,12 +23,12 @@ SWEP.WorldModel = "models/weapons/w_supershorty.mdl"
 SWEP.ReloadDelay = 0.4
 
 SWEP.Primary.Sound = Sound("Weapon_Shotgun.Single")
-SWEP.Primary.Damage = 12
+SWEP.Primary.Damage = 10
 SWEP.Primary.NumShots = 7
-SWEP.Primary.Delay = 0.8
+SWEP.Primary.Delay = 0.33
 SWEP.Primary.Recoil = 36
 
-SWEP.Primary.ClipSize = 5
+SWEP.Primary.ClipSize = 3
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "buckshot"
 GAMEMODE:SetupDefaultClip(SWEP.Primary)

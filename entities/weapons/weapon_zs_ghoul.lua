@@ -19,6 +19,11 @@ function SWEP:ApplyMeleeDamage(ent, trace, damage)
 	ent:PoisonDamage(damage, self.Owner, self, trace.HitPos)
 	if SERVER and ent:IsPlayer() then
 		ent:GiveStatus("ghoultouch", 10 + (self.Owner:GetPremium() and 3 or 0))
+		local vel = ent:GetVelocity()
+		ent:SetJumpPower(1)
+		timer.Simple(1, function()
+			ent:ResetJumpPower()
+		end)
 	end
 end
 

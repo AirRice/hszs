@@ -24,13 +24,13 @@ SWEP.WorldModel = "models/weapons/w_smg_ump45.mdl"
 SWEP.UseHands = true
 
 SWEP.Primary.Sound = Sound("Weapon_UMP45.Single")
-SWEP.Primary.Damage = 24
+SWEP.Primary.Damage = 16
 SWEP.Primary.DefaultDamage = 24
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Delay = 0.13
 SWEP.Primary.DefaultDelay = 0.13
 
-SWEP.Primary.ClipSize = 28
+SWEP.Primary.ClipSize = 25
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "smg1"
 SWEP.Primary.Recoil = 2.88
@@ -51,11 +51,11 @@ SWEP.IronSightsAng = Vector(-1, 0.2, 2.55)
 function SWEP:SetIronsights(b)
 	if self:GetIronsights() ~= b then
 		if b then
-			self.Primary.Delay = self.Primary.DefaultDelay * 0.45
+			self.Primary.Delay = self.Primary.DefaultDelay * 0.35
 			
-			self.Primary.Recoil = self.Primary.DefaultRecoil * 3.3
+			self.Primary.Recoil = self.Primary.DefaultRecoil * 2.9
 			
-			self.Primary.Damage = self.Primary.DefaultDamage * 1.1
+			self.Primary.Damage = self.Primary.DefaultDamage * 1.4
 
 			self:EmitSound("npc/scanner/scanner_scan4.wav", 40)
 		else

@@ -213,6 +213,7 @@ GM:AddStartingItem("bfbalsense", "균형감각", "뒤로 걷거나 옆으로 걸
 GM:AddStartingItem("bfpitcher", "국민투수", "돌맹이를 포함한 물체를 던지는 힘이 100% 상승합니다.\n또한, 돌덩이의 데미지가 40% 증가합니다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffPitcher = true end, nil)
 GM:AddStartingItem("bfbloodsucking", "뱀파이어", "좀비에게 가한 누적 데미지 75당 1의 체력을 회복합니다.\n메디킷으로 치료될 수 없습니다.\n메딕 건으로 치료될 수 없습니다.\n방탄복을 착용할 수 없습니다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffVampire = true end, nil)
 GM:AddStartingItem("bfpunch", "골목대장", "주먹의 데미지가 3배 증가합니다.\n운이 좋게 치명타를 꽂으면 보스 좀비는 1초, 그 외 3초동안 기절합니다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffPunch = true end, nil)
+GM:AddStartingItem("bfredeem", "최후의 발악", "체력이 0이하로 내려갈 경우 1초 동안 체력의 50%를 회복하고\n거리 500 이내의 좀비를 800의 힘으로 밀쳐냅니다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffRedeem = true pl.buffRedeemCount = 0 end, nil)
 
 GM:AddStartingItem("dbfweak", "약골", "최대 체력이 30 낮아진다.", ITEMCAT_RETURNS, -15, nil, function(pl) pl:SetMaxHealth(math.max(1, pl:GetMaxHealth() - 30)) pl:SetHealth(pl:GetMaxHealth()) pl.IsWeak = true end, "models/gibs/HGIBS.mdl")
 GM:AddStartingItem("dbfslow", "느림보", "속도가 약간 낮아진다.", ITEMCAT_RETURNS, -5, nil, function(pl) pl.HumanSpeedAdder = (pl.HumanSpeedAdder or 1) - 20 pl:ResetSpeed() pl.IsSlow = true end, "models/gibs/HGIBS.mdl")

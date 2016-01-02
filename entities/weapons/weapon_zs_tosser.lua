@@ -25,12 +25,12 @@ SWEP.CSMuzzleFlashes = false
 
 SWEP.ReloadSound = Sound("Weapon_SMG1.Reload")
 SWEP.Primary.Sound = Sound("Weapon_AR2.NPC_Single")
-SWEP.Primary.Damage = 15
+SWEP.Primary.Damage = 10
 SWEP.Primary.NumShots = 1
-SWEP.Primary.Delay = 0.15
-SWEP.Primary.Recoil = 2.28
+SWEP.Primary.Delay = 0.133
+SWEP.Primary.Recoil = 2.5
 
-SWEP.Primary.ClipSize = 25
+SWEP.Primary.ClipSize = 35
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "smg1"
 GAMEMODE:SetupDefaultClip(SWEP.Primary)

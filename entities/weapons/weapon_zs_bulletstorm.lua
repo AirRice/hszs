@@ -23,9 +23,9 @@ SWEP.WorldModel = "models/weapons/w_smg_p90.mdl"
 SWEP.UseHands = true
 
 SWEP.Primary.Sound = Sound("Weapon_p90.Single")
-SWEP.Primary.Damage = 15.5
+SWEP.Primary.Damage = 12
 SWEP.Primary.NumShots = 1
-SWEP.Primary.Delay = 0.07
+SWEP.Primary.Delay = 0.05
 SWEP.Primary.Recoil = 4
 
 SWEP.Primary.ClipSize = 50
@@ -33,8 +33,8 @@ SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "smg1"
 GAMEMODE:SetupDefaultClip(SWEP.Primary)
 
-SWEP.ConeMax = 0.3
-SWEP.ConeMin = 0.08
+SWEP.ConeMax = 0.25
+SWEP.ConeMin = 0.1
 
 SWEP.Primary.Gesture = ACT_HL2MP_GESTURE_RANGE_ATTACK_SMG1
 SWEP.ReloadGesture = ACT_HL2MP_GESTURE_RELOAD_SMG1
@@ -48,8 +48,8 @@ SWEP.IronSightsAng = Vector(0, 2, 0)
 
 SWEP.Primary.DefaultNumShots = SWEP.Primary.NumShots
 SWEP.Primary.DefaultDelay = SWEP.Primary.Delay
-SWEP.Primary.IronsightsNumShots = SWEP.Primary.NumShots * 2
-SWEP.Primary.IronsightsDelay = SWEP.Primary.Delay * 1.6666
+SWEP.Primary.IronsightsNumShots = SWEP.Primary.NumShots * 3
+SWEP.Primary.IronsightsDelay = SWEP.Primary.Delay * 1.8
 
 function SWEP:SetIronsights(b)
 	if self:GetIronsights() ~= b then

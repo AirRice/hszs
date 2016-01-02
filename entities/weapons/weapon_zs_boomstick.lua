@@ -23,16 +23,15 @@ SWEP.UseHands = true
 
 SWEP.CSMuzzleFlashes = false
 
-SWEP.ReloadDelay = 0.4
+SWEP.ReloadDelay = 0.3
 
 SWEP.Primary.Sound = Sound("weapons/shotgun/shotgun_dbl_fire.wav")
-SWEP.Primary.Recoil = 88
-SWEP.Primary.Damage = 36
-SWEP.Primary.NumShots = 6
+SWEP.Primary.Damage = 22
+SWEP.Primary.NumShots = 4
 SWEP.Primary.Delay = 1.5
 SWEP.Primary.Recoil = 50
 
-SWEP.Primary.ClipSize = 6
+SWEP.Primary.ClipSize = 8
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "buckshot"
 SWEP.Primary.DefaultClip = 28
@@ -41,6 +40,10 @@ SWEP.ConeMax = 2.999
 SWEP.ConeMin = 1.646
 
 SWEP.WalkSpeed = SPEED_SLOWER
+
+SWEP.OwnerKnockback = 50
+
+local barricadeDamageMul = 0.1
 
 function SWEP:SetIronsights()
 end
@@ -69,14 +72,24 @@ function SWEP:PrimaryAttack()
 		self:EmitSound(self.Primary.Sound)
 
 		local clip = self:Clip1()
+		
+		local owner = self.Owner
+		if SERVER then
+			if IsValid(owner) and (owner:GetVelocity() * Vector(1, 1, 0)):Length() >= 300 then
+				self.OriginalRecoil = self.Primary.Recoil
+				self.Primary.Recoil = self.OriginalRecoil * 2
+			end
+		end
 
 		self:ShootBullets(self.Primary.Damage, self.Primary.NumShots * clip, self:GetCone())
-
+		
+		self.Primary.Recoil = self.OriginalRecoil or self.Primary.Recoil
+		
 		self:TakePrimaryAmmo(clip)
 		self.Owner:ViewPunch(clip * 0.5 * self.Primary.Recoil * Angle(math.Rand(-0.1, -0.1), math.Rand(-0.1, 0.1), 0))
 
 		self.Owner:SetGroundEntity(NULL)
-		self.Owner:SetVelocity(-80 * clip * self.Owner:GetAimVector())
+		self.Owner:SetVelocity(-self.OwnerKnockback * clip * self.Owner:GetAimVector())
 
 		self.IdleAnimation = CurTime() + self:SequenceDuration()
 		
@@ -145,3 +158,30 @@ function SWEP:CanPrimaryAttack()
 
 	return self:GetNextPrimaryFire() <= CurTime()
 end
+
+local function BulletCallback(attacker, tr, dmginfo)
+	local ent = tr.Entity
+	if ent:IsValid() then
+		if ent:IsPlayer() then
+			if ent:Team() == TEAM_UNDEAD and tempknockback then
+				tempknockback[ent] = ent:GetVelocity()
+			end
+		else
+			local phys = ent:GetPhysicsObject()
+			if ent:GetMoveType() == MOVETYPE_VPHYSICS and phys:IsValid() and phys:IsMoveable() then
+				ent:SetPhysicsAttacker(attacker)
+			end
+			
+			if ent:IsNailed() then
+				local damage = dmginfo:GetDamage()
+				ent:SetBarricadeRepairs(math.max(ent:GetBarricadeRepairs() - damage * barricadeDamageMul, 0))
+				
+				if ent:GetBarricadeRepairs() <= 0 then
+					ent:SetBarricadeHealth(ent:GetBarricadeHealth() - damage * barricadeDamageMul * 0.5)
+				end
+			end
+		end
+	end
+end
+
+SWEP.BulletCallback = BulletCallback

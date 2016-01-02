@@ -1,8 +1,8 @@
 AddCSLuaFile()
 
 if CLIENT then
-	SWEP.PrintName = "'Stalker' M4"
-	SWEP.Description = "이 총기를 사용하는 동안 좀비들이 사용자의 냄새를 쉽게 맡지 못 하게 한다."
+	SWEP.PrintName = "'Warrior' M4"
+	SWEP.Description = "전사."
 	SWEP.Slot = 2
 	SWEP.SlotPos = 0
 
@@ -24,10 +24,10 @@ SWEP.WorldModel = "models/weapons/w_rif_m4a1.mdl"
 SWEP.UseHands = true
 
 SWEP.Primary.Sound = Sound("Weapon_m4a1.Single")
-SWEP.Primary.Damage = 24
+SWEP.Primary.Damage = 21
 SWEP.Primary.NumShots = 1
-SWEP.Primary.Delay = 0.11
-SWEP.Primary.Recoil = 3.14
+SWEP.Primary.Delay = 0.08
+SWEP.Primary.Recoil = 4.2
 
 SWEP.Primary.ClipSize = 30
 SWEP.Primary.Automatic = true
@@ -37,13 +37,13 @@ GAMEMODE:SetupDefaultClip(SWEP.Primary)
 SWEP.Primary.Gesture = ACT_HL2MP_GESTURE_RANGE_ATTACK_SMG1
 SWEP.ReloadGesture = ACT_HL2MP_GESTURE_RELOAD_SMG1
 
-SWEP.ConeMax = 0.242
-SWEP.ConeMin = 0.161
+SWEP.ConeMax = 0.3
+SWEP.ConeMin = 0.2
 
 SWEP.WalkSpeed = SPEED_SLOW
 
 SWEP.IronSightsPos = Vector(-3, 0, 2)
 
-function SWEP:GetAuraRange()
-	return 512
-end
+-- function SWEP:GetAuraRange()
+	-- return 512
+-- end

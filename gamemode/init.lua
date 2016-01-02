@@ -1720,6 +1720,8 @@ function GM:PlayerInitialSpawnRound(pl)
 	pl:SendLua("LocalPlayer().buffBalSense = nil")
 	self:setBodyArmor(pl, 0)
 	pl.sweeperInc = nil
+	pl.buffRedeem = nil
+	pl.buffRedeemCount = 0
 	
 	pl.steelNail = nil
 	pl.carbonHammer = nil
@@ -2414,6 +2416,46 @@ function GM:EntityTakeDamage(ent, dmginfo)
 					dmginfo:SetDamage(dmginfo:GetDamage() - tosub)
 					bodyarmor = math.max(0, bodyarmor - tosub)
 					GAMEMODE:setBodyArmor(ent, bodyarmor)
+				end
+				
+				// 최후의 발악
+				if ent.buffRedeem and ent.buffRedeemCount == 0 and dmginfo:GetDamage() >= ent:Health() then
+					// 체력이 차는 속도 조절용 필드 추가
+					ent.redeemStart = CurTime()
+					
+					// sh_options.lua:216, 퍼크 구매시 0으로 초기화 ; init.lua:1724 라운드 재시작시 0으로 초기화
+					ent.buffRedeemCount = ent.buffRedeemCount + 1
+					
+					// 데미지를 0으로 만들어 죽지 않게 설정
+					dmginfo:ScaleDamage(0)
+					
+					hook.Add("Think", ent:SteamID() .. "Redeeming", function() 
+						// 현재 최대 체력의 1/2를 1.5초에 걸쳐 충전
+						ent:SetHealth((ent:GetMaxHealth() / 2) * ((CurTime() - ent.redeemStart) / 1.5))
+						
+						// 충전이 다 됐으면
+						if ent:Health() >= ent:GetMaxHealth() / 2 then
+							// 반올림 고려, 확실하게 1/2로 체력 설정
+							ent:SetHealth(ent:GetMaxHealth() / 2)
+							
+							// 무한 힐 및 메모리 누수 방지를 위한 훜 해제
+							hook.Remove("Think", ent:SteamID() .. "Redeeming")
+						end
+					end)
+					
+					// 현재 플레이어의 정중앙 벡터
+					local origin = ent:LocalToWorld(ent:OBBCenter())
+					
+					// 거리 500 이내의 좀비를 대상으로
+					for _, v in pairs(ents.FindInSphere(origin, 500)) do
+						if v:IsPlayer() and v:Team() == TEAM_ZOMBIE then
+							// 800의 힘으로 피해자의 중심으로부터 바깥쪽 공중으로 날림
+							v:SetGroundEntity(NULL)
+							local dir = (v:LocalToWorld(v:OBBCenter()) - origin):GetNormal()
+							dir.z = 0.65
+							v:SetVelocity(dir * 800)
+						end
+					end
 				end
 			end
 			
@@ -3458,8 +3500,9 @@ concommand.Add("zsgiveammo", function(sender, command, arguments)
 				sender.NextGiveAmmoSound = CurTime() + 1
 				sender:PlayGiveAmmoSound()
 			end
-
-			sender:RestartGesture(ACT_GMOD_GESTURE_ITEM_GIVE)
+			if SERVER then
+				sender:RestartGesture(ACT_GMOD_GESTURE_ITEM_GIVE)
+			end
 
 			return
 		end

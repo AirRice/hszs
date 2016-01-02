@@ -23,13 +23,13 @@ SWEP.WorldModel = "models/weapons/w_mach_m249para.mdl"
 SWEP.UseHands = true
 
 SWEP.Primary.Sound = Sound("Weapon_m249.Single")
-SWEP.Primary.Damage = 18
+SWEP.Primary.Damage = 13
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Delay = 0.06
-SWEP.Primary.Recoil = 6.7
-SWEP.Primary.KnockbackScale = 30
+SWEP.Primary.Recoil = 10
+SWEP.Primary.KnockbackScale = 20
 
-SWEP.Primary.ClipSize = 150
+SWEP.Primary.ClipSize = 170
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "m249"
 GAMEMODE:SetupDefaultClip(SWEP.Primary)

@@ -25,7 +25,7 @@ SWEP.WorldModel = "models/weapons/w_smg_mac10.mdl"
 SWEP.UseHands = true
 
 SWEP.Primary.Sound = Sound("Weapon_MAC10.Single")
-SWEP.Primary.Damage = 17
+SWEP.Primary.Damage = 16
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Delay = 0.075
 SWEP.Primary.Recoil = 2.02
@@ -38,8 +38,8 @@ GAMEMODE:SetupDefaultClip(SWEP.Primary)
 SWEP.Primary.Gesture = ACT_HL2MP_GESTURE_RANGE_ATTACK_SMG1
 SWEP.ReloadGesture = ACT_HL2MP_GESTURE_RELOAD_SMG1
 
-SWEP.ConeMax = 0.464
-SWEP.ConeMin = 0.181
+SWEP.ConeMax = 0.5
+SWEP.ConeMin = 0.17
 
 SWEP.WalkSpeed = SPEED_NORMAL
 
@@ -55,7 +55,7 @@ local function bulletcallback(attacker, tr, dmginfo)
 			end
 			
 			if ent:Team() == TEAM_ZOMBIE then
-				ent:SetSpeed(ent:GetWalkSpeed() * 0.994)
+				ent:SetSpeed(ent:GetWalkSpeed() * 0.99)
 				timer.Create("SprayerSpeedMulReset" .. ent:UniqueID(), 0.3, 1, function()
 					ent:ResetSpeed()
 				end)

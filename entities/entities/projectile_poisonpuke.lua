@@ -16,6 +16,8 @@ ENT.MinManhackVel = 450
 
 ENT.SlowDown = Vector(0.92, 0.92, 1)
 
+ENT.Damage = 4
+
 function ENT:Think()
 	self.BaseClass.Think(self)
 	self:TraceTarget()

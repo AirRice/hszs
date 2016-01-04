@@ -79,7 +79,11 @@ end
 
 function SWEP:TakeAmmo()
 	if self:GetIronsights() then
-		self:TakePrimaryAmmo(2)
+		if self:Clip1() < 3 then
+			self:TakePrimaryAmmo(self:Clip1())
+		else
+			self:TakePrimaryAmmo(3)
+		end
 	else
 		self.BaseClass.TakeAmmo(self)
 	end

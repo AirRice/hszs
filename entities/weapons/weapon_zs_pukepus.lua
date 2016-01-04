@@ -24,7 +24,7 @@ function SWEP:PrimaryAttack()
 	if CurTime() < self:GetNextPrimaryFire() then return end
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
-	self.PukeLeft = 40 + (self.Owner:GetPremium() and 10 or 0)
+	self.PukeLeft = 30 + (self.Owner:GetPremium() and 10 or 0)
 
 	self.Owner:EmitSound("npc/barnacle/barnacle_die2.wav")
 	self.Owner:EmitSound("npc/barnacle/barnacle_digesting1.wav")

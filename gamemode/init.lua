@@ -756,6 +756,11 @@ function GM:PlayerSelectSpawn(pl)
 							local owner = dyn.Owner
 							if owner and owner:IsValid() and owner:Team() == TEAM_UNDEAD then
 								owner.NestSpawns = owner.NestSpawns + 1
+								owner.NestBrains = (owner.NestBrains or 0) + 1 / 40
+								if (owner.NestBrains >= 1) then
+									owner.NestBrains = owner.NestBrains - 1
+									owner:AddBrains(1)
+								end
 							end
 						end
 

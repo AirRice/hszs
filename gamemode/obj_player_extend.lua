@@ -590,13 +590,13 @@ function meta:GetMaxZombieHealth()
 	return self:GetZombieClassTable().Health
 end
 
-local oldmaxhealth = FindMetaTable("Entity").GetMaxHealth
+meta.oldmaxhealth = meta.oldmaxhealth or FindMetaTable("Entity").GetMaxHealth
 function meta:GetMaxHealth()
 	if self:Team() == TEAM_UNDEAD then
 		return self:GetMaxZombieHealth()
 	end
 
-	return oldmaxhealth(self)
+	return meta.oldmaxhealth(self)
 end
 
 if not meta.OldAlive then

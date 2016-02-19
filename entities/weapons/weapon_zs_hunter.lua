@@ -36,7 +36,7 @@ SWEP.UseHands = true
 
 SWEP.ReloadSound = Sound("Weapon_AWP.ClipOut")
 SWEP.Primary.Sound = Sound("Weapon_Hunter.Single")
-SWEP.Primary.Damage = 125
+SWEP.Primary.Damage = 130
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Delay = 1.5
 SWEP.Primary.Recoil = 22

@@ -62,7 +62,7 @@ local function BulletCallback(attacker, tr, dmginfo)
 			end
 			
 			if tr.HitGroup == HITGROUP_HEAD then
-				dmginfo:ScaleDamage(5)
+				dmginfo:ScaleDamage(3)
 			end
 		else
 			local phys = ent:GetPhysicsObject()

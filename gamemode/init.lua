@@ -756,10 +756,41 @@ function GM:PlayerSelectSpawn(pl)
 							local owner = dyn.Owner
 							if owner and owner:IsValid() and owner:Team() == TEAM_UNDEAD then
 								owner.NestSpawns = owner.NestSpawns + 1
-								owner.NestBrains = (owner.NestBrains or 0) + 1 / 40
-								if (owner.NestBrains >= 1) then
-									owner.NestBrains = owner.NestBrains - 1
-									owner:AddBrains(1)
+								
+								dyn.LastNestBonus = (dyn.LastNestBonus or 0)
+								
+								local curtime = CurTime()
+								
+								if (dyn.LastNestBonus + 60 <= curtime) then
+									dyn.NestBrains = (dyn.NestBrains or 0) + 1
+									
+									if (owner != pl) then
+										owner.DamageDealt[TEAM_UNDEAD] = owner.DamageDealt[TEAM_UNDEAD] + 2
+									end
+									
+									if (dyn.NestBrains > 40) then
+										hook.Add("EntityTakeDamage", "NestSpawnBonus_" .. dyn:EntIndex() .. "_" .. pl:UniqueID(), function(target, dmginfo)
+											local attacker = dmginfo:GetAttacker()
+											if (IsValid(target) and IsValid(attacker) and attacker == pl) then
+												if (target:IsPlayer() and target:Team() == TEAM_HUMAN) then
+													dmginfo:ScaleDamage(1.15)
+												end
+												 
+												if (target:IsNailed()) then
+													dmginfo:ScaleDamage(1.2)
+												end
+											end
+										end)
+									end
+									
+									if (dyn.NestBrains >= 50) then
+										dyn.NestBrains = 0
+										for i, pl in pairs(player.GetAll()) do
+											hook.Remove("EntityTakeDamage", "NestSpawnBonus_" .. dyn:EntIndex() .. "_" .. pl:UniqueID())
+										end
+										
+										dyn.LastNestBonus = curtime
+									end
 								end
 							end
 						end

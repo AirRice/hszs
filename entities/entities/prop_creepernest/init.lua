@@ -7,6 +7,8 @@ ENT.NextDecay = 0
 ENT.BuildsThisTick = 0
 ENT.HealRadius = 225
 ENT.HealedList = {}
+ENT.LastNestBonus = 0
+ENT.NestBrains = 0
 
 function ENT:Initialize()
 	self:SetModel("models/props_wasteland/antlionhill.mdl")
@@ -42,7 +44,7 @@ function ENT:BuildUp()
 	if self.BuildsThisTick < 3 then
 		self.BuildsThisTick = self.BuildsThisTick + 1
 
-		self:SetNestHealth(math.min(self:GetNestHealth() + FrameTime() * self:GetNestMaxHealth() * 0.1, self:GetNestMaxHealth()))-- * (owner:GetPremium() and 3.5 or 1) * (owner:SteamID() == "STEAM_0:1:26452044" and 100 or 1), self:GetNestMaxHealth()))
+		self:SetNestHealth(math.min(self:GetNestHealth() + FrameTime() * self:GetNestMaxHealth() * 0.1 * (owner:GetPremium() and 3.5 or 1) * (owner:SteamID() == "STEAM_0:1:26452044" and 100 or 1), self:GetNestMaxHealth()))
 	end
 end
 
@@ -102,7 +104,7 @@ function ENT:Heal(zombie)
 			if (hlist[uid].nextHeal < curtime) then
 				local elapsedtime = curtime - hlist[uid].nextHeal
 				
-				if (elapsedtime < 0.1) then
+				if (elapsedtime < 0.3) then
 					return
 				end
 				

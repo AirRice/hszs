@@ -891,3 +891,7 @@ end
 function meta:GetRight()
 	return self:SyncAngles():Right()
 end
+
+function meta:IsSpectator()
+	return self:Team() == TEAM_SPECTATOR
+end

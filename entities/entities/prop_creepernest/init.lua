@@ -64,8 +64,8 @@ function ENT:Think()
 	if self:GetNestBuilt() then
 		for _, v in pairs(player.GetAll()) do
 			if v:Team() == TEAM_ZOMBIE then
-				if v:GetPos():Distance(self:GetPos()) <= self.HealRadius and v:Alive() then
-					if (v:Health() < v:GetMaxZombieHealth()) then
+				if v:GetPos():Distance(self:GetPos()) <= self.HealRadius then
+					if (v:Health() < v:GetMaxZombieHealth()) and v:Alive() then
 						self:Heal(v)
 					else
 						self:ResetHealedList(v:UniqueID())
@@ -93,7 +93,7 @@ function ENT:Heal(zombie)
 	
 	if !hlist[uid] then
 		hlist[uid] = {
-			nextHeal = 0
+			nextHeal = curtime
 		}
 	end
 	
@@ -109,10 +109,10 @@ function ENT:Heal(zombie)
 				end
 				
 				heal = ((boss and 1 or 2) * elapsedtime) / (boss and 0.35 or 0.15)
+				zombie:SetHealth(math.min(zombie:Health() + heal, zombie:GetMaxZombieHealth()))
+				hlist[uid].nextHeal = curtime + (boss and 0.35 or 0.15)
 			end
 		end
-		zombie:SetHealth(math.min(zombie:Health() + heal, zombie:GetMaxZombieHealth()))
-		hlist[uid].nextHeal = curtime + (boss and 0.35 or 0.15)
 		
 		local ed = EffectData()
 		
@@ -120,7 +120,6 @@ function ENT:Heal(zombie)
 		
 		util.Effect("nestheal", ed)
 	end
-	
 	
 	self.HealedList = hlist
 end

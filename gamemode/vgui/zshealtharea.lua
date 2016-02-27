@@ -10,12 +10,12 @@ local function ContentsPaint(self)
 		colHealth.r = (1 - healthperc) * 180
 		colHealth.g = healthperc * 180
 
-		draw.SimpleTextBlurry(health, "ZSHUDFont", 8, self:GetTall() - 8, colHealth, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+		draw.SimpleTextBlurry(health, "ZSHUDFont", 8, self:GetTall() - 48, colHealth, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 		
 		local bodyarmor = lp.bodyarmor
 		if bodyarmor and bodyarmor > 0 then
 			bodyarmor = math.floor(bodyarmor)
-			draw.SimpleTextBlurry(bodyarmor, "ZSHUDFont", 128, self:GetTall() - 8, Color(0, 0, 255, 100 + (155 * (bodyarmor / 100))), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+			draw.SimpleTextBlurry(bodyarmor, "ZSHUDFont", 128, self:GetTall() - 48, Color(0, 0, 255, 100 + (155 * (bodyarmor / 100))), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 		end
 	end
 end
@@ -94,7 +94,7 @@ function PANEL:PerformLayout()
 	self.HealthModel:SetWide(self:GetTall())
 
 	self:AlignLeft(screenscale * 24)
-	self:AlignBottom(screenscale * 24)
+	self:AlignBottom(screenscale * 48)
 end
 
 function PANEL:Paint()
@@ -235,8 +235,8 @@ function PANEL:Paint()
 
 	cam.Start3D(campos, ang, self.fFOV, x, y, w, h, 5, 4096)
 
-	render.SetMaterial(matShadow)
-	render.DrawQuadEasy(entpos, Vector(0, 0, 1), 45, 90, colShadow)
+	-- render.SetMaterial(matShadow)
+	-- render.DrawQuadEasy(entpos, Vector(0, 0, 1), 45, 90, colShadow)
 
 	render.SetLightingOrigin(entpos)
 	render.ResetModelLighting(0.2, 0.2, 0.2)

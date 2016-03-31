@@ -11,17 +11,26 @@ SWEP.MeleeDelay = 0.74
 SWEP.MeleeDamage = 22
 SWEP.MeleeReach = 160
 SWEP.MeleeSize = 5
-
+SWEP.Rage = nil
 function SWEP:Reload()
 	self:SecondaryAttack()
 end
 
 function SWEP:Think()
 	self.BaseClass.Think(self)
-	if self.Owner:GetPremium() then
+	if self.Owner:Health()<self.Owner:GetMaxHealth()*0.2 then
+		self.Rage = true
+	else self.Rage = nil 
+	end
+	if self.Owner:GetPremium() and not self.Rage then
 		self.MeleeReach = 180
-	else
+	elseif not self.Rage then
 		self.MeleeReach = 160
+	end
+	if self.Rage then
+		self.MeleeDamage= 33
+	else 
+		self.MeleeDamage=22
 	end
 end
 

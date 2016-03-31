@@ -15,7 +15,7 @@ function SWEP:Reload()
 
 	local ent
 	local dist
-
+	
 	for _, e in pairs(ents.FindByClass("prop_nail")) do
 		if not e.m_PryingOut and e:GetParent() == trent then
 			local edist = e:GetActualPos():Distance(tr.HitPos)
@@ -41,9 +41,26 @@ function SWEP:Reload()
 	owner:DoAnimationEvent(ACT_HL2MP_GESTURE_RANGE_ATTACK_MELEE)
 
 	owner:EmitSound("weapons/melee/crowbar/crowbar_hit-"..math.random(4)..".ogg")
-
+	local baseent = ent:GetParent()
+	local nailowners = {}
+	for i, v in ipairs(baseent:GetLivingNails()) do
+		if v:GetOwner():IsValid(v) and v:GetOwner():Alive() and v:GetOwner():Team() == TEAM_HUMAN then
+			table.insert(nailowners,v)
+		end
+	end
+	if owner.steelNail and baseent.steelNail then
+		for i, v in ipairs(nailowners) do
+			if v.steelNail then
+				return
+			end
+		end
+		baseent.steelNail = false
+		baseent:SetMaxBarricadeHealth(ent:GetMaxNailHealth() / 1.5)
+		baseent:SetBarricadeHealth(ent:GetNailHealth() / 1.5)
+		baseent:SetBarricadeRepairs(baseent:GetBarricadeRepairs()/1.5)
+	end
 	ent:GetParent():RemoveNail(ent, nil, self.Owner)
-
+	
 	if nailowner and nailowner:IsValid() and nailowner:IsPlayer() and nailowner ~= owner and nailowner:Team() == TEAM_HUMAN then
 		if not gamemode.Call("PlayerIsAdmin", owner) and (nailowner:Frags() >= 75 or owner:Frags() < 75) then
 			owner:GivePenalty(30)
@@ -220,7 +237,7 @@ function SWEP:SecondaryAttack()
 			nail:SetDeployer(owner)
 
 			nail.thorncade = owner.thorncade
-			
+
 			cons:DeleteOnRemove(nail)
 
 			gamemode.Call("OnNailCreated", trent, ent, nail)

@@ -7,14 +7,14 @@ end
 
 local Features = {
 {"WalkSpeed", "이동 속도"},
-{"MeleeDamage", "근접 데미지"},
-{"MeleeRange", "근접 사거리"},
-{"MeleeSize", "근접 타격 범위"},
+{"MeleeDamage", "공격력"},
+{"MeleeRange", "사정거리"},
+{"MeleeSize", "크기"},
 
-{"ClipSize", "탄창 수", 0, 50, false, "Primary"},
-{"Damage", "데미지", 2, 100, false, "Primary"},
-{"NumShots", "격발 수", 1, 12, false, "Primary"},
-{"Delay", "격발 딜레이", 0.05, 3, true, "Primary"},
+{"ClipSize", "탄창 크기", 0, 50, false, "Primary"},
+{"Damage", "공격력", 2, 100, false, "Primary"},
+{"NumShots", "한 번에 발사되는 수", 1, 12, false, "Primary"},
+{"Delay", "발사 중간 딜레이", 0.05, 3, true, "Primary"},
 
 {"ConeMax", "최소 정확도"},
 {"ConeMin", "최대 정확도"}

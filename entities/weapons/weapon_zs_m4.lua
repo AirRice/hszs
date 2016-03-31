@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 if CLIENT then
 	SWEP.PrintName = "'Warrior' M4"
-	SWEP.Description = "전사."
+	--SWEP.Description = "전사."
 	SWEP.Slot = 2
 	SWEP.SlotPos = 0
 
@@ -27,7 +27,7 @@ SWEP.Primary.Sound = Sound("Weapon_m4a1.Single")
 SWEP.Primary.Damage = 21
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Delay = 0.08
-SWEP.Primary.Recoil = 4.2
+SWEP.Primary.Recoil = 4.75
 
 SWEP.Primary.ClipSize = 30
 SWEP.Primary.Automatic = true
@@ -37,8 +37,8 @@ GAMEMODE:SetupDefaultClip(SWEP.Primary)
 SWEP.Primary.Gesture = ACT_HL2MP_GESTURE_RANGE_ATTACK_SMG1
 SWEP.ReloadGesture = ACT_HL2MP_GESTURE_RELOAD_SMG1
 
-SWEP.ConeMax = 0.3
-SWEP.ConeMin = 0.2
+SWEP.ConeMax = 0.31
+SWEP.ConeMin = 0.242
 
 SWEP.WalkSpeed = SPEED_SLOW
 

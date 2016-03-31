@@ -217,6 +217,7 @@ function GM:AddResources()
 	resource.AddFile("materials/killicon/zs_plank.vmt")
 	resource.AddFile("materials/killicon/zs_hammer.vmt")
 	resource.AddFile("materials/killicon/zs_shovel.vmt")
+	resource.AddFile("materials/killicon/killico_ppsh_stick.vmt")
 	resource.AddFile("models/weapons/v_zombiearms.mdl")
 	resource.AddFile("materials/models/weapons/v_zombiearms/zombie_classic_sheet.vmt")
 	resource.AddFile("materials/models/weapons/v_zombiearms/zombie_classic_sheet.vtf")
@@ -310,7 +311,8 @@ function GM:AddResources()
 	resource.AddFile("sound/weapons/melee/keyboard/keyboard_hit-02.ogg")
 	resource.AddFile("sound/weapons/melee/keyboard/keyboard_hit-03.ogg")
 	resource.AddFile("sound/weapons/melee/keyboard/keyboard_hit-04.ogg")
-
+	resource.AddFile("sound/weapons/melee/keyboard/keyboard_hit-04.ogg")
+	resource.AddFile("sound/grub_ppsh/ppsh41_shoot1.wav")
 	resource.AddFile("materials/noxctf/sprite_bloodspray1.vmt")
 	resource.AddFile("materials/noxctf/sprite_bloodspray2.vmt")
 	resource.AddFile("materials/noxctf/sprite_bloodspray3.vmt")
@@ -371,6 +373,7 @@ function GM:AddNetworkStrings()
 	util.AddNetworkString("zs_dohulls")
 	util.AddNetworkString("zs_penalty")
 	util.AddNetworkString("zs_nextresupplyuse")
+	util.AddNetworkString("zs_nextchargeruse")
 	util.AddNetworkString("zs_lifestats")
 	util.AddNetworkString("zs_lifestatsbd")
 	util.AddNetworkString("zs_lifestatshd")
@@ -522,6 +525,7 @@ weaponmodelstoweapon["models/weapons/w_knife_ct.mdl"] = "weapon_zs_swissarmyknif
 weaponmodelstoweapon["models/weapons/w_crowbar.mdl"] = "weapon_zs_crowbar"
 weaponmodelstoweapon["models/weapons/w_stunbaton.mdl"] = "weapon_zs_stunbaton"
 weaponmodelstoweapon["models/props_interiors/furniture_lamp01a.mdl"] = "weapon_zs_lamp"
+weaponmodelstoweapon["models/props_junk/glassbottle01a.mdl"] = "weapon_zs_molotov"
 weaponmodelstoweapon["models/props_junk/rock001a.mdl"] = "weapon_zs_stone"
 weaponmodelstoweapon["models/props_c17/canister01a.mdl"] = "weapon_zs_oxygentank"
 weaponmodelstoweapon["models/props_canal/mattpipe.mdl"] = "weapon_zs_pipe"
@@ -596,6 +600,7 @@ function GM:RemoveUnusedEntities()
 
 	-- Shouldn't exist.
 	util.RemoveAll("item_suitcharger")
+	util.RemoveAll("item_healthcharger")
 end
 
 function GM:ReplaceMapWeapons()
@@ -1679,6 +1684,7 @@ function GM:PlayerInitialSpawnRound(pl)
 	pl.BrainsEaten = 0
 
 	pl.ResupplyBoxUsedByOthers = 0
+	pl.ChargerUsedByOthers = 0
 
 	pl.WaveJoined = self:GetWave()
 
@@ -2442,10 +2448,12 @@ function GM:EntityTakeDamage(ent, dmginfo)
 			end
 			
 			if attacker:Team() == TEAM_ZOMBIE then
-				if ent.buffThornArmor and ent:Team() == TEAM_HUMAN then
+				if ent.buffThornArmor and ent:Team() == TEAM_HUMAN and attacker:GetZombieClassTable().Name ~= "Shade" then
 					attacker:TakeDamage(dmginfo:GetDamage() * 1.2, attacker, nil)
 				end
-				
+				if ent:GetActiveWeapon():GetClass() == "weapon_zs_immortal" and ent:Health() <= ent:GetMaxHealth()*0.3 then
+					dmginfo:ScaleDamage(0.7)
+				end
 				local bodyarmor = ent.bodyarmor
 				if bodyarmor and bodyarmor > 0 and ent:Team() == TEAM_HUMAN then
 					local tosub = math.min(dmginfo:GetDamage() * 0.8, bodyarmor)
@@ -3091,9 +3099,7 @@ function GM:PlayerUse(pl, ent)
 		if CurTime() < (ent.m_AntiDoorSpam or 0) then -- Prop doors can be glitched shut by mashing the use button.
 			return false
 		end
-		ent.m_AntiDoorSpam = CurTime() + 0.85
-	elseif entclass == "item_healthcharger" then
-		if pl:Team() == TEAM_UNDEAD then return false end
+		ent.m_AntiDoorSpam = CurTime() + 1.5
 	elseif pl:Team() == TEAM_HUMAN and not pl:IsCarrying() and pl:KeyPressed(IN_USE) then
 		self:TryHumanPickup(pl, ent)
 	end

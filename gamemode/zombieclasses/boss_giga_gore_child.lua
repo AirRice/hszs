@@ -171,7 +171,7 @@ function CLASS:DoesntGiveFear(pl)
 end
 
 if SERVER then
-	function CLASS:OnKilled(pl, attacker, inflictor, suicide, headshot, dmginfo)
+	--[[function CLASS:OnKilled(pl, attacker, inflictor, suicide, headshot, dmginfo)
 		pl:FakeDeath(pl:LookupSequence("death_0"..math.random(4)), self.ModelScale)
 
 		return true
@@ -179,7 +179,7 @@ if SERVER then
 
 	function CLASS:PostOnKilled(pl, attacker, inflictor, suicide, headshot, dmginfo)
 		pl:SetZombieClass(GAMEMODE.DefaultZombieClass)
-	end
+	end]]
 
 	function CLASS:AltUse(pl)
 		pl:StartFeignDeath()
@@ -191,3 +191,5 @@ if not CLIENT then return end
 function CLASS:ShouldDrawLocalPlayer()
 	return true
 end
+
+CLASS.Icon ="zombiesurvival/killicons/zombiebaby"

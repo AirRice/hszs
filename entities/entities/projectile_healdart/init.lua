@@ -75,10 +75,16 @@ function ENT:Hit(vHitPos, vHitNormal, eHitEntity, vOldVelocity)
 			local newhealth = math.min(oldhealth + self.Heal, eHitEntity:GetMaxHealth())
 			if oldhealth ~= newhealth then
 				eHitEntity:SetHealth(newhealth)
-
 				if owner:IsPlayer() then
 					gamemode.Call("PlayerHealedTeamMember", owner, eHitEntity, newhealth - oldhealth, self)
 				end
+			end
+		elseif eHitEntity:IsPlayer() and eHitEntity:Team() == TEAM_UNDEAD then
+			eHitEntity:EmitSound("weapons/bugbait/bugbait_impact1.wav")
+			if not self:GetCharged() and math.random(4) == 1 then
+				eHitEntity:GiveStatus("disorientation").Dietime = CurTime() + self.Heal/10
+			else
+				eHitEntity:GiveStatus("disorientation").Dietime = CurTime() + self.Heal/10
 			end
 		end
 	end

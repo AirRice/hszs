@@ -2,6 +2,7 @@ AddCSLuaFile()
 
 if CLIENT then
 	SWEP.PrintName = "'Breakout' 돌격 소총"
+	SWEP.Description = "좀비의 머리 타격 시 전기 충격을 주어 어지럽게 한다."
 	SWEP.Slot = 2
 	SWEP.SlotPos = 0
 
@@ -22,8 +23,8 @@ SWEP.ViewModel = Model( "models/weapons/cstrike/c_rif_sg552.mdl" )
 SWEP.WorldModel = Model( "models/weapons/w_rif_sg552.mdl" )
 SWEP.UseHands = true
 
-SWEP.Primary.Sound = Sound("Weapon_AUG.Single")
-SWEP.Primary.Damage = 12
+SWEP.Primary.Sound = Sound("Weapon_SG552.Single")
+SWEP.Primary.Damage = 25
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Delay = 0.12
 SWEP.Primary.Recoil = 4.158
@@ -46,6 +47,9 @@ SWEP.IronSightsPos = Vector(-3, 4, 3)
 
 local function BulletCallback(attacker, tr, dmginfo)
 	local ent = tr.Entity
+	if (not tr.HitWorld) and IsValid(ent) then
+                    
+    end
 	if ent:IsValid() then
 		if ent:IsPlayer() then
 			if ent:Team() == TEAM_UNDEAD and tempknockback then
@@ -53,15 +57,29 @@ local function BulletCallback(attacker, tr, dmginfo)
 			end
 			
 			if tr.HitGroup == HITGROUP_HEAD then
-				dmginfo:ScaleDamage(3.5)
+				local edata = EffectData()
+				edata:SetEntity(ent)
+				edata:SetMagnitude(5)
+				edata:SetScale(1)
+				util.Effect("TeslaHitBoxes", edata) 
+				ent:EmitSound("ambient/energy/zap"..math.random(1,9)..".wav")
+				if SERVER and ent:IsPlayer() then
+                    local eyeang = ent:EyeAngles()
+
+                    local j = 15
+                    eyeang.pitch = math.Clamp(eyeang.pitch + math.Rand(-j, j), -90, 90)
+                    eyeang.yaw = math.Clamp(eyeang.yaw + math.Rand(-j, j), -90, 90)
+                    ent:SetEyeAngles(eyeang)
+                end
 			end
 		else
 			local phys = ent:GetPhysicsObject()
 			if ent:GetMoveType() == MOVETYPE_VPHYSICS and phys:IsValid() and phys:IsMoveable() then
 				ent:SetPhysicsAttacker(attacker)
 			end
-		end
+		end		
 	end
+	GenericBulletCallback(attacker, tr, dmginfo)
 end
 
 SWEP.BulletCallback = BulletCallback

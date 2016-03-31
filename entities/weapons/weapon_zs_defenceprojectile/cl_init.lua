@@ -1,7 +1,7 @@
 include("shared.lua")
 
 SWEP.PrintName = "트위스터"
-SWEP.Description = "주변의 중력장을 왜곡해 발사체를 끌어당긴다."
+SWEP.Description = "주변의 중력장을 왜곡해 발사체를 끌어당긴다. \n공격 1: 설치\n공격 2/재장전: 회전\n달리기 키(기본값:쉬프트): 회수\n사용 키(기본값:E):주인 없는 트위스터 가져가기\n생성할려고 하는 위치가 가능한 위치라면 초록색으로 표시된다."
 SWEP.DrawCrosshair = false
 
 SWEP.Slot = 4

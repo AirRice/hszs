@@ -35,7 +35,7 @@ local function CartDoClick(self, silent, force)
 		if not silent then
 			surface.PlaySound("buttons/button18.wav")
 		end
-		self:SetTooltip("장바구니에 추가")
+		self:SetTooltip("목록에 추가")
 		WorthRemaining = WorthRemaining + tab.Worth
 	else
 		if WorthRemaining < tab.Worth and not force then
@@ -47,20 +47,17 @@ local function CartDoClick(self, silent, force)
 		if not silent then
 			surface.PlaySound("buttons/button17.wav")
 		end
-		self:SetTooltip("장바구니에서 제거")
+		self:SetTooltip("목록에서 제거")
 		WorthRemaining = WorthRemaining - tab.Worth
 	end
 
-	pWorth.WorthLab:SetText("자본금: ".. WorthRemaining)
+	pWorth.WorthLab:SetText("시작 자금: ".. WorthRemaining)
 	if WorthRemaining <= 0 then
 		pWorth.WorthLab:SetTextColor(COLOR_RED)
-		pWorth.WorthLab:InvalidateLayout()
 	elseif WorthRemaining <= GAMEMODE.StartingWorth * 0.25 then
 		pWorth.WorthLab:SetTextColor(COLOR_YELLOW)
-		pWorth.WorthLab:InvalidateLayout()
 	else
 		pWorth.WorthLab:SetTextColor(COLOR_LIMEGREEN)
-		pWorth.WorthLab:InvalidateLayout()
 	end
 	pWorth.WorthLab:SizeToContents()
 end
@@ -107,6 +104,10 @@ hook.Add("Initialize", "LoadCarts", function()
 	end
 end)
 
+local function helpDoClick()
+	MakepHelp()
+end
+
 local function ClearCartDoClick()
 	for _, btn in ipairs(WorthButtons) do
 		if btn.On then
@@ -150,7 +151,7 @@ local function SaveCurrentCart(name)
 			cart[2] = tobuy
 
 			file.Write(GAMEMODE.CartFile, Serialize(GAMEMODE.SavedCarts))
-			print("Saved cart "..tostring(name .. string.rep(" ", 8)))
+			print("Saved cart "..tostring(name))
 
 			LoadCart(i, true)
 			return
@@ -160,16 +161,16 @@ local function SaveCurrentCart(name)
 	GAMEMODE.SavedCarts[#GAMEMODE.SavedCarts + 1] = {name, tobuy}
 
 	file.Write(GAMEMODE.CartFile, Serialize(GAMEMODE.SavedCarts))
-	print("Saved cart "..tostring(name .. string.rep(" ", 8)))
+	print("Saved cart "..tostring(name))
 
 	LoadCart(#GAMEMODE.SavedCarts, true)
 end
 
 local function SaveDoClick(self)
-	Derma_StringRequest("Save cart", "Enter a name for this cart.", "Name", 
+	Derma_StringRequest("목록 저장", "현재 구매 목록을 저장하려면 저장할 목록의 이름을 적어주세요.", "이름", 
 	function(strTextOut) SaveCurrentCart(strTextOut) end,
 	function(strTextOut) end,
-	"OK", "Cancel")
+	"승낙", "취소")
 end
 
 local function DeleteDoClick(self)
@@ -208,7 +209,17 @@ function MakepWorth()
 	local propertysheet = vgui.Create("DPropertySheet", frame)
 	propertysheet:StretchToParent(4, 24, 4, 50)
 	propertysheet.Paint = function() end
-
+	
+	local help = vgui.Create("DButton", frame)
+	help:SetFont("ZSHUDFontSmall")
+	help:SetText("<도움말>")
+	help:SizeToContents()
+	help:SetSize(140, 30)
+	help:AlignBottom(8)
+	help:AlignRight(100)
+	help:SetTextColor(COLOR_LIMEGREEN)
+	help.DoClick = helpDoClick
+	
 	local list = vgui.Create("DPanelList", propertysheet)
 	propertysheet:AddSheet("Favorites", list, "icon16/heart.png", false, false)
 	list:EnableVerticalScrollbar(true)
@@ -216,7 +227,7 @@ function MakepWorth()
 	list:SetSpacing(2)
 	list:SetPadding(2)
 
-	local savebutton = EasyButton(nil, "현재 장바구니 저장", 0, 10)
+	local savebutton = EasyButton(nil, "현재 목록 저장", 0, 10)
 	savebutton.DoClick = SaveDoClick
 	list:AddItem(savebutton)
 
@@ -239,7 +250,7 @@ function MakepWorth()
 			defimage:SetImage("icon16/heart.png")
 			defimage:SizeToContents()
 			defimage:SetMouseInputEnabled(true)
-			defimage:SetTooltip("기본 장바구니 설정.\n게임에 늦게 들어오더라도 이 장바구니 목록대로 구매됩니다.")
+			defimage:SetTooltip("이것이 보통 구매 목록이다.\n자금 상점에서 구매를 하지 못하면 자동으로 이 목록의 물품이 사지게 된다.")
 			defimage:SetPos(x, cartpan:GetTall() * 0.5 - defimage:GetTall() * 0.5)
 			x = x + defimage:GetWide() + 4
 		end
@@ -252,7 +263,7 @@ function MakepWorth()
 		local checkbutton = vgui.Create("DImageButton", cartpan)
 		checkbutton:SetImage("icon16/accept.png")
 		checkbutton:SizeToContents()
-		checkbutton:SetTooltip("이 장바구니대로 구입.")
+		checkbutton:SetTooltip("저장된 목록 바로 구매.")
 		x = x - checkbutton:GetWide() - 8
 		checkbutton:SetPos(x, cartpan:GetTall() * 0.5 - checkbutton:GetTall() * 0.5)
 		checkbutton.ID = i
@@ -261,7 +272,7 @@ function MakepWorth()
 		local loadbutton = vgui.Create("DImageButton", cartpan)
 		loadbutton:SetImage("icon16/folder_go.png")
 		loadbutton:SizeToContents()
-		loadbutton:SetTooltip("이 장바구니 로드.")
+		loadbutton:SetTooltip("저장된 목록 불러오기.")
 		x = x - loadbutton:GetWide() - 8
 		loadbutton:SetPos(x, cartpan:GetTall() * 0.5 - loadbutton:GetTall() * 0.5)
 		loadbutton.ID = i
@@ -271,9 +282,9 @@ function MakepWorth()
 		defaultbutton:SetImage("icon16/heart.png")
 		defaultbutton:SizeToContents()
 		if cartname == defaultcart then
-			defaultbutton:SetTooltip("이 장바구니를 기본값에서 제거.")
+			defaultbutton:SetTooltip("보통 구매 목록에서 지정 취소.")
 		else
-			defaultbutton:SetTooltip("이 장바구니를 기본값으로 설정.")
+			defaultbutton:SetTooltip("이 목록을 보통 구매 목록으로 지정한다.")
 		end
 		x = x - defaultbutton:GetWide() - 8
 		defaultbutton:SetPos(x, cartpan:GetTall() * 0.5 - defaultbutton:GetTall() * 0.5)
@@ -283,7 +294,7 @@ function MakepWorth()
 		local deletebutton = vgui.Create("DImageButton", cartpan)
 		deletebutton:SetImage("icon16/bin.png")
 		deletebutton:SizeToContents()
-		deletebutton:SetTooltip("이 장바구니 제거.")
+		deletebutton:SetTooltip("이 목록을 삭제한다.")
 		x = x - deletebutton:GetWide() - 8
 		deletebutton:SetPos(x, cartpan:GetTall() * 0.5 - loadbutton:GetTall() * 0.5)
 		deletebutton.ID = i
@@ -311,28 +322,28 @@ function MakepWorth()
 		end
 	end
 
-	local worthlab = EasyLabel(frame, "자본금: "..tostring(WorthRemaining), "ZSHUDFontSmall", COLOR_LIMEGREEN)
+	local worthlab = EasyLabel(frame, "시작 자금: "..tostring(WorthRemaining), "ZSHUDFontSmall", COLOR_LIMEGREEN)
 	worthlab:SetPos(8, frame:GetTall() - worthlab:GetTall() - 8)
 	frame.WorthLab = worthlab
 
 	local checkout = vgui.Create("DButton", frame)
 	checkout:SetFont("ZSHUDFontSmall")
-	checkout:SetText("구매")
+	checkout:SetText("구매!")
 	checkout:SizeToContents()
-	checkout:SetSize(130, 30)
+	checkout:SetSize(140, 30)
 	checkout:AlignBottom(8)
 	checkout:CenterHorizontal()
 	checkout.DoClick = CheckoutDoClick
 
 	local randombutton = vgui.Create("DButton", frame)
-	randombutton:SetText("랜덤")
+	randombutton:SetText("랜덤 사기")
 	randombutton:SetSize(64, 16)
 	randombutton:AlignBottom(8)
 	randombutton:AlignRight(8)
 	randombutton.DoClick = RandDoClick
 
 	local clearbutton = vgui.Create("DButton", frame)
-	clearbutton:SetText("초기화")
+	clearbutton:SetText("전체 지우기")
 	clearbutton:SetSize(64, 16)
 	clearbutton:AlignRight(8)
 	clearbutton:MoveAbove(randombutton, 8)
@@ -490,6 +501,12 @@ function PANEL:DoClick(silent, force)
 			surface.PlaySound("buttons/button8.wav")
 			return
 		end
+		--[[
+		//이부분은 프리미엄이나 플레이타임 카운터와 연동하여 뉴비에게만 보이게..
+		if tab.Name == "목수의 망치" then
+			Derma_Message("목수의 망치는 사용하기 어려운 도구입니다! 초보자라면 망치를 구매하는 것을 추천하지 않습니다. ", "목수의 망치", "알겠습니다.")
+		end
+		--]]
 		self.On = true
 		if not silent then
 			surface.PlaySound("buttons/button17.wav")
@@ -497,16 +514,13 @@ function PANEL:DoClick(silent, force)
 		WorthRemaining = WorthRemaining - tab.Worth
 	end
 
-	pWorth.WorthLab:SetText("자본금: ".. WorthRemaining)
+	pWorth.WorthLab:SetText("자본: ".. WorthRemaining)
 	if WorthRemaining <= 0 then
 		pWorth.WorthLab:SetTextColor(COLOR_RED)
-		pWorth.WorthLab:InvalidateLayout()
 	elseif WorthRemaining <= GAMEMODE.StartingWorth * 0.25 then
 		pWorth.WorthLab:SetTextColor(COLOR_YELLOW)
-		pWorth.WorthLab:InvalidateLayout()
 	else
 		pWorth.WorthLab:SetTextColor(COLOR_LIMEGREEN)
-		pWorth.WorthLab:InvalidateLayout()
 	end
 	pWorth.WorthLab:SizeToContents()
 end

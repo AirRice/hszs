@@ -48,7 +48,11 @@ local ammonames = {
 	["smg1"] = "smgammo",
 	["ar2"] = "assaultrifleammo",
 	["357"] = "rifleammo",
-	["XBowBolt"] = "crossbowammo"
+	["XBowBolt"] = "crossbowammo",
+	["pulse"] = "pulseammo",
+	["m249"] = "m249ammo",
+	["rpg"] = "rpgammo",
+	["combinecannon"] = "railgunammo"
 }
 
 local warnedaboutammo = CreateClientConVar("_zs_warnedaboutammo", "0", true, false)
@@ -59,7 +63,7 @@ local function PurchaseDoClick(self)
 			local weptab = weapons.GetStored(itemtab.SWEP)
 			if weptab and weptab.Primary and weptab.Primary.Ammo and ammonames[weptab.Primary.Ammo] then
 				RunConsoleCommand("_zs_warnedaboutammo", "1")
-				Derma_Message("Be sure to buy extra ammo. Weapons purchased do not contain any extra ammo!", "Warning")
+				Derma_Message("탄약을 사는 것을 잊지 마십시오. 무기 구매에는 탄약이 포함되어 있지 않습니다!", "경고: 탄약 구매 관련")
 			end
 		end
 	end
@@ -68,7 +72,13 @@ local function PurchaseDoClick(self)
 end
 
 local function BuyAmmoDoClick(self)
-	RunConsoleCommand("zs_pointsshopbuy", "ps_"..self.AmmoType)
+	if MySelf:KeyDown(IN_SPEED )  then
+		for i=1, 10, 1 do
+			RunConsoleCommand("zs_pointsshopbuy", "ps_"..self.AmmoType)
+		end
+	else
+		RunConsoleCommand("zs_pointsshopbuy", "ps_"..self.AmmoType)
+	end
 end
 
 local function worthmenuDoClick()
@@ -240,7 +250,7 @@ function GM:OpenPointsShop()
 					itempan.m_NameLabel = namelab
 
 					local pricelab = EasyLabel(itempan, tostring(math.ceil(tab.Worth * (!GAMEMODE:GetWaveActive() and 0.8 - (MySelf:GetPremium() and 0.1 or 0) or 1))).." 포인트", "ZSHUDFontTiny")
-					pricelab:SetPos(itempan:GetWide() - 20 - pricelab:GetWide(), 4)
+					pricelab:SetPos(itempan:GetWide() - 25 - pricelab:GetWide(), 4)
 					pricelab.Think = function(self)
 						self:SetText(tostring(math.ceil(tab.Worth * (!GAMEMODE:GetWaveActive() and 0.8 - (MySelf:GetPremium() and 0.1 or 0) or 1))).." 포인트")
 					end
@@ -249,7 +259,7 @@ function GM:OpenPointsShop()
 					local button = vgui.Create("DImageButton", itempan)
 					button:SetImage("icon16/lorry_add.png")
 					button:SizeToContents()
-					button:SetPos(itempan:GetWide() - 20 - button:GetWide(), itempan:GetTall() - 20)
+					button:SetPos(itempan:GetWide() - 25 - button:GetWide(), itempan:GetTall() - 20)
 					button:SetTooltip(name .. " 구입")
 					button.ID = itempan.ID
 					button.DoClick = PurchaseDoClick

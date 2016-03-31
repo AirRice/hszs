@@ -76,18 +76,18 @@ GM.AmmoCache["smg1"] = 30 -- SMG's and some rifles.
 GM.AmmoCache["357"] = 6 -- Rifles, especially of the sniper variety.
 GM.AmmoCache["xbowbolt"] = 4 -- Crossbows
 GM.AmmoCache["buckshot"] = 8 -- Shotguns
-GM.AmmoCache["ar2altfire"] = 1 -- Not used.
+GM.AmmoCache["ar2altfire"] = 1 -- 메디컬 차저.
 GM.AmmoCache["slam"] = 1 -- Force Field Emitters.
 GM.AmmoCache["rpg_round"] = 1 -- Not used. Rockets?
-GM.AmmoCache["smg1_grenade"] = 1 -- Not used.
+GM.AmmoCache["smg1_grenade"] = 1 -- 화염병
 GM.AmmoCache["sniperround"] = 1 -- Barricade Kit
 GM.AmmoCache["sniperpenetratedround"] = 1 -- Remote Det pack.
 GM.AmmoCache["grenade"] = 1 -- Grenades.
 GM.AmmoCache["thumper"] = 1 -- Gun turret.
-GM.AmmoCache["gravity"] = 1 -- Unused.
+GM.AmmoCache["gravity"] = 1
 GM.AmmoCache["battery"] = 30 -- Used with the Medical Kit.
 GM.AmmoCache["gaussenergy"] = 1 -- Nails used with the Carpenter's Hammer.
-GM.AmmoCache["combinecannon"] = 1 -- Not used.
+GM.AmmoCache["combinecannon"] = 1 -- Railgun.
 GM.AmmoCache["airboatgun"] = 1 -- Arsenal crates.
 GM.AmmoCache["striderminigun"] = 1 -- Message beacons.
 GM.AmmoCache["helicoptergun"] = 1 --Resupply boxes.
@@ -181,8 +181,9 @@ GM:AddStartingItem("msgbeacon", "메세지 비콘", nil, ITEMCAT_TOOLS, 10, "wea
 
 GM:AddStartingItem("stone", "돌맹이", nil, ITEMCAT_OTHER, 5, "weapon_zs_stone")
 GM:AddStartingItem("grenade", "수류탄", nil, ITEMCAT_OTHER, 30, "weapon_zs_grenade")
+GM:AddStartingItem("molotov", "화염병", nil, ITEMCAT_OTHER, 15, "weapon_zs_molotov")
 GM:AddStartingItem("detpck", "폭발물 패키지", nil, ITEMCAT_OTHER, 35, "weapon_zs_detpack").Countables = "prop_detpack"
-GM:AddStartingItem("oxtank", "산소 탱크", "Grants signitifantly more underwater breathing time to the user.", ITEMCAT_OTHER, 15, "weapon_zs_oxygentank")
+GM:AddStartingItem("oxtank", "산소 탱크", "물속에서 숨쉴 수 있는 시간을 늘린다.", ITEMCAT_OTHER, 15, "weapon_zs_oxygentank")
 
 GM:AddStartingItem("10hp", "헬스 3개월차", "HP가 10 증가해 생존에 유리해진다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl:SetMaxHealth(pl:GetMaxHealth() + 10) pl:SetHealth(pl:Health() + 10) end, "models/healthvial.mdl")
 GM:AddStartingItem("25hp", "헬스 트레이너", "HP가 25 증가해 생존에 유리해진다.", ITEMCAT_TRAITS, 20, nil, function(pl) pl:SetMaxHealth(pl:GetMaxHealth() + 25) pl:SetHealth(pl:Health() + 25) end, "models/items/healthkit.mdl")
@@ -198,22 +199,23 @@ GM:AddStartingItem("bfresist", "독 내성", "독 데미지를 절반만 받는�
 GM:AddStartingItem("bfregen", "리제네레이터", "체력이 최대 체력의 절반 이하로 내려갈 경우 1초에 1의 체력이 회복된다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.BuffRegenerative = true end, "models/healthvial.mdl")
 GM:AddStartingItem("bfzerg", "저그출신", "5초당 1.5의 체력이 회복된다.", ITEMCAT_TRAITS, 35, nil, function(pl) pl.buffZerg = true end, "models/healthvial.mdl")
 GM:AddStartingItem("bfmusc", "근육질", "근접 무기로 20%의 추가 데미지를 가하고 더 무거운 물건을 들 수 있게 된다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.BuffMuscular = true pl:DoMuscularBones() end, "models/props_wasteland/kitchen_shelf001a.mdl")
-GM:AddStartingItem("bfmedic", "의무병", "의료킷의 재사용 대기시간이 25% 감소한다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.buffMedic = true end, nil)
-GM:AddStartingItem("bfbattleengineer", "전투공병", "좀비를 처치할 경우 다음 3회의 수리 효율이 20% 증가한다. (중첩 안 됨)", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffBattleEngineer = true pl.battleEngineerCount = 0 end, nil)
-GM:AddStartingItem("bfberserk", "광전사", "체력이 20% 이하일 때 근접 무기의 공격력이 50% 증가한다.", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffBerserk = true end, nil)
-GM:AddStartingItem("bfbeliefjump", "신뢰의 도약", "낙하 데미지를 25% 덜 받는다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffBeliefJump = true end, nil)
+GM:AddStartingItem("bfmedic", "의무병", "의료킷의 재사용 대기시간이 25% 감소한다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.buffMedic = true end, "models/healthvial.mdl")
+GM:AddStartingItem("bfbattleengineer", "전투공병", "좀비를 처치할 경우 다음 3회의 수리 효율이 20% 증가한다. (중첩 안 됨)", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffBattleEngineer = true pl.battleEngineerCount = 0 end, "models/weapons/w_hammer.mdl")
+GM:AddStartingItem("bfberserk", "광전사", "체력이 20% 이하일 때 근접 무기의 공격력이 50% 증가한다.", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffBerserk = true end, "models/weapons/w_knife_ct.mdl")
+GM:AddStartingItem("bfbeliefjump", "신뢰의 도약", "낙하 데미지를 25% 덜 받는다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffBeliefJump = true end, "models/props_junk/shoe001a.mdl")
 if !isobjective then
-	GM:AddStartingItem("bfrevolution", "진화론", "버니합이 불가능해지는 대신 최대 속도의 90% 이상으로 달릴 경우 3초마다 이동속도 8이 증가한다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.buffRevolution = true pl.revolutionSpd = 0 pl.revolutionTime = 0 pl:SendLua("LocalPlayer().buffRevolution = true") end, nil)
+	GM:AddStartingItem("bfrevolution", "진화론", "최대 속도의 90% 이상으로 달릴 경우 3초마다 이동속도 8이 증가한다.", ITEMCAT_TRAITS, 25, nil, function(pl) pl.buffRevolution = true pl.revolutionSpd = 0 pl.revolutionTime = 0 pl:SendLua("LocalPlayer().buffRevolution = true") end, "models/props_junk/shoe001a.mdl")
 end
-GM:AddStartingItem("bfblueprint", "설계도", "설치형 구조물의 회수 시간이 70% 단축된다.", ITEMCAT_TRAITS, 5, nil, function(pl) pl.buffBlueprint = true end, nil)
+GM:AddStartingItem("bfblueprint", "설계도", "설치형 구조물의 회수 시간이 70% 단축된다.", ITEMCAT_TRAITS, 5, nil, function(pl) pl.buffBlueprint = true end, "models/props_lab/binderblue.mdl")
 GM:AddStartingItem("bfstrong", "강인함", "근접 공격에 의한 화면 흔들림이 90% 감소하고 넉다운에 80% 저항이 생긴다.", ITEMCAT_TRAITS, 5, nil, function(pl) pl.buffStrong = true pl:SendLua("LocalPlayer().buffStrong = true") end, nil)
-GM:AddStartingItem("bfsupplier", "보급병", "보급상자의 재사용 대기시간이 25% 감소한다.", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffSupplier = true end, nil)
-GM:AddStartingItem("bfthornarmor", "가시갑옷", "좀비에게 피격시 공격한 좀비에게 150%의 데미지를 돌려준다.\n돌려준 데미지로는 포인트를 얻을 수 없다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffThornArmor = true end, nil)
-GM:AddStartingItem("bfbalsense", "균형감각", "뒤로 걷거나 옆으로 걸어도 이동속도가 느려지지 않는다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffBalSense = true pl:SendLua("LocalPlayer().buffBalSense = true") end, nil)
-GM:AddStartingItem("bfpitcher", "국민투수", "돌맹이를 포함한 물체를 던지는 힘이 100% 상승합니다.\n또한, 돌덩이의 데미지가 40% 증가합니다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffPitcher = true end, nil)
-GM:AddStartingItem("bfbloodsucking", "뱀파이어", "좀비에게 가한 누적 데미지 75당 1의 체력을 회복합니다.\n메디킷으로 치료될 수 없습니다.\n메딕 건으로 치료될 수 없습니다.\n방탄복을 착용할 수 없습니다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffVampire = true end, nil)
-GM:AddStartingItem("bfpunch", "골목대장", "주먹의 데미지가 3배 증가합니다.\n운이 좋게 치명타를 꽂으면 보스 좀비는 1초, 그 외 3초동안 기절합니다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffPunch = true end, nil)
-GM:AddStartingItem("bfredeem", "최후의 발악", "체력이 0이하로 내려갈 경우 1초 동안 체력의 50%를 회복하고\n거리 500 이내의 좀비를 800의 힘으로 밀쳐냅니다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffRedeem = true pl.buffRedeemCount = 0 end, nil)
+GM:AddStartingItem("bfsupplier", "보급병", "보급상자의 재사용 대기시간이 25% 감소한다.", ITEMCAT_TRAITS, 15, nil, function(pl) pl.buffSupplier = true end, "models/items/ammocrate_smg1.mdl")
+GM:AddStartingItem("bfthornarmor", "가시갑옷", "좀비에게 피격시 공격한 좀비에게 150%의 데미지를 돌려준다.\n돌려준 데미지로는 포인트를 얻을 수 없다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffThornArmor = true end, "models/Items/hevsuit.mdl")
+GM:AddStartingItem("bfbalsense", "균형감각", "뒤로 걷거나 옆으로 걸어도 이동속도가 느려지지 않는다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffBalSense = true pl:SendLua("LocalPlayer().buffBalSense = true") end, "models/props_junk/shoe001a.mdl")
+GM:AddStartingItem("bfpitcher", "국민투수", "돌맹이를 포함한 물체를 던지는 힘이 100% 상승.\n 돌덩이의 데미지가 40% 증가한다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffPitcher = true end, "models/props_junk/rock001a.mdl")
+GM:AddStartingItem("bfpunch", "골목대장", "주먹의 데미지가 3배 증가하며 \n운이 좋게 치명타를 꽂으면 보스 좀비는 1초, 그 외 3초동안 기절한다.", ITEMCAT_TRAITS, 10, nil, function(pl) pl.buffPunch = true end, "models/weapons/w_knife_ct.mdl")
+GM:AddStartingItem("bfredeem", "최후의 발악", "체력이 0이하로 내려갈 경우 1초 동안 체력의 50%를 회복하고\n거리 500 이내의 좀비를 800의 힘으로 밀쳐낸다.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffRedeem = true pl.buffRedeemCount = 0 end, "models/props_junk/glassjug01.mdl")
+GM:AddStartingItem("bfcannibal","식인종","인간이나 좀비의 고기를 먹어 체력을 회복할 수 있다.\n메디킷, 메딕 건으로 치료 불가.\n방탄복을 착용 불가.",ITEMCAT_TRAITS, 20, nil, function(pl) pl.Cannibalistic = true end, "models/gibs/HGIBS.mdl")
+GM:AddStartingItem("bfbloodsucking", "뱀파이어", "좀비에게 가한 누적 데미지 75당 1의 체력을 회복한다.\n메디킷, 메딕 건으로 치료 불가.\n방탄복을 착용 불가.", ITEMCAT_TRAITS, 30, nil, function(pl) pl.buffVampire = true end,  "models/gibs/HGIBS.mdl")
 
 GM:AddStartingItem("dbfweak", "약골", "최대 체력이 30 낮아진다.", ITEMCAT_RETURNS, -15, nil, function(pl) pl:SetMaxHealth(math.max(1, pl:GetMaxHealth() - 30)) pl:SetHealth(pl:GetMaxHealth()) pl.IsWeak = true end, "models/gibs/HGIBS.mdl")
 GM:AddStartingItem("dbfslow", "느림보", "속도가 약간 낮아진다.", ITEMCAT_RETURNS, -5, nil, function(pl) pl.HumanSpeedAdder = (pl.HumanSpeedAdder or 1) - 20 pl:ResetSpeed() pl.IsSlow = true end, "models/gibs/HGIBS.mdl")
@@ -232,9 +234,9 @@ GM:AddPointShopItem("deagle", "'Zombie Drill' 데저트 이글", nil, ITEMCAT_GU
 GM:AddPointShopItem("glock3", "'Crossfire' 글록 3", nil, ITEMCAT_GUNS, 30, "weapon_zs_glock3")
 GM:AddPointShopItem("magnum", "'Ricochet' 매그넘", nil, ITEMCAT_GUNS, 35, "weapon_zs_magnum")
 GM:AddPointShopItem("eraser", "'Eraser' 전략 권총", nil, ITEMCAT_GUNS, 35, "weapon_zs_eraser")
+GM:AddPointShopItem("shredder", "'Shredder' SMG", nil, ITEMCAT_GUNS, 55, "weapon_zs_smg")
 
 GM:AddPointShopItem("uzi", "'Sprayer' Uzi 9mm", nil, ITEMCAT_GUNS, 70, "weapon_zs_uzi")
-GM:AddPointShopItem("shredder", "'Shredder' SMG", nil, ITEMCAT_GUNS, 55, "weapon_zs_smg")
 GM:AddPointShopItem("bulletstorm", "'Bullet Storm' SMG", nil, ITEMCAT_GUNS, 70, "weapon_zs_bulletstorm")
 GM:AddPointShopItem("silencer", "'Silencer' SMG", nil, ITEMCAT_GUNS, 70, "weapon_zs_silencer")
 GM:AddPointShopItem("hunter", "'Hunter' 저격 소총", nil, ITEMCAT_GUNS, 70, "weapon_zs_hunter")
@@ -242,22 +244,25 @@ GM:AddPointShopItem("hunter", "'Hunter' 저격 소총", nil, ITEMCAT_GUNS, 70, "
 GM:AddPointShopItem("reaper", "'Reaper' UMP", nil, ITEMCAT_GUNS, 80, "weapon_zs_reaper")
 GM:AddPointShopItem("ender", "'Ender' 자동 샷건", nil, ITEMCAT_GUNS, 75, "weapon_zs_ender")
 GM:AddPointShopItem("akbar", "'Akbar' 돌격 소총", nil, ITEMCAT_GUNS, 80, "weapon_zs_akbar")
-
-GM:AddPointShopItem("stalker", "'Stalker' 돌격 소총", nil, ITEMCAT_GUNS, 125, "weapon_zs_m4")
-GM:AddPointShopItem("inferno", "'Inferno' 돌격 소총", nil, ITEMCAT_GUNS, 125, "weapon_zs_inferno")
-GM:AddPointShopItem("breakout", "'Breakout' 돌격 소총", nil, ITEMCAT_GUNS, 135, "weapon_zs_sg552")
 GM:AddPointShopItem("annabelle", "'Annabelle' 소총", nil, ITEMCAT_GUNS, 100, "weapon_zs_annabelle")
+GM:AddPointShopItem("immortal", "'Immortal' 권총", nil, ITEMCAT_GUNS, 110, "weapon_zs_immortal")
+GM:AddPointShopItem("ppsh", "'Shpagina' SMG", nil, ITEMCAT_GUNS, 115, "weapon_zs_ppsh41")
 
+GM:AddPointShopItem("warrior", "'Warrior' 돌격 소총", nil, ITEMCAT_GUNS, 125, "weapon_zs_m4")
+GM:AddPointShopItem("sharpshooter", "'Sharpshooter' 돌격 소총", nil, ITEMCAT_GUNS, 135, "weapon_zs_sharpshooter")
+GM:AddPointShopItem("breakout", "'Breakout' 돌격 소총", nil, ITEMCAT_GUNS, 155, "weapon_zs_sg552")
+GM:AddPointShopItem("neutrino", "'Neutrino' 펄스 LMG", nil, ITEMCAT_GUNS, 175, "weapon_zs_neutrino")
 GM:AddPointShopItem("crossbow", "'Impaler' 크로스보우", nil, ITEMCAT_GUNS, 175, "weapon_zs_crossbow")
 GM:AddPointShopItem("g3sg1", "'Militia' 저격 소총", nil, ITEMCAT_GUNS, 175, "weapon_zs_g3sg1")
 
 GM:AddPointShopItem("sweeper", "'Sweeper' 샷건", nil, ITEMCAT_GUNS, 200, "weapon_zs_sweepershotgun")
 GM:AddPointShopItem("boomstick", "붐스틱", nil, ITEMCAT_GUNS, 200, "weapon_zs_boomstick")
 GM:AddPointShopItem("slugrifle", "'Tiny' 슬러그 라이플", nil, ITEMCAT_GUNS, 200, "weapon_zs_slugrifle")
+GM:AddPointShopItem("sg550", "'Helvetica' DMR", nil, ITEMCAT_GUNS, 210, "weapon_zs_sg550")
 GM:AddPointShopItem("pulserifle", "'Adonis' 펄스 라이플", nil, ITEMCAT_GUNS, 225, "weapon_zs_pulserifle")
 GM:AddPointShopItem("m249", "'Chainsaw' M249", nil, ITEMCAT_GUNS, 255, "weapon_zs_m249")
 GM:AddPointShopItem("rpg", "'알라봉' RPG-7", nil, ITEMCAT_GUNS, 240, "weapon_zs_rpg")
-
+--GM:AddPointShopItem("railgun", "레일건", nil, ITEMCAT_GUNS, 240, "weapon_zs_railgun")
 GM:AddPointShopItem("pistolammo", "권총 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["pistol"] or 12, "pistol", true) end, "models/Items/BoxSRounds.mdl")
 GM:AddPointShopItem("shotgunammo", "샷건 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["buckshot"] or 8, "buckshot", true) end, "models/Items/BoxBuckshot.mdl")
 GM:AddPointShopItem("smgammo", "SMG 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["smg1"] or 30, "smg1", true) end, "models/Items/BoxMRounds.mdl")
@@ -267,6 +272,7 @@ GM:AddPointShopItem("crossbowammo", "크로스보우 볼트", nil, ITEMCAT_AMMO,
 GM:AddPointShopItem("pulseammo", "펄스 탄약 박스", nil, ITEMCAT_AMMO, 4, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["pulse"] or 30, "pulse", true) end, "models/Items/combine_rifle_ammo01.mdl")
 GM:AddPointShopItem("m249ammo", "M249 탄약 박스", nil, ITEMCAT_AMMO, 14, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["m249"] or 150, "m249", true) end, nil)
 GM:AddPointShopItem("rpgammo", "RPG-7 탄약", nil, ITEMCAT_AMMO, 10, nil, function(pl) pl:GiveAmmo(GAMEMODE.AmmoCache["rpg"] or 1, "rpg", true) end, nil)
+--GM:AddPointShopItem("railgunammo", "열화 우라늄 탄환", nil, ITEMCAT_AMMO, 10, nil, function(pl) pl:GiveAmmo(1, "combinecannon", true) end, "models/props_combine/breenlight.mdl")
 
 GM:AddPointShopItem("axe", "도끼", nil, ITEMCAT_MELEE, 20, "weapon_zs_axe")
 GM:AddPointShopItem("crowbar", "빠루", nil, ITEMCAT_MELEE, 20, "weapon_zs_crowbar")
@@ -278,20 +284,17 @@ GM:AddPointShopItem("junkpack", "판자 더미", nil, ITEMCAT_TOOLS, 95, "weapon
 GM:AddPointShopItem("crphmr", "목수의 망치", nil, ITEMCAT_TOOLS, 50, "weapon_zs_hammer").NoClassicMode = true
 GM:AddPointShopItem("wrench", "메카닉 렌치", nil, ITEMCAT_TOOLS, 25, "weapon_zs_wrench").NoClassicMode = true
 GM:AddPointShopItem("arsenalcrate", "상점 상자", nil, ITEMCAT_TOOLS, 50, "weapon_zs_arsenalcrate")
-GM:AddPointShopItem("resupplybox", "보급 상자", nil, ITEMCAT_TOOLS, 200, "weapon_zs_resupplybox")
+GM:AddPointShopItem("resupplybox", "보급 상자", nil, ITEMCAT_TOOLS, 70, "weapon_zs_resupplybox")
 GM:AddPointShopItem("medkit", "의료킷", nil, ITEMCAT_TOOLS, 160, "weapon_zs_medicalkit")
-GM:AddPointShopItem("defenceprojectile", "트위스터", "주변의 중력장을 왜곡해 발사체를 끌어당긴다.", ITEMCAT_TOOLS, 35, "weapon_zs_defenceprojectile")
-local item = GM:AddPointShopItem("infturret", "적외선 타겟팅 터렛", nil, ITEMCAT_TOOLS, 50, nil, function(pl)
-	pl:GiveEmptyWeapon("weapon_zs_gunturret")
-	pl:GiveAmmo(1, "thumper")
-	pl:GiveAmmo(250, "smg1")
-end)
-item.NoClassicMode = true
+GM:AddPointShopItem("medcharger", "자동 치료기", nil, ITEMCAT_TOOLS, 60, "weapon_zs_mediccharger")
+GM:AddPointShopItem("defenceprojectile", "트위스터", nil, ITEMCAT_TOOLS, 35, "weapon_zs_defenceprojectile")
+GM:AddPointShopItem("infturret", "적외선 타겟팅 터렛", nil, ITEMCAT_TOOLS, 50, "weapon_zs_gunturret", nil).NoClassicMode = true
 GM:AddPointShopItem("manhack", "맨핵", nil, ITEMCAT_TOOLS, 45, "weapon_zs_manhack")
 GM:AddPointShopItem("barricadekit", "'Aegis' 바리케이드 킷", nil, ITEMCAT_TOOLS, 125, "weapon_zs_barricadekit")
 GM:AddPointShopItem("nail", "못",  "못 세 개.", ITEMCAT_TOOLS, 7, nil, function(pl) pl:GiveAmmo(3, "GaussEnergy", true) end, "models/crossbow_bolt.mdl").NoClassicMode = true
 GM:AddPointShopItem("boards", "판자 묶음",  "판자 세 개 묶음", ITEMCAT_TOOLS, 10, nil, function(pl) pl:GiveAmmo(3, "SniperRound", true) end, "models/props_debris/wood_board06a.mdl").NoClassicMode = true
-GM:AddPointShopItem("50mkit", "50 의료킷 에너지", "50 의료킷 에너지 충전.", ITEMCAT_TOOLS, 30, nil, function(pl) pl:GiveAmmo(50, "Battery", true) end, "models/healthvial.mdl")
+GM:AddPointShopItem("mkit50", "50 의료킷 에너지",nil, ITEMCAT_TOOLS, 30, nil, function(pl) pl:GiveAmmo(50, "Battery", true) end, "models/healthvial.mdl")
+
 if SERVER then 
 	util.AddNetworkString("shop_bodyarmor")
 	function GM:setBodyArmor(pl, amount)
@@ -307,18 +310,19 @@ if CLIENT then
 		LocalPlayer().bodyarmor = net.ReadFloat()
 	end)
 end
+
 GM:AddPointShopItem("grenade", "수류탄", nil, ITEMCAT_OTHER, 60, "weapon_zs_grenade")
 GM:AddPointShopItem("detpck", "폭발물 패키지", nil, ITEMCAT_OTHER, 70, "weapon_zs_detpack")
 
 GM:AddPointShopItem("steelnail", "강철 못", "자신의 못이 박힌 바리케이드의 최대 체력이 50% 증가한다.", ITEMCAT_REMODEL, 50, nil, function(pl) pl.steelNail = true end, "models/crossbow_bolt.mdl")
 GM:AddPointShopItem("carbonhammer", "신소재: 카본 망치", "망치의 재사용 대기시간이 25% 줄어든다.", ITEMCAT_REMODEL, 30, nil, function(pl) pl.carbonHammer = true end, "models/weapons/w_hammer.mdl")
 GM:AddPointShopItem("steeldetector", "고철 탐지기", "망치로 바리케이드를 수리할 경우 5% 확률로 3에서 5포인트를 얻는다.", ITEMCAT_REMODEL, 20, nil, function(pl) pl.metalDetector = true end, "models/weapons/w_hammer.mdl")
-GM:AddPointShopItem("huntercharge", "연사 트리거: Hunter", "Hunter 소총을 들고 달리기 키(기본값: SHIFT)를 누르면 차지 기능을 사용할 수 있게 된다.", ITEMCAT_REMODEL, 30, nil, function(pl) pl.hunterCharge = true end, "models/weapons/w_hammer.mdl")
-GM:AddPointShopItem("hunteraddclip", "확장 탄창: Hunter", "Hunter 소총의 기본 탄창 수가 2가 된다.", ITEMCAT_REMODEL, 25, nil, function(pl) pl.hunterAddClip = true end, "models/weapons/w_hammer.mdl")
-GM:AddPointShopItem("pointgravity", "포인트-그래비티", "트위스터의 중력장에 폭발 물질이 들어온다면\n그 부분의 중력을 극대화시켜 소멸시킨다.", ITEMCAT_REMODEL, 45, nil, function(pl) pl.pointGravity = true end, "models/weapons/w_hammer.mdl")
-GM:AddPointShopItem("twisteros", "OS 탑재: 트위스터", "트위스터에 OS를 탑재해 피아 식별을 가능하게 한다.\n 이제 트위스터는 정확히 좀비의 발사체만 격추한다.", ITEMCAT_REMODEL, 20, nil, function(pl) pl.twisterOS = true end, "models/weapons/w_hammer.mdl")
-GM:AddPointShopItem("swepperinc", "발화 탄: Swepper", "스웨퍼의 탄환을 발화탄으로 업그레이드한다.", ITEMCAT_REMODEL, 20, nil, function(pl) pl.sweeperInc = true end, "models/weapons/w_hammer.mdl")
-GM:AddPointShopItem("thorncade", "가시 철책: 바리케이드", "바리케이드에 가시 철책을 둘러 공격한 좀비에게 입은 피해의 75%를 돌려준다.", ITEMCAT_REMODEL, 35, nil, function(pl) pl.thorncade = true end, "models/weapons/w_hammer.mdl")
+GM:AddPointShopItem("huntercharge", "연사 트리거: Hunter", "Hunter 소총을 들고 달리기 키(기본값: SHIFT)를 누르면 차지 기능을 사용할 수 있게 된다.", ITEMCAT_REMODEL, 30, nil, function(pl) pl.hunterCharge = true end, "models/weapons/w_snip_awp.mdl")
+GM:AddPointShopItem("hunteraddclip", "확장 탄창: Hunter", "Hunter 소총의 기본 탄창 수가 2가 된다.", ITEMCAT_REMODEL, 25, nil, function(pl) pl.hunterAddClip = true end, "models/weapons/w_snip_awp.mdl")
+GM:AddPointShopItem("pointgravity", "포인트-그래비티", "트위스터의 중력장에 폭발 물질이 들어온다면\n그 부분의 중력을 극대화시켜 소멸시킨다.", ITEMCAT_REMODEL, 45, nil, function(pl) pl.pointGravity = true end, "models/Roller.mdl")
+GM:AddPointShopItem("twisteros", "OS 탑재: 트위스터", "트위스터에 OS를 탑재해 피아 식별을 가능하게 한다.\n 이제 트위스터는 정확히 좀비의 발사체만 격추한다.", ITEMCAT_REMODEL, 20, nil, function(pl) pl.twisterOS = true end, "models/Roller.mdl")
+GM:AddPointShopItem("swepperinc", "발화 탄: Sweeper", "스웨퍼의 탄환을 발화탄으로 업그레이드한다.", ITEMCAT_REMODEL, 20, nil, function(pl) pl.sweeperInc = true end, "models/weapons/w_shot_m3super90.mdl")
+GM:AddPointShopItem("thorncade", "가시 철책: 바리케이드", "바리케이드에 가시 철책을 둘러 공격한 좀비에게 입은 피해의 75%를 돌려준다.", ITEMCAT_REMODEL, 35, nil, function(pl) pl.thorncade = true end, "models/props_junk/meathook001a.mdl")
 
 
 -- These are the honorable mentions that come at the end of the round.
@@ -404,7 +408,7 @@ cvars.AddChangeCallback("zs_zombiedamagemultiplier", function(cvar, oldvalue, ne
 	GAMEMODE.ZombieDamageMultiplier = math.ceil(100 * (tonumber(newvalue) or 1)) * 0.01
 end)
 
-GM.TimeLimit = CreateConVar("zs_timelimit", "15", FCVAR_ARCHIVE + FCVAR_NOTIFY, "Time in minutes before the game will change maps. It will not change maps if a round is currently in progress but after the current round ends. -1 means never switch maps. 0 means always switch maps."):GetInt() * 60
+GM.TimeLimit = CreateConVar("zs_timelimit", "30", FCVAR_ARCHIVE + FCVAR_NOTIFY, "Time in minutes before the game will change maps. It will not change maps if a round is currently in progress but after the current round ends. -1 means never switch maps. 0 means always switch maps."):GetInt() * 60
 cvars.AddChangeCallback("zs_timelimit", function(cvar, oldvalue, newvalue)
 	GAMEMODE.TimeLimit = tonumber(newvalue) or 15
 	if GAMEMODE.TimeLimit ~= -1 then

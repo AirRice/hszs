@@ -1,7 +1,7 @@
 include("shared.lua")
 
 SWEP.PrintName = "'Aegis' 바리케이드 킷"
-SWEP.Description = "ALL-IN-ONE 판자 설치 킷.\n자동으로 판자를 꺼내 대부분의 표면에 부착시킨다.\n주 공격 버튼: 판자 부착\n보조 공격 / 재장전 버튼: 회전\n설치가 가능한 지역인지 고스트로 표시된다."
+SWEP.Description = "ALL-IN-ONE 판자 설치 킷.\n자동으로 판자를 꺼내 대부분의 표면에 부착시킨다.\n공격 1: 설치\n공격 2/재장전: 회전\n달리기 키(기본값:쉬프트): 회수\n생성할려고 하는 위치가 가능한 위치라면 초록색으로 표시된다."
 SWEP.DrawCrosshair = false
 SWEP.ViewModelFOV = 70
 SWEP.ViewModelFlip = false

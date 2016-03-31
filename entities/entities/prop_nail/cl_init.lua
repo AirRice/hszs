@@ -35,7 +35,6 @@ local ScaleOutline = 1.4
 local colNail = Color(0, 0, 5, 220)
 function ENT:DrawTranslucent()
 	local drawowner = MySelf:IsValid() and MySelf:Team() == TEAM_HUMAN and (GAMEMODE.AlwaysShowNails or MySelf:KeyDown(IN_SPEED) or MySelf:TraceLine(256, MASK_SHOT).HitPos:Distance(self:GetPos()) <= 16)
-
 	if drawowner then
 		render.SuppressEngineLighting(true)
 		render.SetAmbientLight(1, 1, 1)
@@ -117,6 +116,12 @@ function ENT:DrawTranslucent()
 			if displayowner then
 				draw.SimpleText(displayowner, "ZS3D2DFont2Smaller", 0, y + 38, redname and COLOR_DARKRED or COLOR_DARKGRAY, TEXT_ALIGN_CENTER)
 			end
+		local deployer = self:GetOwner()
+		if deployer:IsValid() then
+			if self.thorncade then
+				draw.SimpleText("[가시철책]", "ZS3D2DFont2Smaller", 0, y + 68, COLOR_BLUE, TEXT_ALIGN_CENTER)
+			end
+		end
 		cam.End3D2D()
 	end
 end

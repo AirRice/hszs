@@ -132,7 +132,7 @@ function SWEP:DealDamage()
 			dmginfo:SetDamage(self.Damage)
 		end
 
-		if hitent:IsPlayer() and hitent:WouldDieFrom(dmginfo:GetDamage(), dmginfo:GetDamagePosition()) then
+		if hitent:IsPlayer()  then
 			if anim == "fists_left" then
 				dmginfo:SetDamageForce(owner:GetRight() * 4912 + owner:GetForward() * 9998)
 			elseif anim == "fists_right" then

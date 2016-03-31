@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 if CLIENT then
 	SWEP.PrintName = "'Tiny' 슬러그 라이플"
-	SWEP.Description = "이 강력한 저격소총은 대부분의 좀비를 헤드샷으로 단숨에 죽일 수 있다."
+	SWEP.Description = "이 강력한 슬러그 소총은 대부분의 좀비를 헤드샷으로 단숨에 죽일 수 있다."
 	SWEP.Slot = 3
 	SWEP.SlotPos = 0
 

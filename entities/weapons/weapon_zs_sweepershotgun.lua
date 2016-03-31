@@ -50,7 +50,6 @@ function SWEP:Reload()
 	self.ConeMul = 1
 	
 	if self.reloading then return end
-
 	if self:Clip1() < self.Primary.ClipSize and 0 < self.Owner:GetAmmoCount(self.Primary.Ammo) then
 		self:SetNextPrimaryFire(CurTime() + self.ReloadDelay)
 		self.reloading = true
@@ -133,7 +132,14 @@ local function GenericBulletCallback(attacker, tr, dmginfo)
 			if ent:Team() == TEAM_ZOMBIE and attacker.sweeperInc and SERVER then
 				local wep = attacker:GetWeapon("weapon_zs_sweepershotgun")
 				if IsValid(wep) then
-					ent:Ignite(wep.IgniteDuration, 100)
+					local burn = ent:GiveStatus("burn")
+					if burn and burn:IsValid() then
+						burn:AddDamage(wep.IgniteDuration)
+						if attacker:IsValid() and attacker:IsPlayer() and attacker:GetZombieClassTable().Name ~= "Shade" and attacker:GetZombieClassTable().Name ~= "Cremated" then
+							burn.Damager = attacker:Owner()
+						end
+					end
+					--[[ent:Ignite(wep.IgniteDuration, 100)
 					ent.ignite_info = {
 						att = attacker,
 						infl = wep
@@ -143,7 +149,7 @@ local function GenericBulletCallback(attacker, tr, dmginfo)
 						if IsValid(ent) then
 							ent.ignite_info = nil
 						end
-					end)
+					end)]]
 				end
 			end
 		else

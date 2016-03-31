@@ -466,10 +466,11 @@ function GM:PostRender()
 	if self.m_ZombieVision and MySelf:IsValid() and MySelf:Team() == TEAM_UNDEAD then
 		local eyepos = EyePos()
 		local eyedir = EyeAngles():Forward()
-		--local tr = util.TraceLine({start = eyepos, endpos = eyepos + eyedir * 128, mask = MASK_SOLID_BRUSHONLY})
-
+		local tr = util.TraceLine({start = eyepos, endpos = eyepos + eyedir * 128, mask = MASK_SOLID_BRUSHONLY})
+		
 		local dlight = DynamicLight(MySelf:EntIndex())
 		if dlight then
+		
 			dlight.Pos = MySelf:GetShootPos()
 			dlight.r = 10
 			dlight.g = 255

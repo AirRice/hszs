@@ -104,19 +104,15 @@ GM.SoundDuration = {
 function GM:AddCustomAmmo()
 	game.AddAmmoType({name = "pulse"})
 	game.AddAmmoType({name = "stone"})
-
 	game.AddAmmoType({name = "spotlamp"})
 	game.AddAmmoType({name = "manhack"})
 	game.AddAmmoType({name = "manhack_saw"})
 	game.AddAmmoType({name = "drone"})
-
 	game.AddAmmoType({name = "dummy"})
-	
 	game.AddAmmoType({name = "m249"})
 	game.AddAmmoType({name = "rpg"})
-	
 	game.AddAmmoType({name = "357_premium"})
-	
+	game.AddAmmoType({name = "charger"})
 	game.AddAmmoType({name = "defenceprojectile"})
 end
 
@@ -438,7 +434,7 @@ function GM:OnPlayerHitGround(pl, inwater, hitfloater, speed)
 end
 
 function GM:PlayerCanBeHealed(pl)
-	if pl.buffVampire then
+	if pl.buffVampire or pl.Cannibalistic then
 		return false
 	end
 	return true

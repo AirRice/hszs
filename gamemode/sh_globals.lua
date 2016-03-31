@@ -46,7 +46,7 @@ DIR_LEFT = 3
 
 DEFAULT_VIEW_OFFSET = Vector(0, 0, 64)
 DEFAULT_VIEW_OFFSET_DUCKED = Vector(0, 0, 28)
-DEFAULT_JUMP_POWER = 205
+DEFAULT_JUMP_POWER = 185
 DEFAULT_STEP_SIZE = 18
 DEFAULT_MASS = 80
 DEFAULT_MODELSCALE = 1
@@ -82,11 +82,11 @@ SPEED_FAST = SPEED_NORMAL + 7
 SPEED_FASTER = SPEED_NORMAL + 14
 SPEED_FASTEST = SPEED_NORMAL + 20
 
-SPEED_ZOMBIEESCAPE_SLOWEST = 220
-SPEED_ZOMBIEESCAPE_SLOWER = 230
-SPEED_ZOMBIEESCAPE_SLOW = 240
-SPEED_ZOMBIEESCAPE_NORMAL = 250
-SPEED_ZOMBIEESCAPE_ZOMBIE = 280
+SPEED_ZOMBIEESCAPE_SLOWEST = 190
+SPEED_ZOMBIEESCAPE_SLOWER = 200
+SPEED_ZOMBIEESCAPE_SLOW = 210
+SPEED_ZOMBIEESCAPE_NORMAL = 220
+SPEED_ZOMBIEESCAPE_ZOMBIE = 250
 
 ZE_KNOCKBACKSCALE = 0.1
 
@@ -97,7 +97,7 @@ GM.BarricadeHealthMax = 1100
 GM.BarricadeHealthMassFactor = 3
 GM.BarricadeHealthVolumeFactor = 4
 
-GM.BossZombiePlayersRequired = 8
+GM.BossZombiePlayersRequired = 10
 
 GM.HumanGibs = {
 Model("models/gibs/HGIBS.mdl"),
@@ -123,24 +123,23 @@ GM.CleanupFilter = {
 
 GM.AmmoNames = {}
 GM.AmmoNames["ar2"] = "5.56"
-GM.AmmoNames["pistol"] = "Pistol"
+GM.AmmoNames["pistol"] = "권총"
 GM.AmmoNames["smg1"] = "SMG"
-GM.AmmoNames["357"] = "Rifle"
-GM.AmmoNames["xbowbolt"] = "Bolts"
-GM.AmmoNames["buckshot"] = "Buckshot"
-GM.AmmoNames["sniperround"] = "Boards"
-GM.AmmoNames["grenade"] = "Grenades"
-GM.AmmoNames["thumper"] = "Turrets"
-GM.AmmoNames["battery"] = "Medical Supplies"
-GM.AmmoNames["gaussenergy"] = "Nails"
-GM.AmmoNames["airboatgun"] = "Arsenal Crates"
-GM.AmmoNames["striderminigun"] = "Beacons"
-GM.AmmoNames["slam"] = "Force Field Emitters"
-GM.AmmoNames["spotlamp"] = "Spot Lamps"
-GM.AmmoNames["stone"] = "Stones"
-GM.AmmoNames["pulse"] = "Pulse Shots"
-GM.AmmoNames["m249"] = "M249"
-GM.AmmoNames["rpg"] = "Rocket"
+GM.AmmoNames["357"] = "소총"
+GM.AmmoNames["xbowbolt"] = "크로스보우 화살"
+GM.AmmoNames["buckshot"] = "샷건 탄약"
+GM.AmmoNames["sniperround"] = "판자"
+GM.AmmoNames["grenade"] = "슈류탄"
+GM.AmmoNames["thumper"] = "터렛"
+GM.AmmoNames["battery"] = "메디컬 에너지"
+GM.AmmoNames["gaussenergy"] = "못"
+GM.AmmoNames["combinecannon"] = "우라늄 탄환"
+GM.AmmoNames["airboatgun"] = "상점상자"
+GM.AmmoNames["striderminigun"] = "비컨"
+GM.AmmoNames["gravity"] = "M249"
+GM.AmmoNames["spotlamp"] = "램프"
+GM.AmmoNames["stone"] = "짱돌"
+GM.AmmoNames["pulse"] = "펄스 에너지"
 
 GM.AmmoTranslations = {}
 GM.AmmoTranslations["weapon_physcannon"] = "pistol"
@@ -160,6 +159,7 @@ GM.AmmoModels["ar2"] = "models/Items/357ammobox.mdl" -- Assault rifles
 GM.AmmoModels["battery"] = "models/healthvial.mdl" -- Medical Kit charge
 GM.AmmoModels["buckshot"] = "models/Items/BoxBuckshot.mdl" -- Buckshot
 GM.AmmoModels["357"] = "models/Items/357ammobox.mdl" -- Slugs
+GM.AmmoModels["m249"] = "models/props_junk/cardboard_box004a.mdl" -- M249
 GM.AmmoModels["xbowbolt"] = "models/Items/CrossbowRounds.mdl" -- Bolts
 GM.AmmoModels["gaussenergy"] = "models/Items/CrossbowRounds.mdl" -- Nails
 GM.AmmoModels["grenade"] = "models/weapons/w_grenade.mdl" -- Grenades
@@ -171,6 +171,7 @@ GM.AmmoModels["slam"] = "models/props_lab/lab_flourescentlight002b.mdl" -- Force
 GM.AmmoModels["spotlamp"] = "models/props_combine/combine_light001a.mdl"
 GM.AmmoModels["stone"] = "models/props_junk/rock001a.mdl"
 GM.AmmoModels["pulse"] = "models/Items/combine_rifle_ammo01.mdl"
+GM.AmmoModels["combinecannon"] = "models/props_combine/breenlight.mdl"
 
 -- Handled in languages file.
 GM.ValidBeaconMessages = {
@@ -181,7 +182,7 @@ GM.ValidBeaconMessages = {
 	"message_beacon_5",
 	"message_beacon_6",
 	"message_beacon_7",
-	--"message_beacon_8",
+	"message_beacon_8",
 	"message_beacon_9",
 	"message_beacon_10",
 	"message_beacon_11",

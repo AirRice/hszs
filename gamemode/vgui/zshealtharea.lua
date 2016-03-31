@@ -35,7 +35,7 @@ function PANEL:Init()
 	poisonstatus:SetTall(20)
 	poisonstatus:SetAlpha(200)
 	poisonstatus:SetColor(Color(180, 180, 0))
-	poisonstatus:SetMemberName("POISON!")
+	poisonstatus:SetMemberName("독!")
 	poisonstatus.GetMemberValue = function(me)
 		local lp = LocalPlayer()
 		if lp:IsValid() then
@@ -51,7 +51,7 @@ function PANEL:Init()
 	bleedstatus:SetTall(20)
 	bleedstatus:SetAlpha(200)
 	bleedstatus:SetColor(Color(220, 0, 0))
-	bleedstatus:SetMemberName("BLEED!")
+	bleedstatus:SetMemberName("출혈!")
 	bleedstatus.GetMemberValue = function(me)
 		local lp = LocalPlayer()
 		if lp:IsValid() then
@@ -62,12 +62,13 @@ function PANEL:Init()
 	end
 	bleedstatus.MemberMaxValue = 20
 	bleedstatus:Dock(TOP)
-
+	
+	
 	local ghoultouchstatus = vgui.Create("ZSHealthStatus", contents)
 	ghoultouchstatus:SetTall(20)
 	ghoultouchstatus:SetAlpha(200)
 	ghoultouchstatus:SetColor(Color(255, 0, 0))
-	ghoultouchstatus:SetMemberName("GHOUL TOUCH!")
+	ghoultouchstatus:SetMemberName("구울의 손길!")
 	ghoultouchstatus.GetMemberValue = function(me)
 		local lp = LocalPlayer()
 		if lp:IsValid() then

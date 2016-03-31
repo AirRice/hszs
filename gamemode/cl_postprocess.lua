@@ -138,7 +138,7 @@ function GM:_RenderScreenspaceEffects()
 		DrawSharpen(1, math_min(6, self.HurtEffect * 3))
 	end
 
-	--[[if MySelf:Team() == TEAM_UNDEAD and self.m_ZombieVision and not matTankGlass:IsError() then
+	if MySelf:Team() == TEAM_UNDEAD and self.m_ZombieVision and not matTankGlass:IsError() then
 		render_UpdateScreenEffectTexture()
 		matTankGlass:SetFloat("$envmap", 0)
 		matTankGlass:SetFloat("$envmaptint", 0)
@@ -146,7 +146,7 @@ function GM:_RenderScreenspaceEffects()
 		matTankGlass:SetInt("$ignorez", 1)
 		render_SetMaterial(matTankGlass)
 		render_DrawScreenQuad()
-	end]]
+	end
 
 	if self.ColorModEnabled then
 		if not MySelf:Alive() and MySelf:GetObserverMode() ~= OBS_MODE_CHASE then

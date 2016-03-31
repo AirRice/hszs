@@ -49,7 +49,6 @@ SWEP.IronSightsAng = Vector(1.4,0.1,5)
 function SWEP:Reload()
 	self.ConeMul = 1
 	if self.reloading then return end
-
 	if self:Clip1() < self.Primary.ClipSize and 0 < self.Owner:GetAmmoCount(self.Primary.Ammo) then
 		self:SetNextPrimaryFire(CurTime() + self.ReloadDelay)
 		self.reloading = true

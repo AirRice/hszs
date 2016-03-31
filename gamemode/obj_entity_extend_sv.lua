@@ -298,7 +298,7 @@ function meta:DamageNails(attacker, inflictor, damage, dmginfo)
 	self:SetBarricadeHealth(self:GetBarricadeHealth() - damage)
 	for i, nail in ipairs(nails) do
 		nail:OnDamaged(damage, attacker, inflictor, dmginfo)
-		if nail.thorncade then
+		if nail.thorncade or nail:GetOwner().thorncade then
 			if !table.HasValue(owners, nail:GetOwner()) then
 				table.insert(owners, nail:GetOwner())
 			end
@@ -324,7 +324,11 @@ function meta:DamageNails(attacker, inflictor, damage, dmginfo)
 				attacker:TakeDamage(dmg, self, self)
 			else
 				for i, v in pairs(owners) do
-					attacker:TakeDamage(dmg, v, self)
+					--attacker:TakeDamage(dmg, v, self)
+					attacker:TakeDamage(dmg, self, self)
+					v:AddLifeHumanDamage(dmg)
+					v.m_PointQueue = v.m_PointQueue + dmg / attacker:GetMaxHealth() * (attacker:GetZombieClassTable().Points or 0) * 0.5
+					--init.lua 복붙, 가시철책 포인트 50% 감소
 					local _dmginfo = DamageInfo()
 					_dmginfo:SetAmmoType(dmginfo:GetAmmoType())
 					_dmginfo:SetAttacker(dmginfo:GetAttacker())
@@ -338,7 +342,7 @@ function meta:DamageNails(attacker, inflictor, damage, dmginfo)
 					_dmginfo:SetInflictor(dmginfo:GetInflictor())
 					_dmginfo:SetMaxDamage(dmginfo:GetMaxDamage())
 					_dmginfo:SetReportedPosition(dmginfo:GetReportedPosition())
-					GAMEMODE:DamageFloater(v, self, _dmginfo)					
+					GAMEMODE:DamageFloater(v, self, _dmginfo)						
 				end
 			end
 		end
